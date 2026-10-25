@@ -1,0 +1,5 @@
+/* Entry for the prebuilt dist/styles.css (tokens + every utility the components use). */
+@import './tokens.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

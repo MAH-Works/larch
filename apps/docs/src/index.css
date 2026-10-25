@@ -1,0 +1,26 @@
+@import '@compass/ui/tokens.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Code viewer token colors — tuned for both themes. */
+@layer base {
+  :root {
+    --code-bg: #fbfbfc;
+    --code-ink: #3a3f47;
+    --code-comment: #9aa0a9;
+    --code-string: #16845b;
+    --code-keyword: #7052bb;
+    --code-tag: #1d5bff;
+    --code-attr: #a36709;
+  }
+  :root[data-theme='dark'] {
+    --code-bg: #111419;
+    --code-ink: #d5dae1;
+    --code-comment: #6b7480;
+    --code-string: #55c994;
+    --code-keyword: #ad91ef;
+    --code-tag: #7f9dff;
+    --code-attr: #e0ae51;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "compass-component-library",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter @compass/docs dev",
+    "build": "pnpm --filter @compass/ui build && pnpm --filter @compass/docs build",
+    "build:ui": "pnpm --filter @compass/ui build",
+    "build:docs": "pnpm --filter @compass/docs build",
+    "preview": "pnpm --filter @compass/docs preview"
+  }
+}
