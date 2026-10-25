@@ -16,7 +16,7 @@ import {
   Row,
   ToolbarTitle,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { PROJECTS, PROJECT_CARDS } from '../data/workspace.js';
 
 const STATUSES = ['All statuses', 'On track', 'Starting', 'At risk', 'Planning'];

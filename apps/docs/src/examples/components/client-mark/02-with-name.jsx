@@ -1,4 +1,4 @@
-import { ClientMark } from '@larch/ui';
+import { ClientMark } from '@mah-works/larch';
 
 export const title = 'With a name';
 export const description = 'The standard client cell: mark, bold name and a faint domain.';

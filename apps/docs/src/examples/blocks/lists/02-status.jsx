@@ -1,4 +1,4 @@
-import { Button, Icon, Panel, StatusList } from '@larch/ui';
+import { Button, Icon, Panel, StatusList } from '@mah-works/larch';
 
 export const title = 'Status list';
 export const layout = 'canvas';

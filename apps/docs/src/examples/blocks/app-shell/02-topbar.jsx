@@ -1,4 +1,4 @@
-import { Topbar, useToast } from '@larch/ui';
+import { Topbar, useToast } from '@mah-works/larch';
 
 export const title = 'Topbar on its own';
 export const description = 'Every control is optional: omit `onSearch`, `createLabel` or `onNotifications` to hide it.';

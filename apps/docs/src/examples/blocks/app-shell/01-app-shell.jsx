@@ -8,7 +8,7 @@ import {
   PageWrap,
   SidebarStatus,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 
 export const title = 'Application frame';
 export const description =

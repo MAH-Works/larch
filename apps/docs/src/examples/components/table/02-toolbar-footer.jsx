@@ -11,7 +11,7 @@ import {
   Row,
   TableFooter,
   ToolbarTitle,
-} from '@larch/ui';
+} from '@mah-works/larch';
 
 export const title = 'With toolbar and footer';
 export const layout = 'canvas';

@@ -13,7 +13,7 @@ import {
   Row,
   TableFooter,
   ToolbarDivider,
-} from '@larch/ui';
+} from '@mah-works/larch';
 
 export const title = 'Contacts directory';
 export const layout = 'canvas';

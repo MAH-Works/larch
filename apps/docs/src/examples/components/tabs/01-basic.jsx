@@ -1,4 +1,4 @@
-import { Tabs } from '@larch/ui';
+import { Tabs } from '@mah-works/larch';
 
 export const title = 'Basic';
 export const description = 'Arrow keys move between tabs.';

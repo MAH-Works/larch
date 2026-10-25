@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, ToastProvider } from '@larch/ui';
+import { ThemeProvider, ToastProvider } from '@mah-works/larch';
 import App from './App.jsx';
 import './index.css';
 

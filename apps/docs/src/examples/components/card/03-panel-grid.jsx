@@ -1,4 +1,4 @@
-import { Panel, PanelGrid } from '@larch/ui';
+import { Panel, PanelGrid } from '@mah-works/larch';
 
 export const title = 'PanelGrid';
 export const description = 'wide (1.6fr / .9fr) is the default; report and even are alternatives. Grids stack below 980px and consecutive grids get a 16px gap.';

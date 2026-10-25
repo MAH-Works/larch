@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, Icon, useTheme } from '@larch/ui';
+import { Button, Icon, useTheme } from '@mah-works/larch';
 import { C, CodeBlock } from '../docs/CodeBlock.jsx';
 import { PropsTable } from '../docs/PropsTable.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
@@ -37,7 +37,7 @@ export default function Theming() {
           choice in <C>localStorage</C>.
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, useTheme, useToast } from '@larch/ui';
+      <Code>{`import { ThemeProvider, useTheme, useToast } from '@mah-works/larch';
 
 function Root() {
   const { showToast } = useToast();

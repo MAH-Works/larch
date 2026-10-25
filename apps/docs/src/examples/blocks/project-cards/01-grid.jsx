@@ -1,4 +1,4 @@
-import { ProjectCard, ProjectGrid } from '@larch/ui';
+import { ProjectCard, ProjectGrid } from '@mah-works/larch';
 
 export const title = 'Project grid';
 export const layout = 'canvas';

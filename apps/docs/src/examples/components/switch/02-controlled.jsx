@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch } from '@larch/ui';
+import { Switch } from '@mah-works/larch';
 
 export const title = 'Controlled';
 export const layout = 'padded';

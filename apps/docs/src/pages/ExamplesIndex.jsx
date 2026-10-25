@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Badge, Card, Icon } from '@larch/ui';
+import { Badge, Card, Icon } from '@mah-works/larch';
 import { DocHeader } from '../docs/Prose.jsx';
 import { CRM_PAGES } from '../crm/routes.js';
 import { AUTH_PAGES } from '../auth/routes.js';

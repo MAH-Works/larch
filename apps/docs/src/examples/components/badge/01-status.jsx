@@ -1,4 +1,4 @@
-import { Badge } from '@larch/ui';
+import { Badge } from '@mah-works/larch';
 
 export const title = 'Status';
 export const description = 'Lifecycle states. Green is healthy, blue is in progress, grey is dormant, red is gone or at risk.';

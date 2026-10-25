@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 /* Larch tokens, semantic colors, variants — and @source for the library components. */
-@import '@larch/ui/theme.css';
+@import '@mah-works/larch/theme.css';
 
 /* Code viewer token colors — tuned for both themes. */
 @layer base {

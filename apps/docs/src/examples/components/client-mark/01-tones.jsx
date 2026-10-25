@@ -1,4 +1,4 @@
-import { ClientMark } from '@larch/ui';
+import { ClientMark } from '@mah-works/larch';
 
 export const title = 'Tones';
 

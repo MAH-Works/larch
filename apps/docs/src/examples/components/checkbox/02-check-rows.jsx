@@ -1,4 +1,4 @@
-import { CheckRow } from '@larch/ui';
+import { CheckRow } from '@mah-works/larch';
 
 export const title = 'Labelled options';
 export const layout = 'padded';

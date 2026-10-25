@@ -1,11 +1,19 @@
-# @larch/ui
+# @mah-works/larch
 
 Quiet, dense React + Tailwind CSS v4 components for client-operations dashboards.
 
 ## Install
 
+Larch is published to GitHub Packages. Point the `@mah-works` scope at it in your project's `.npmrc`
+(and authenticate with a GitHub token that has `read:packages`):
+
+```ini
+@mah-works:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+```
+
 ```bash
-pnpm add @larch/ui     # peer deps: react >= 18, react-dom >= 18
+pnpm add @mah-works/larch     # peer deps: react >= 18, react-dom >= 18
 ```
 
 ### With Tailwind CSS v4 (recommended)
@@ -19,7 +27,7 @@ pnpm add -D tailwindcss @tailwindcss/vite   # add tailwindcss() to vite.config p
 ```css
 /* src/index.css */
 @import 'tailwindcss';
-@import '@larch/ui/theme.css';
+@import '@mah-works/larch/theme.css';
 ```
 
 `theme.css` brings the tokens, the semantic colors (`@theme inline`), shadows and the shimmer
@@ -29,7 +37,7 @@ animation (`@theme`), the `dark` / `narrow` / `tablet` / `mobile` variants (`@cu
 ### Without Tailwind
 
 ```js
-import '@larch/ui/styles.css'; // tokens + preflight + every utility the components use
+import '@mah-works/larch/styles.css'; // tokens + preflight + every utility the components use
 ```
 
 Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
@@ -37,7 +45,7 @@ Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
 ## Use
 
 ```jsx
-import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@larch/ui';
+import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@mah-works/larch';
 
 <ToastProvider>
   <ThemeProvider>

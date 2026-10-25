@@ -1,4 +1,4 @@
-import { Avatar } from '@larch/ui';
+import { Avatar } from '@mah-works/larch';
 
 export const title = 'Tones';
 

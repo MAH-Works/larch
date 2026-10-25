@@ -2,7 +2,7 @@
  * Larch theme for Tailwind CSS v4.
  *
  *   @import 'tailwindcss';
- *   @import '@larch/ui/theme.css';
+ *   @import '@mah-works/larch/theme.css';
  *
  * Registers the design tokens, the semantic colors (bg-surface, text-ink, border-line…), the
  * narrow / tablet / mobile max-width variants, the data-theme dark variant, and tells Tailwind

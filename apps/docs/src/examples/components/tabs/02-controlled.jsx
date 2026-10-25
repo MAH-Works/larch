@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityList, Tabs } from '@larch/ui';
+import { ActivityList, Tabs } from '@mah-works/larch';
 
 export const title = 'Controlled with rich content';
 export const layout = 'padded';

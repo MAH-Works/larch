@@ -1,9 +1,17 @@
 {
-  "name": "@larch/ui",
+  "name": "@mah-works/larch",
   "version": "1.0.0",
   "description": "Larch \u2014 quiet, dense React + Tailwind components for client-operations dashboards.",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MAH-Works/larch.git",
+    "directory": "packages/ui"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "sideEffects": [
     "**/*.css"
   ],

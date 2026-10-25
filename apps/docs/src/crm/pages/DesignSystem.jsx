@@ -42,7 +42,7 @@ import {
   Tooltip,
   useSelection,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { CLIENTS } from '../data/clients.js';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, PROJECT_CARDS, WORKLOAD } from '../data/workspace.js';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Icon } from '@larch/ui';
+import { Icon } from '@mah-works/larch';
 import { CodeBlock, md } from './CodeBlock.jsx';
 
 // Example files export `title` / `description` metadata; hide those lines from the displayed source.

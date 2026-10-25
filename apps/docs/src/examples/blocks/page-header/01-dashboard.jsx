@@ -1,4 +1,4 @@
-import { Button, Icon, PageHeading, useToast } from '@larch/ui';
+import { Button, Icon, PageHeading, useToast } from '@mah-works/larch';
 
 export const title = 'Dashboard greeting';
 export const layout = 'canvas';

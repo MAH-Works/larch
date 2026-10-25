@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Icon } from '@larch/ui';
+import { Icon } from '@mah-works/larch';
 import { highlight } from './highlight.js';
 
 /** Highlighted, scrollable code with a copy button. */

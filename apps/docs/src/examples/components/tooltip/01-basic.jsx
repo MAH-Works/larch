@@ -1,4 +1,4 @@
-import { Button, Icon, Tooltip } from '@larch/ui';
+import { Button, Icon, Tooltip } from '@mah-works/larch';
 
 export const title = 'Hover or focus';
 

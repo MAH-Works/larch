@@ -1,4 +1,4 @@
-import { Button, EmptyState, Icon } from '@larch/ui';
+import { Button, EmptyState, Icon } from '@mah-works/larch';
 
 export const title = 'With an action';
 export const layout = 'padded';

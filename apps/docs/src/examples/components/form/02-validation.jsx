@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Field, TextInput } from '@larch/ui';
+import { Button, Field, TextInput } from '@mah-works/larch';
 
 export const title = 'Validation';
 export const description = 'Set `invalid` on the control and pass `error` to the Field.';

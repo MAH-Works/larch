@@ -1,4 +1,4 @@
-import { Kbd } from '@larch/ui';
+import { Kbd } from '@mah-works/larch';
 
 export const title = 'Shortcuts';
 

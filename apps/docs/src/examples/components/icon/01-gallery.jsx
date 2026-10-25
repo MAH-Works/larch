@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ICON_NAMES, Icon } from '@larch/ui';
+import { ICON_NAMES, Icon } from '@mah-works/larch';
 
 export const title = 'Gallery';
 export const description = 'Click an icon to copy its JSX.';

@@ -10,7 +10,7 @@ import {
   PanelSelect,
   ProgressList,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { PLAYBOOK, RENEWAL_CALENDAR, RENEWAL_METRICS } from '../data/workspace.js';
 
 export default function Renewals() {

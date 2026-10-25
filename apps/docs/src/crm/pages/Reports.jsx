@@ -13,7 +13,7 @@ import {
   ProgressList,
   StatusList,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { REPORT_HEALTH, REPORT_METRICS, REVENUE_BARS, REVENUE_MIX, SAVED_REPORTS } from '../data/workspace.js';
 
 export default function Reports() {

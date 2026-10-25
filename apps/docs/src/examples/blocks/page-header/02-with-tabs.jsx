@@ -1,4 +1,4 @@
-import { Badge, Button, Icon, PageHeading, Tabs } from '@larch/ui';
+import { Badge, Button, Icon, PageHeading, Tabs } from '@mah-works/larch';
 
 export const title = 'Record header with tabs';
 export const description = 'A detail page: status badges in the eyebrow row, actions on the right, tabs underneath.';

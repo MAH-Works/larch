@@ -1,4 +1,4 @@
-import { HealthChart, Panel, PanelSelect } from '@larch/ui';
+import { HealthChart, Panel, PanelSelect } from '@mah-works/larch';
 
 export const title = 'Category bars';
 export const layout = 'canvas';

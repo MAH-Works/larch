@@ -1,4 +1,4 @@
-import { Button, Divider, Eyebrow, Icon, ToolbarDivider } from '@larch/ui';
+import { Button, Divider, Eyebrow, Icon, ToolbarDivider } from '@mah-works/larch';
 
 export const title = 'Eyebrow, divider, toolbar divider';
 export const layout = 'padded';

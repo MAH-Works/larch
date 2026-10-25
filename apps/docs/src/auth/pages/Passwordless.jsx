@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Button, Field, Icon, TextInput, useToast } from '@larch/ui';
+import { Alert, Button, Field, Icon, TextInput, useToast } from '@mah-works/larch';
 import { AuthTopbar, CodeInput, EMAIL_RE, LegalNote, SubmitButton, useFakeRequest } from '../shared.jsx';
 
 const RESEND_SECONDS = 30;

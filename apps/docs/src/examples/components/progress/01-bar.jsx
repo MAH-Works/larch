@@ -1,4 +1,4 @@
-import { ProgressBar } from '@larch/ui';
+import { ProgressBar } from '@mah-works/larch';
 
 export const title = 'Progress bar';
 export const layout = 'padded';

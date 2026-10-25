@@ -14,7 +14,7 @@ import {
   PanelSelect,
   ProgressList,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, UPCOMING_RENEWALS, WORKLOAD } from '../data/workspace.js';
 
 export default function Overview() {

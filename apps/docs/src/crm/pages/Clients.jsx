@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@larch/ui';
+import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@mah-works/larch';
 import { CLIENTS, CLIENT_TOTAL } from '../data/clients.js';
 
 export default function Clients() {

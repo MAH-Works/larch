@@ -16,7 +16,7 @@ import {
   TableFooter,
   ToolbarDivider,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { CONTACTS } from '../data/workspace.js';
 
 export default function Contacts() {

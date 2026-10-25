@@ -1,4 +1,4 @@
-import { Skeleton } from '@larch/ui';
+import { Skeleton } from '@mah-works/larch';
 
 export const title = 'Text lines';
 export const layout = 'padded';

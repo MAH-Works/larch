@@ -12,8 +12,8 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: [
-      { find: /^@larch\/ui\/(theme|tokens)\.css$/, replacement: `${ui}/$1.css` },
-      { find: /^@larch\/ui$/, replacement: `${ui}/index.js` },
+      { find: /^@mah-works\/larch\/(theme|tokens)\.css$/, replacement: `${ui}/$1.css` },
+      { find: /^@mah-works\/larch$/, replacement: `${ui}/index.js` },
     ],
   },
 });

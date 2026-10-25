@@ -11,7 +11,7 @@ import {
   MoreButton,
   Row,
   ToolbarTitle,
-} from '@larch/ui';
+} from '@mah-works/larch';
 
 export const title = 'Accounts with a titled toolbar';
 export const layout = 'canvas';

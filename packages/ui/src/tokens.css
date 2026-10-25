@@ -1,5 +1,5 @@
 /* Larch design tokens. Light values on :root, dark values on [data-theme='dark'].
-   Tailwind apps get these via `@larch/ui/theme.css`; plain-CSS apps can import this file directly. */
+   Tailwind apps get these via `@mah-works/larch/theme.css`; plain-CSS apps can import this file directly. */
 :root {
   --canvas: #f6f7f9;
   --surface: #ffffff;

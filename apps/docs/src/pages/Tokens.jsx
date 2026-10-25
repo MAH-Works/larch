@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Kbd, useTheme } from '@larch/ui';
+import { Card, Kbd, useTheme } from '@mah-works/larch';
 import { C } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 

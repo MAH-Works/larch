@@ -1,4 +1,4 @@
-import { Dot, Legend } from '@larch/ui';
+import { Dot, Legend } from '@mah-works/larch';
 
 export const title = 'Legend & dot';
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, CheckRow, Field, SelectInput, TextArea, TextInput, useToast } from '@larch/ui';
+import { Button, Card, CheckRow, Field, SelectInput, TextArea, TextInput, useToast } from '@mah-works/larch';
 
 export const title = 'Create a record';
 export const description = 'Two-column fields that stack on mobile, with a footer action bar.';

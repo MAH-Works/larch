@@ -1,4 +1,4 @@
-import { AccountItem, Panel, PanelSelect } from '@larch/ui';
+import { AccountItem, Panel, PanelSelect } from '@mah-works/larch';
 
 export const title = 'Account list';
 export const layout = 'canvas';

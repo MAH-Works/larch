@@ -1,4 +1,4 @@
-import { Switch } from '@larch/ui';
+import { Switch } from '@mah-works/larch';
 
 export const title = 'Settings list';
 export const layout = 'padded';

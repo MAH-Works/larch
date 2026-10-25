@@ -1,4 +1,4 @@
-import { Button, Icon } from '@larch/ui';
+import { Button, Icon } from '@mah-works/larch';
 
 export const title = 'Variants';
 export const description = 'Outline is the default. Use primary once per view, ghost inside toolbars, and danger for destructive confirmations.';

@@ -1,4 +1,4 @@
-import { ActivityList, Panel } from '@larch/ui';
+import { ActivityList, Panel } from '@mah-works/larch';
 
 export const title = 'Activity feed';
 export const layout = 'canvas';

@@ -1,4 +1,4 @@
-import { Alert } from '@larch/ui';
+import { Alert } from '@mah-works/larch';
 
 export const title = 'Tones';
 export const layout = 'padded';

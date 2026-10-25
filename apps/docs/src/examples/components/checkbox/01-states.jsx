@@ -1,4 +1,4 @@
-import { Checkbox } from '@larch/ui';
+import { Checkbox } from '@mah-works/larch';
 
 export const title = 'States';
 

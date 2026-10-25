@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brand, Button, Icon, TextInput, useTheme } from '@larch/ui';
+import { Brand, Button, Icon, TextInput, useTheme } from '@mah-works/larch';
 
 export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 

@@ -1,4 +1,4 @@
-import { Card } from '@larch/ui';
+import { Card } from '@mah-works/larch';
 
 export const title = 'Card';
 export const description = 'The base surface. Add your own padding.';

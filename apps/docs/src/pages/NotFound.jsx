@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, EmptyState, PageWrap } from '@larch/ui';
+import { Button, EmptyState, PageWrap } from '@mah-works/larch';
 
 export default function NotFound() {
   return (

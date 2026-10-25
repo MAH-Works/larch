@@ -1,4 +1,4 @@
-import { Badge, Button, Icon } from '@larch/ui';
+import { Badge, Button, Icon } from '@mah-works/larch';
 
 export const title = 'States & composition';
 export const description = 'Disabled buttons fade and ignore pointer events. Buttons compose with icons, badges and chevrons.';

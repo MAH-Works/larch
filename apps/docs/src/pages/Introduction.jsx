@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Badge, Button, Card, Icon, MetricGrid } from '@larch/ui';
+import { Badge, Button, Card, Icon, MetricGrid } from '@mah-works/larch';
 import { CodeBlock } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 import { BLOCKS, COMPONENTS, COMPONENT_GROUPS } from '../docs/registry.js';
 import { CRM_PAGES } from '../crm/routes.js';
 import { AUTH_PAGES } from '../auth/routes.js';
 
-const QUICK = `/* src/index.css → @import 'tailwindcss'; @import '@larch/ui/theme.css'; */
-import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@larch/ui';
+const QUICK = `/* src/index.css → @import 'tailwindcss'; @import '@mah-works/larch/theme.css'; */
+import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@mah-works/larch';
 import './index.css';
 
 export default function App() {

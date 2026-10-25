@@ -1,4 +1,4 @@
-import { Divider, Eyebrow, Panel, Switch } from '@larch/ui';
+import { Divider, Eyebrow, Panel, Switch } from '@mah-works/larch';
 
 export const title = 'Notification settings';
 export const layout = 'canvas';

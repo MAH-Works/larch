@@ -1,4 +1,4 @@
-import { Card, Skeleton } from '@larch/ui';
+import { Card, Skeleton } from '@mah-works/larch';
 
 export const title = 'Loading metric cards';
 export const layout = 'canvas';

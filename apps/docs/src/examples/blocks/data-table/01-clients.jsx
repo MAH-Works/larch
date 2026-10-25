@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@larch/ui';
+import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@mah-works/larch';
 
 export const title = 'Selectable client table';
 export const description =

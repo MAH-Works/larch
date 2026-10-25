@@ -1,4 +1,4 @@
-import { Field, SelectInput, TextArea, TextInput } from '@larch/ui';
+import { Field, SelectInput, TextArea, TextInput } from '@mah-works/larch';
 
 export const title = 'Fields';
 export const description = 'Field pairs a label with a control through `id`. Stacked fields get 12px of space.';

@@ -1,4 +1,4 @@
-import { Breakdown, Panel } from '@larch/ui';
+import { Breakdown, Panel } from '@mah-works/larch';
 
 export const title = 'Share of total';
 export const layout = 'canvas';

@@ -1,4 +1,4 @@
-import { Dropdown, useToast } from '@larch/ui';
+import { Dropdown, useToast } from '@mah-works/larch';
 
 export const title = 'Action menu';
 export const description = 'Icons are optional; `danger` items render in red. Click outside or press Escape to close.';

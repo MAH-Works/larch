@@ -16,7 +16,7 @@ pnpm build:ui     # library only → packages/ui/dist
 ## Repository layout
 
 ```
-packages/ui/                 @larch/ui — the library
+packages/ui/                 @mah-works/larch — the library
   src/components/            primitives: Button, Badge, Avatar, Card/Panel, MetricCard, Progress, Form,
                              Checkbox, Switch, Alert, Tooltip, Dropdown, Tabs, Dialog, Table, Page…
   src/blocks/                composed sections: AppShell, Sidebar, Topbar, ClientsTable,
@@ -33,7 +33,7 @@ apps/docs/                   documentation site (Vite + React Router)
   src/docs/registry.js       every component/block: description, imports, props tables
   src/examples/components/   one folder per component, one file per live example
   src/examples/blocks/       one folder per block, one file per live example
-  src/crm/                   the Compass CRM rebuilt from @larch/ui (8 example pages)
+  src/crm/                   the Compass CRM rebuilt from @mah-works/larch (8 example pages)
   src/auth/                  3 auth page variants + shared PasswordInput, CodeInput, SocialButtons
 ```
 
@@ -50,14 +50,14 @@ apps/docs/                   documentation site (Vite + React Router)
 | `/examples/auth/*` | Auth variants: `sign-in` (centered card), `sign-up` (split screen), `passwordless` (email code) |
 | `/preview/:kind/:slug/:id` | Any single example, full-screen (used by iframe previews) |
 
-The docs alias `@larch/ui` to the library **source**, so library edits hot-reload in the docs.
+The docs alias `@mah-works/larch` to the library **source**, so library edits hot-reload in the docs.
 
 ### Adding an example
 
 Drop a file in `apps/docs/src/examples/<components|blocks>/<slug>/NN-name.jsx`:
 
 ```jsx
-import { Button } from '@larch/ui';
+import { Button } from '@mah-works/larch';
 
 export const title = 'Sizes';
 export const description = 'Optional — `backticks` render as code.';

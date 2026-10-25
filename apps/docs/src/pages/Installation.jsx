@@ -1,4 +1,4 @@
-import { Alert } from '@larch/ui';
+import { Alert } from '@mah-works/larch';
 import { C, CodeBlock } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 
@@ -12,8 +12,8 @@ export default function Installation() {
         <h2>1. Install the package</h2>
         <p>Inside this monorepo the docs app already depends on it via <C>workspace:*</C>. In another project:</p>
       </Prose>
-      <Code>{`pnpm add @larch/ui
-# or: npm install @larch/ui`}</Code>
+      <Code>{`pnpm add @mah-works/larch
+# or: npm install @mah-works/larch`}</Code>
 
       <Prose>
         <h2>2a. With Tailwind CSS v4 (recommended)</h2>
@@ -41,7 +41,7 @@ export default defineConfig({
       </Prose>
       <Code>{`/* src/index.css */
 @import 'tailwindcss';
-@import '@larch/ui/theme.css';`}</Code>
+@import '@mah-works/larch/theme.css';`}</Code>
 
       <Prose>
         <h2>2b. Without Tailwind</h2>
@@ -50,7 +50,7 @@ export default defineConfig({
           You can't use Larch utility classes in your own markup this way, but every component renders correctly.
         </p>
       </Prose>
-      <Code>{`import '@larch/ui/styles.css';`}</Code>
+      <Code>{`import '@mah-works/larch/styles.css';`}</Code>
 
       <Prose>
         <h2>3. Fonts</h2>
@@ -67,7 +67,7 @@ export default defineConfig({
           theme toggle). Both are optional — components that don't need them work without.
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, ToastProvider } from '@larch/ui';
+      <Code>{`import { ThemeProvider, ToastProvider } from '@mah-works/larch';
 
 createRoot(document.getElementById('root')).render(
   <ToastProvider>
@@ -86,7 +86,7 @@ createRoot(document.getElementById('root')).render(
       </Prose>
       <Code>{`import { forwardRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AppShell, Button } from '@larch/ui';
+import { AppShell, Button } from '@mah-works/larch';
 
 const RouterLink = forwardRef(({ href, ...props }, ref) => <Link ref={ref} to={href} {...props} />);
 

@@ -1,4 +1,4 @@
-import { Icon } from '@larch/ui';
+import { Icon } from '@mah-works/larch';
 
 export const title = 'Sizes & color';
 export const description = 'Icons use currentColor — set the color with a text utility.';

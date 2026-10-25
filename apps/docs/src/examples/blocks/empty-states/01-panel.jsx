@@ -1,4 +1,4 @@
-import { Button, EmptyState, Icon, Panel, PanelGrid } from '@larch/ui';
+import { Button, EmptyState, Icon, Panel, PanelGrid } from '@mah-works/larch';
 
 export const title = 'Empty panels';
 export const layout = 'canvas';

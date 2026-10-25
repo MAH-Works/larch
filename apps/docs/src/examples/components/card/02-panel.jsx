@@ -1,4 +1,4 @@
-import { Panel, PanelLink, PanelSelect, ProgressList } from '@larch/ui';
+import { Panel, PanelLink, PanelSelect, ProgressList } from '@mah-works/larch';
 
 export const title = 'Panel';
 export const description = 'Title, subtitle and a header action — a PanelSelect, a PanelLink or a ghost button.';

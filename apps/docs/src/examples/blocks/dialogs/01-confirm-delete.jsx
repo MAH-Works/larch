@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Button, Dialog, Field, Icon, TextInput, useToast } from '@larch/ui';
+import { Alert, Button, Dialog, Field, Icon, TextInput, useToast } from '@mah-works/larch';
 
 export const title = 'Confirm a destructive action';
 export const description = 'Ask the user to type the name before the danger button enables.';

@@ -12,7 +12,7 @@ import {
   SelectInput,
   TextInput,
   useToast,
-} from '@larch/ui';
+} from '@mah-works/larch';
 import { AuthTopbar, EMAIL_RE, OrDivider, PasswordInput, SocialButtons, SubmitButton, useFakeRequest } from '../shared.jsx';
 
 const STRENGTH = [

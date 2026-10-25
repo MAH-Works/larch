@@ -1,4 +1,4 @@
-import { Badge, Button, Icon } from '@larch/ui';
+import { Badge, Button, Icon } from '@mah-works/larch';
 
 export const title = 'Count';
 export const description = 'A compact 17px pill for counts, usually inside a ghost button.';

@@ -168,7 +168,7 @@ importers:
 
   apps/docs:
     dependencies:
-      '@larch/ui':
+      '@mah-works/larch':
         specifier: workspace:*
         version: link:../../packages/ui
       react:

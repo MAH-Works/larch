@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PageSizeSelect, Pagination } from '@larch/ui';
+import { PageSizeSelect, Pagination } from '@mah-works/larch';
 
 export const title = 'Paginated footer';
 export const description = 'Previous disables on the first page and next on the last.';

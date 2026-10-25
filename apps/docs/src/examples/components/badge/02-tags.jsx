@@ -1,4 +1,4 @@
-import { Badge } from '@larch/ui';
+import { Badge } from '@mah-works/larch';
 
 export const title = 'Tags';
 export const description = 'Classification tags share the same pill shape.';

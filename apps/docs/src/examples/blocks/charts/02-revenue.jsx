@@ -1,4 +1,4 @@
-import { BarChart, Legend, Panel, PanelSelect } from '@larch/ui';
+import { BarChart, Legend, Panel, PanelSelect } from '@mah-works/larch';
 
 export const title = 'Monthly series';
 export const layout = 'canvas';

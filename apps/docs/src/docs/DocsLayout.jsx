@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AppShell, Brand, Button, Icon, SidebarStatus, useToast } from '@larch/ui';
+import { AppShell, Brand, Button, Icon, SidebarStatus, useToast } from '@mah-works/larch';
 import { RouterLink } from '../RouterLink.jsx';
 import { LarchMark } from './LarchMark.jsx';
 import { BLOCKS, COMPONENTS, COMPONENT_GROUPS, GUIDES } from './registry.js';

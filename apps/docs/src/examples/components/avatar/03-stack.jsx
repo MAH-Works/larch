@@ -1,4 +1,4 @@
-import { AvatarStack } from '@larch/ui';
+import { AvatarStack } from '@mah-works/larch';
 
 export const title = 'Stack';
 export const description = 'AvatarStack overlaps avatars with a surface-colored ring. Use `more` for the overflow count.';

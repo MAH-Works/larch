@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog, Field, Icon, SelectInput, TextInput, useToast } from '@larch/ui';
+import { Button, Dialog, Field, Icon, SelectInput, TextInput, useToast } from '@mah-works/larch';
 
 export const title = 'Quick create';
 

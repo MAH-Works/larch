@@ -1,4 +1,4 @@
-import { EmptyState } from '@larch/ui';
+import { EmptyState } from '@mah-works/larch';
 
 export const title = 'Basic';
 export const layout = 'padded';
