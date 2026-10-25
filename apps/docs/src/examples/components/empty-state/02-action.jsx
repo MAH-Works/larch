@@ -1,4 +1,4 @@
-import { Button, EmptyState, Icon } from '@compass/ui';
+import { Button, EmptyState, Icon } from '@larch/ui';
 
 export const title = 'With an action';
 export const layout = 'padded';

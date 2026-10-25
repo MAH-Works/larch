@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Badge, Card, Icon } from '@compass/ui';
+import { Badge, Card, Icon } from '@larch/ui';
 import { DocHeader } from '../docs/Prose.jsx';
 import { CRM_PAGES } from '../crm/routes.js';
 import { AUTH_PAGES } from '../auth/routes.js';
@@ -42,7 +42,7 @@ export default function ExamplesIndex() {
       <DocHeader
         eyebrow="Examples"
         title="Example pages"
-        description="Complete screens built only from Compass UI components and blocks. Each opens full-screen; the source is in apps/docs/src/crm and apps/docs/src/auth."
+        description="Complete screens built only from Larch UI components and blocks. Each opens full-screen; the source is in apps/docs/src/crm and apps/docs/src/auth."
       />
 
       <Section title="Authentication" description="Three sign-in layouts. Submitting any of them lands you in the CRM example.">

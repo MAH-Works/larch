@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MetricGrid, PanelSelect } from '@compass/ui';
+import { MetricGrid, PanelSelect } from '@larch/ui';
 
 export const title = 'With a period switcher';
 export const layout = 'canvas';

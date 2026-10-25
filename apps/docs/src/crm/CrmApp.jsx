@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AppShell, SidebarStatus, useToast } from '@compass/ui';
+import { AppShell, SidebarStatus, useToast } from '@larch/ui';
 import { RouterLink } from '../RouterLink.jsx';
 import { CRM_PAGES } from './routes.js';
 import Overview from './pages/Overview.jsx';
@@ -21,7 +21,7 @@ const SECTIONS = ['Workspace', 'Favorites', 'Manage'].map((label) => ({
 }));
 SECTIONS.push({ label: 'Library', items: [{ href: '/', label: 'Back to docs', icon: 'chevronLeft' }] });
 
-/** The Compass CRM, assembled from @compass/ui blocks. */
+/** The Compass CRM, assembled from @larch/ui blocks. */
 export default function CrmApp() {
   const { pathname } = useLocation();
   const { showToast } = useToast();

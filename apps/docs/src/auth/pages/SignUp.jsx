@@ -12,7 +12,7 @@ import {
   SelectInput,
   TextInput,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 import { AuthTopbar, EMAIL_RE, OrDivider, PasswordInput, SocialButtons, SubmitButton, useFakeRequest } from '../shared.jsx';
 
 const STRENGTH = [
@@ -114,7 +114,7 @@ export default function SignUp() {
             <OrDivider>or sign up with email</OrDivider>
 
             <Card as="form" noValidate onSubmit={onSubmit} className="p-6 mobile:p-5">
-              <div className="grid grid-cols-2 gap-x-3 gap-y-3 mobile:grid-cols-1 [&>*+*]:!mt-0">
+              <div className="grid grid-cols-2 gap-x-3 gap-y-3 mobile:grid-cols-1 *:mt-0!">
                 <Field label="Full name" id="su-name" error={show('name')}>
                   <TextInput id="su-name" autoComplete="name" placeholder="Jamie Chen" value={form.name} invalid={!!show('name')} onChange={set('name')} />
                 </Field>

@@ -1,4 +1,4 @@
-import { Kbd } from '@compass/ui';
+import { Kbd } from '@larch/ui';
 
 export const title = 'Shortcuts';
 

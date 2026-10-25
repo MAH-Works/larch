@@ -1,4 +1,4 @@
-import { Button, EmptyState, Icon, Panel, PanelGrid } from '@compass/ui';
+import { Button, EmptyState, Icon, Panel, PanelGrid } from '@larch/ui';
 
 export const title = 'Empty panels';
 export const layout = 'canvas';

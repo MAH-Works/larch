@@ -1,4 +1,4 @@
-import { Breakdown, Panel } from '@compass/ui';
+import { Breakdown, Panel } from '@larch/ui';
 
 export const title = 'Share of total';
 export const layout = 'canvas';

@@ -1,4 +1,4 @@
-import { Card } from '@compass/ui';
+import { Card } from '@larch/ui';
 
 export const title = 'Card';
 export const description = 'The base surface. Add your own padding.';

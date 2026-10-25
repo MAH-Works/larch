@@ -1,4 +1,4 @@
-import { CheckRow } from '@compass/ui';
+import { CheckRow } from '@larch/ui';
 
 export const title = 'Labelled options';
 export const layout = 'padded';

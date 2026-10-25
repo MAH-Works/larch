@@ -9,11 +9,11 @@ export function BrandMark({ className = 'size-[27px]' }) {
   );
 }
 
-/** Mark + two-tone wordmark ("compass crm"). */
-export function Brand({ name = 'compass', suffix = 'crm' }) {
+/** Mark + two-tone wordmark ("compass crm"). Pass `mark` to use your own logo. */
+export function Brand({ name = 'compass', suffix = 'crm', mark = <BrandMark /> }) {
   return (
     <>
-      <BrandMark />
+      {mark}
       <span className="text-base font-bold tracking-[-.03em]">
         {name} {suffix && <span className="font-medium text-muted">{suffix}</span>}
       </span>

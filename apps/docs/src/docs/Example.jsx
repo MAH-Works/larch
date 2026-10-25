@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Icon } from '@compass/ui';
+import { Icon } from '@larch/ui';
 import { CodeBlock, md } from './CodeBlock.jsx';
 
 // Example files export `title` / `description` metadata; hide those lines from the displayed source.
@@ -22,7 +22,7 @@ export function Example({ id, title, description, layout = 'center', Component, 
   const tabClass = (on) =>
     `relative h-9 px-3 text-xs ${
       on
-        ? 'font-semibold text-ink after:absolute after:inset-x-2 after:-bottom-px after:h-[2px] after:rounded-t-sm after:bg-blue'
+        ? 'font-semibold text-ink after:absolute after:inset-x-2 after:-bottom-px after:h-[2px] after:rounded-t-xs after:bg-blue'
         : 'text-[#9298a1] hover:text-ink'
     }`;
 

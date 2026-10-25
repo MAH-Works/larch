@@ -1,4 +1,4 @@
-import { Checkbox, useSelection } from '@compass/ui';
+import { Checkbox, useSelection } from '@larch/ui';
 
 export const title = 'Select all';
 export const description = 'The header checkbox is indeterminate when only some rows are selected.';

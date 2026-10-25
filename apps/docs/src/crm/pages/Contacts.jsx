@@ -16,7 +16,7 @@ import {
   TableFooter,
   ToolbarDivider,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 import { CONTACTS } from '../data/workspace.js';
 
 export default function Contacts() {

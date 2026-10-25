@@ -14,7 +14,7 @@ import {
   PanelSelect,
   ProgressList,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, UPCOMING_RENEWALS, WORKLOAD } from '../data/workspace.js';
 
 export default function Overview() {

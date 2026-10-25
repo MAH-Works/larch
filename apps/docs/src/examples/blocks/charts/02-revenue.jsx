@@ -1,4 +1,4 @@
-import { BarChart, Legend, Panel, PanelSelect } from '@compass/ui';
+import { BarChart, Legend, Panel, PanelSelect } from '@larch/ui';
 
 export const title = 'Monthly series';
 export const layout = 'canvas';

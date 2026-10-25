@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Button, Field, Icon, TextInput, useToast } from '@compass/ui';
+import { Alert, Button, Field, Icon, TextInput, useToast } from '@larch/ui';
 import { AuthTopbar, CodeInput, EMAIL_RE, LegalNote, SubmitButton, useFakeRequest } from '../shared.jsx';
 
 const RESEND_SECONDS = 30;
@@ -182,7 +182,7 @@ export default function Passwordless() {
               <p className="mb-6 mt-[6px] text-[13px] leading-relaxed text-muted">
                 Welcome back, <strong className="font-semibold text-strong">{email}</strong>. This device is remembered for 30 days.
               </p>
-              <Button variant="primary" className="!h-[38px] w-full justify-center" onClick={() => navigate('/examples/crm/overview')}>
+              <Button variant="primary" className="h-[38px]! w-full justify-center" onClick={() => navigate('/examples/crm/overview')}>
                 Continue to workspace <Icon name="arrowRight" size="sm" />
               </Button>
             </>

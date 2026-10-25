@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Card, CheckRow, Field, TextInput, useToast } from '@compass/ui';
+import { Alert, Card, CheckRow, Field, TextInput, useToast } from '@larch/ui';
 import { AuthTopbar, EMAIL_RE, LegalNote, OrDivider, PasswordInput, SocialButtons, SubmitButton, useFakeRequest } from '../shared.jsx';
 
 /** Variant 1 — centered card: SSO, email + password, remember me, inline errors. */

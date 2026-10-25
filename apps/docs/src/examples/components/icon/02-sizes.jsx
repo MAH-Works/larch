@@ -1,4 +1,4 @@
-import { Icon } from '@compass/ui';
+import { Icon } from '@larch/ui';
 
 export const title = 'Sizes & color';
 export const description = 'Icons use currentColor — set the color with a text utility.';

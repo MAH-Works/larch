@@ -18,7 +18,7 @@ const systemPrefersDark = () =>
  * then persists the choice under `storageKey` (and syncs it across tabs). `onChange(theme)` fires on
  * explicit changes only.
  */
-export function ThemeProvider({ children, storageKey = 'compass-theme', defaultTheme, onChange }) {
+export function ThemeProvider({ children, storageKey = 'larch-theme', defaultTheme, onChange }) {
   const [theme, setThemeState] = useState(
     () => readStored(storageKey) || defaultTheme || (systemPrefersDark() ? 'dark' : 'light'),
   );
@@ -74,5 +74,5 @@ export const useTheme = () => useContext(ThemeContext);
  * Inline script for <head> that sets the theme before first paint (avoids a light/dark flash).
  * Render it in SSR output or paste its string into index.html.
  */
-export const themeScript = (storageKey = 'compass-theme') =>
+export const themeScript = (storageKey = 'larch-theme') =>
   `try{document.documentElement.dataset.theme=localStorage.getItem('${storageKey}')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){document.documentElement.dataset.theme='light'}`;

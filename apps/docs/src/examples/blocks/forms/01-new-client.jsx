@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Card, CheckRow, Field, SelectInput, TextArea, TextInput, useToast } from '@compass/ui';
+import { Button, Card, CheckRow, Field, SelectInput, TextArea, TextInput, useToast } from '@larch/ui';
 
 export const title = 'Create a record';
 export const description = 'Two-column fields that stack on mobile, with a footer action bar.';
@@ -23,7 +23,7 @@ export default function NewClient() {
         <h2 className="m-0 text-sm font-[650] tracking-[-.02em] text-ink">New client</h2>
         <p className="mb-0 mt-[5px] text-[11px] text-[#989da5]">Clients group contacts, projects and billing.</p>
       </div>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-3 p-5 mobile:grid-cols-1 [&>*+*]:!mt-0">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-3 p-5 mobile:grid-cols-1 *:mt-0!">
         <Field label="Client name" id="nc-name" error={nameError}>
           <TextInput id="nc-name" value={name} invalid={!!nameError} onChange={(e) => setName(e.target.value)} placeholder="Aperture Labs" />
         </Field>

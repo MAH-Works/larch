@@ -4,3 +4,5 @@ packages:
 
 allowBuilds:
   esbuild: true
+  # Ships prebuilt binaries; its install script isn't needed.
+  '@parcel/watcher': false

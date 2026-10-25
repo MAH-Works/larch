@@ -11,7 +11,7 @@ import {
   MoreButton,
   Row,
   ToolbarTitle,
-} from '@compass/ui';
+} from '@larch/ui';
 
 export const title = 'Accounts with a titled toolbar';
 export const layout = 'canvas';

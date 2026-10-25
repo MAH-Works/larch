@@ -1,5 +1,5 @@
-/* Compass design tokens. Light values on :root, dark values on [data-theme='dark'].
-   Import once at the app root: `import '@compass/ui/tokens.css'`. */
+/* Larch design tokens. Light values on :root, dark values on [data-theme='dark'].
+   Tailwind apps get these via `@larch/ui/theme.css`; plain-CSS apps can import this file directly. */
 :root {
   --canvas: #f6f7f9;
   --surface: #ffffff;
@@ -62,26 +62,43 @@
   color-scheme: dark;
 }
 
-html {
-  background: var(--canvas);
-}
+/* Element defaults. Layered so utilities always win (un-layered CSS beats every layer in v4). */
+@layer base {
+  /* Tailwind v4 defaults borders and placeholders to currentColor; Larch keeps hairline + faint defaults. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--line);
+  }
 
-body {
-  margin: 0;
-  background: var(--canvas);
-  color: var(--ink);
-  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-  font-size: 14px;
-  -webkit-font-smoothing: antialiased;
-}
+  ::placeholder {
+    color: var(--faint);
+  }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
+  html {
+    background: var(--canvas);
+  }
 
-button {
-  cursor: pointer;
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }

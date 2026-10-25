@@ -1,4 +1,4 @@
-import { Divider, Eyebrow, Panel, Switch } from '@compass/ui';
+import { Divider, Eyebrow, Panel, Switch } from '@larch/ui';
 
 export const title = 'Notification settings';
 export const layout = 'canvas';

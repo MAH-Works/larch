@@ -39,7 +39,7 @@ export function Dialog({ open, onClose, title, description, children, footer, wi
         aria-modal="true"
         aria-label={title}
         style={{ width: `min(${width}px, 100%)` }}
-        className="rounded-[10px] border border-line bg-surface text-ink shadow-dialog outline-none"
+        className="rounded-[10px] border border-line bg-surface text-ink shadow-dialog outline-hidden"
       >
         <div className="flex items-start justify-between gap-[15px] border-b border-line px-[19px] pb-[13px] pt-[18px]">
           <div>

@@ -45,5 +45,5 @@ export function ProgressList({ items }) {
   );
 }
 
-/** @deprecated Original Compass name — use ProgressRow. */
+/** @deprecated Original compass-react name — use ProgressRow. */
 export const WorkloadRow = ProgressRow;

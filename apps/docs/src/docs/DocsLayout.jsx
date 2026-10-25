@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AppShell, Brand, Button, Icon, SidebarStatus, useToast } from '@compass/ui';
+import { AppShell, Brand, Button, Icon, SidebarStatus, useToast } from '@larch/ui';
 import { RouterLink } from '../RouterLink.jsx';
+import { LarchMark } from './LarchMark.jsx';
 import { BLOCKS, COMPONENTS, COMPONENT_GROUPS, GUIDES } from './registry.js';
 
 const guideHref = (slug) => (slug ? `/docs/${slug}` : '/');
@@ -68,8 +69,8 @@ export default function DocsLayout() {
         sections: NAV_SECTIONS,
         activeHref: pathname,
         linkComponent: RouterLink,
-        brand: <Brand name="compass" suffix="ui" />,
-        footer: <SidebarStatus text="v1.0.0 · React 18 · Tailwind 3" />,
+        brand: <Brand name="larch" suffix="ui" mark={<LarchMark />} />,
+        footer: <SidebarStatus text="v1.0.0 · React 18 · Tailwind 4" />,
       }}
       topbar={{
         ...breadcrumb(pathname),

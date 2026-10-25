@@ -1,4 +1,4 @@
-import { Avatar } from '@compass/ui';
+import { Avatar } from '@larch/ui';
 
 export const title = 'Sizes';
 export const description = 'sm (25px) for stacks, md (30px) for table rows, lg (35px) for profile headers.';

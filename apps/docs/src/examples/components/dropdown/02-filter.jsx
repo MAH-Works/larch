@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dropdown } from '@compass/ui';
+import { Dropdown } from '@larch/ui';
 
 export const title = 'Ghost trigger as a filter';
 export const description = 'Use a ghost trigger inside toolbars, and align the menu right when it sits at the end of a row.';

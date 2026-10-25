@@ -1,37 +1,35 @@
-# @compass/ui
+# @larch/ui
 
-Quiet, dense React + Tailwind components for client-operations dashboards.
+Quiet, dense React + Tailwind CSS v4 components for client-operations dashboards.
 
 ## Install
 
 ```bash
-pnpm add @compass/ui     # peer deps: react >= 18, react-dom >= 18
+pnpm add @larch/ui     # peer deps: react >= 18, react-dom >= 18
 ```
 
-### With Tailwind 3 (recommended)
+### With Tailwind CSS v4 (recommended)
 
-```js
-// tailwind.config.js
-import compass from '@compass/ui/tailwind-preset';
+No `tailwind.config.js` — Larch is configured in CSS. With Vite:
 
-export default {
-  presets: [compass],
-  content: ['./src/**/*.{js,jsx,ts,tsx}', './node_modules/@compass/ui/dist/**/*.js'],
-};
+```bash
+pnpm add -D tailwindcss @tailwindcss/vite   # add tailwindcss() to vite.config plugins
 ```
 
 ```css
 /* src/index.css */
-@import '@compass/ui/tokens.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import '@larch/ui/theme.css';
 ```
+
+`theme.css` brings the tokens, the semantic colors (`@theme inline`), shadows and the shimmer
+animation (`@theme`), the `dark` / `narrow` / `tablet` / `mobile` variants (`@custom-variant`) and an
+`@source` for the compiled components, so their classes are detected automatically.
 
 ### Without Tailwind
 
 ```js
-import '@compass/ui/styles.css'; // tokens + preflight + every utility the components use
+import '@larch/ui/styles.css'; // tokens + preflight + every utility the components use
 ```
 
 Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
@@ -39,7 +37,7 @@ Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
 ## Use
 
 ```jsx
-import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@compass/ui';
+import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@larch/ui';
 
 <ToastProvider>
   <ThemeProvider>
@@ -60,7 +58,7 @@ The library is router-agnostic: `Button`, `Card` and `PanelLink` take `as={Link}
 
 Semantic colors (`bg-surface`, `text-ink`, `border-line`, `bg-blue`…) map to CSS variables. Set
 `<html data-theme="dark">` (ThemeProvider does it for you) and everything re-themes. Override any
-`--token` after importing `tokens.css` to rebrand.
+`--token` after importing `theme.css` (or `tokens.css`) to rebrand.
 
 ## Exports
 
@@ -78,5 +76,5 @@ AccountItem, StatusList, PanelLink
 **Theme & hooks** — ThemeProvider, useTheme, themeScript, ToastProvider, useToast, useSelection,
 useHotkey, useDismiss
 
-Original Compass names `WorkloadRow` and `RenewalItem` remain as aliases of `ProgressRow` and
+Original compass-react names `WorkloadRow` and `RenewalItem` remain as aliases of `ProgressRow` and
 `AccountItem`.

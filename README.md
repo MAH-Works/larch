@@ -1,8 +1,10 @@
-# Compass UI
+# Larch UI
 
-Quiet, dense React + Tailwind components for client-operations dashboards, extracted from the
-[Compass CRM](../compass-react) prototype. It ships primitives, composed blocks, design tokens with
+Quiet, dense React + Tailwind CSS v4 components for client-operations dashboards, extracted from the
+Compass CRM prototype. It ships primitives, composed blocks, design tokens with
 built-in dark mode, a documentation site with live examples, and a complete example app.
+
+**Docs:** https://mah-works.github.io/larch/
 
 ```bash
 pnpm install
@@ -14,22 +16,24 @@ pnpm build:ui     # library only → packages/ui/dist
 ## Repository layout
 
 ```
-packages/ui/                 @compass/ui — the library
+packages/ui/                 @larch/ui — the library
   src/components/            primitives: Button, Badge, Avatar, Card/Panel, MetricCard, Progress, Form,
                              Checkbox, Switch, Alert, Tooltip, Dropdown, Tabs, Dialog, Table, Page…
   src/blocks/                composed sections: AppShell, Sidebar, Topbar, ClientsTable,
                              SelectionToolbar, ProjectCard, HealthChart/BarChart, ActivityList, lists
   src/theme/                 ThemeProvider (light/dark, persisted, cross-tab), ToastProvider
   src/hooks/                 useSelection, useHotkey, useDismiss
-  src/styles/tokens.css      design tokens (CSS variables, light + [data-theme="dark"])
-  src/tailwind-preset.js     semantic colors, breakpoints, shadows, dark-mode selector
+  src/tokens.css             design tokens (CSS variables, light + [data-theme="dark"]) + base layer
+  src/theme.css              Tailwind v4 theme: @theme colors/shadows/animation, @custom-variant
+                             dark · narrow · tablet · mobile, @source for the components
+  src/styles.css             entry for the prebuilt dist/styles.css (Tailwind CLI)
 
 apps/docs/                   documentation site (Vite + React Router)
   src/pages/                 guides: introduction, installation, theming, tokens, hooks
   src/docs/registry.js       every component/block: description, imports, props tables
   src/examples/components/   one folder per component, one file per live example
   src/examples/blocks/       one folder per block, one file per live example
-  src/crm/                   the Compass CRM rebuilt from @compass/ui (8 example pages)
+  src/crm/                   the Compass CRM rebuilt from @larch/ui (8 example pages)
   src/auth/                  3 auth page variants + shared PasswordInput, CodeInput, SocialButtons
 ```
 
@@ -46,14 +50,14 @@ apps/docs/                   documentation site (Vite + React Router)
 | `/examples/auth/*` | Auth variants: `sign-in` (centered card), `sign-up` (split screen), `passwordless` (email code) |
 | `/preview/:kind/:slug/:id` | Any single example, full-screen (used by iframe previews) |
 
-The docs alias `@compass/ui` to the library **source**, so library edits hot-reload in the docs.
+The docs alias `@larch/ui` to the library **source**, so library edits hot-reload in the docs.
 
 ### Adding an example
 
 Drop a file in `apps/docs/src/examples/<components|blocks>/<slug>/NN-name.jsx`:
 
 ```jsx
-import { Button } from '@compass/ui';
+import { Button } from '@larch/ui';
 
 export const title = 'Sizes';
 export const description = 'Optional — `backticks` render as code.';

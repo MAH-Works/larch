@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, CheckRow, Dialog, Field, Icon, SelectInput, useToast } from '@compass/ui';
+import { Button, CheckRow, Dialog, Field, Icon, SelectInput, useToast } from '@larch/ui';
 
 export const title = 'Share dialog';
 export const description = 'Escape, the × button or a backdrop click all close it.';

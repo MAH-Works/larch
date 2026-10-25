@@ -1,4 +1,4 @@
-import { Field, SelectInput, TextArea, TextInput } from '@compass/ui';
+import { Field, SelectInput, TextArea, TextInput } from '@larch/ui';
 
 export const title = 'Fields';
 export const description = 'Field pairs a label with a control through `id`. Stacked fields get 12px of space.';

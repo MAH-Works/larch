@@ -1,4 +1,4 @@
-import { ClientMark } from '@compass/ui';
+import { ClientMark } from '@larch/ui';
 
 export const title = 'With a name';
 export const description = 'The standard client cell: mark, bold name and a faint domain.';

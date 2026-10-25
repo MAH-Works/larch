@@ -1,4 +1,4 @@
-import { Dot, Legend } from '@compass/ui';
+import { Dot, Legend } from '@larch/ui';
 
 export const title = 'Legend & dot';
 

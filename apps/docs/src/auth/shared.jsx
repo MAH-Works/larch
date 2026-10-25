@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brand, Button, Icon, TextInput, useTheme } from '@compass/ui';
+import { Brand, Button, Icon, TextInput, useTheme } from '@larch/ui';
 
 export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -99,11 +99,11 @@ function GitHubMark() {
 export function SocialButtons({ onSelect, columns = 1 }) {
   return (
     <div className={`grid gap-2 ${columns === 2 ? 'grid-cols-2 mobile:grid-cols-1' : ''}`}>
-      <Button className="!h-[38px] w-full justify-center" onClick={() => onSelect('Google')}>
+      <Button className="h-[38px]! w-full justify-center" onClick={() => onSelect('Google')}>
         <GoogleMark />
         Continue with Google
       </Button>
-      <Button className="!h-[38px] w-full justify-center" onClick={() => onSelect('GitHub')}>
+      <Button className="h-[38px]! w-full justify-center" onClick={() => onSelect('GitHub')}>
         <GitHubMark />
         Continue with GitHub
       </Button>
@@ -125,15 +125,16 @@ export function OrDivider({ children }) {
 /** Full-width submit with a pending state. */
 export function SubmitButton({ pending, pendingLabel, children, ...props }) {
   return (
-    <Button type="submit" variant="primary" className="!h-[38px] w-full justify-center" disabled={pending} {...props}>
+    <Button type="submit" variant="primary" className="h-[38px]! w-full justify-center" disabled={pending} {...props}>
       {pending && <Spinner />}
       {pending ? pendingLabel : children}
     </Button>
   );
 }
 
-const CELL =
-  'h-12 w-11 rounded-md border border-line-strong bg-surface text-center font-mono text-lg text-ink outline-none transition focus:border-blue focus:shadow-[0_0_0_3px_var(--blue-soft)] mobile:h-11 mobile:w-10';
+const CELL = 'h-12 w-11 rounded-md border bg-surface text-center font-mono text-lg text-ink outline-hidden transition mobile:h-11 mobile:w-10';
+const CELL_VALID = 'border-line-strong focus:border-blue focus:shadow-[0_0_0_3px_var(--blue-soft)]';
+const CELL_INVALID = 'border-red focus:border-red focus:shadow-[0_0_0_3px_var(--red-soft)]';
 
 /**
  * One-time-code input: one box per digit, auto-advance, backspace to the previous box,
@@ -199,7 +200,7 @@ export function CodeInput({ length = 6, value, onChange, onComplete, invalid = f
           onChange={(e) => onInput(i, e)}
           onKeyDown={(e) => onKeyDown(i, e)}
           onFocus={(e) => e.target.select()}
-          className={`${CELL} ${invalid ? 'border-red focus:border-red focus:shadow-[0_0_0_3px_var(--red-soft)]' : ''}`}
+          className={`${CELL} ${invalid ? CELL_INVALID : CELL_VALID}`}
         />
       ))}
     </div>

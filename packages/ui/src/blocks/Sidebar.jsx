@@ -1,8 +1,7 @@
 import Icon from '../components/Icon.jsx';
 import { Brand } from './BrandMark.jsx';
 
-const linkBase =
-  'flex min-h-[34px] items-center gap-[10px] rounded-[7px] px-[10px] text-[13px] font-medium no-underline transition-colors';
+const linkBase = 'flex min-h-[34px] items-center gap-[10px] rounded-[7px] px-[10px] text-[13px] no-underline transition-colors';
 
 /**
  * Router-agnostic navigation. Pass your router's link as `linkComponent` (it receives `href`,
@@ -43,7 +42,7 @@ export function SidebarNav({
                   className={`${linkBase} ${
                     active
                       ? 'bg-[#ebedf0] font-semibold text-[#22252a] dark:bg-[#252b34] dark:text-[#f2f4f7]'
-                      : 'text-[#646974] hover:bg-[#f0f1f3] hover:text-ink dark:text-muted dark:hover:bg-[#1b2028]'
+                      : 'font-medium text-[#646974] hover:bg-[#f0f1f3] hover:text-ink dark:text-muted dark:hover:bg-[#1b2028]'
                   }`}
                 >
                   {item.icon && (

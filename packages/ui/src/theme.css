@@ -1,0 +1,81 @@
+/*
+ * Larch theme for Tailwind CSS v4.
+ *
+ *   @import 'tailwindcss';
+ *   @import '@larch/ui/theme.css';
+ *
+ * Registers the design tokens, the semantic colors (bg-surface, text-ink, border-line…), the
+ * narrow / tablet / mobile max-width variants, the data-theme dark variant, and tells Tailwind
+ * to scan the Larch components so their classes are generated.
+ */
+@import './tokens.css';
+
+@source './';
+
+/* Dark mode follows <html data-theme="dark">. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* Desktop-first max-width breakpoints, declared widest → narrowest so narrower ones win. */
+@custom-variant narrow (@media (width <= 980px));
+@custom-variant tablet (@media (width <= 900px));
+@custom-variant mobile (@media (width <= 680px));
+
+/* Semantic colors resolve to the runtime tokens, so switching data-theme re-themes everything. */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-sidebar: var(--sidebar);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-soft: var(--soft);
+  --color-label: var(--label);
+  --color-faint: var(--faint);
+  --color-body: var(--body);
+  --color-strong: var(--strong);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-line-soft: var(--line-soft);
+  --color-head: var(--head);
+  --color-hover: var(--hover);
+  --color-selected: var(--selected);
+  --color-selected-hover: var(--selected-hover);
+  --color-row-hover: var(--row-hover);
+  --color-blue: var(--blue);
+  --color-blue-hover: var(--blue-hover);
+  --color-blue-border: var(--blue-border);
+  --color-blue-soft: var(--blue-soft);
+  --color-green: var(--green);
+  --color-red: var(--red);
+  --color-red-soft: var(--red-soft);
+  --color-amber: var(--amber);
+  --color-violet: var(--violet);
+}
+
+@theme {
+  /* Keep v3's rem line heights: unitless v4 ratios would shrink children that set their own font size. */
+  --text-xs--line-height: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl--line-height: 2rem;
+
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --shadow-card: 0 1px 2px rgba(25, 34, 49, 0.02);
+  --shadow-pop: 0 12px 26px rgba(25, 34, 49, 0.14);
+  --shadow-dialog: 0 22px 60px rgba(16, 21, 29, 0.25);
+  --shadow-toast: 0 8px 25px rgba(22, 28, 39, 0.2);
+
+  --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}

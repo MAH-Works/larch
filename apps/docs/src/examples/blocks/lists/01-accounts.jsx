@@ -1,4 +1,4 @@
-import { AccountItem, Panel, PanelSelect } from '@compass/ui';
+import { AccountItem, Panel, PanelSelect } from '@larch/ui';
 
 export const title = 'Account list';
 export const layout = 'canvas';

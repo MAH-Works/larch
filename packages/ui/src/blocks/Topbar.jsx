@@ -29,10 +29,13 @@ export function Topbar({
 
   return (
     <header className="flex h-[70px] min-h-[70px] items-center gap-[15px] border-b border-line bg-sidebar px-[33px] tablet:px-5 mobile:h-[61px] mobile:min-h-[61px] mobile:gap-2 mobile:px-[14px]">
+      {/* Wrapper toggles visibility so it never competes with Button's own display utility. */}
       {onOpenMenu && (
-        <Button variant="icon" className="hidden mobile:inline-flex" aria-label="Open navigation" onClick={onOpenMenu}>
-          <Icon name="menu" />
-        </Button>
+        <div className="hidden mobile:block">
+          <Button variant="icon" aria-label="Open navigation" onClick={onOpenMenu}>
+            <Icon name="menu" />
+          </Button>
+        </div>
       )}
 
       <div className="flex min-w-[183px] items-center gap-[9px] text-[13px] text-[#92969e] mobile:min-w-0">
@@ -52,7 +55,7 @@ export function Topbar({
             placeholder={searchPlaceholder}
             aria-label={searchPlaceholder}
             onKeyDown={(e) => e.key === 'Enter' && onSearch(e.currentTarget.value)}
-            className="w-full min-w-0 border-0 bg-transparent text-xs text-ink outline-none placeholder:text-faint mobile:hidden"
+            className="w-full min-w-0 border-0 bg-transparent text-xs text-ink outline-hidden placeholder:text-faint mobile:hidden"
           />
           <span className="whitespace-nowrap rounded-[4px] border border-[#e5e7ea] px-1 py-px text-[11px] leading-4 text-[#989da6] dark:border-line-strong dark:bg-[#1b2027] dark:text-[#8993a0] mobile:hidden">
             ⌘ K

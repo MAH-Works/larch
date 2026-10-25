@@ -1,4 +1,4 @@
-import { Button, Icon, PageHeading, useToast } from '@compass/ui';
+import { Button, Icon, PageHeading, useToast } from '@larch/ui';
 
 export const title = 'Dashboard greeting';
 export const layout = 'canvas';

@@ -1,4 +1,4 @@
-import { Button, Divider, Eyebrow, Icon, ToolbarDivider } from '@compass/ui';
+import { Button, Divider, Eyebrow, Icon, ToolbarDivider } from '@larch/ui';
 
 export const title = 'Eyebrow, divider, toolbar divider';
 export const layout = 'padded';

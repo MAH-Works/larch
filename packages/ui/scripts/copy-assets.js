@@ -1,5 +1,6 @@
-// Ship the Tailwind preset and raw design tokens next to the compiled components.
+// Ship the Tailwind v4 theme and the raw design tokens next to the compiled components.
+// theme.css uses `@source './'`, so from dist/ it scans the compiled components.
 import { copyFileSync } from 'node:fs';
 
-copyFileSync('src/tailwind-preset.js', 'dist/tailwind-preset.js');
-copyFileSync('src/styles/tokens.css', 'dist/tokens.css');
+copyFileSync('src/theme.css', 'dist/theme.css');
+copyFileSync('src/tokens.css', 'dist/tokens.css');

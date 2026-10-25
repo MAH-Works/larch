@@ -1,4 +1,4 @@
-import { Avatar } from '@compass/ui';
+import { Avatar } from '@larch/ui';
 
 export const title = 'Tones';
 

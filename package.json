@@ -1,13 +1,14 @@
 {
-  "name": "compass-component-library",
+  "name": "larch",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm --filter @compass/docs dev",
-    "build": "pnpm --filter @compass/ui build && pnpm --filter @compass/docs build",
-    "build:ui": "pnpm --filter @compass/ui build",
-    "build:docs": "pnpm --filter @compass/docs build",
-    "preview": "pnpm --filter @compass/docs preview"
-  }
+    "dev": "pnpm --filter @larch/docs dev",
+    "build": "pnpm --filter @larch/ui build && pnpm --filter @larch/docs build",
+    "build:ui": "pnpm --filter @larch/ui build",
+    "build:docs": "pnpm --filter @larch/docs build",
+    "preview": "pnpm --filter @larch/docs preview"
+  },
+  "packageManager": "pnpm@12.15.0"
 }

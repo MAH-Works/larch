@@ -132,14 +132,14 @@ const SIZES = { md: 'size-[17px]', sm: 'size-[15px]', xs: 'size-[13px]' };
 
 export const ICON_NAMES = Object.keys(GLYPHS);
 
-/** Stroke icon from the Compass set. `size`: md 17px · sm 15px · xs 13px. */
+/** Stroke icon from the Larch set. `size`: md 17px · sm 15px · xs 13px. */
 export default function Icon({ name, size = 'md', className = '', ...props }) {
   return (
     <svg
       viewBox="0 0 24 24"
       aria-hidden="true"
       {...props}
-      className={`${SIZES[size]} shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] [stroke-width:1.65] ${className}`}
+      className={`${SIZES[size]} shrink-0 fill-none stroke-current [stroke-linecap:round] [stroke-linejoin:round] stroke-[1.65] ${className}`}
     >
       {GLYPHS[name]}
     </svg>

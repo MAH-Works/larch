@@ -21,7 +21,7 @@ export function Dropdown({ label, items, variant = 'outline', align = 'left', cl
       {open && (
         <div
           role="menu"
-          className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} top-[calc(100%+6px)] z-[8] min-w-[174px] rounded-lg border border-line bg-surface p-[5px] shadow-pop dark:shadow-[0_14px_30px_rgba(0,0,0,.3)]`}
+          className={`absolute ${align === 'right' ? 'right-0' : 'left-0'} top-[calc(100%+6px)] z-8 min-w-[174px] rounded-lg border border-line bg-surface p-[5px] shadow-pop dark:shadow-[0_14px_30px_rgba(0,0,0,.3)]`}
         >
           {items.map((item) => (
             <button

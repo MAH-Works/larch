@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, Icon } from '@compass/ui';
+import { Button, Icon } from '@larch/ui';
 
 export const title = 'As a link';
 export const description = 'Pass `as` to render any element with button styling — a router Link, an anchor, a label.';

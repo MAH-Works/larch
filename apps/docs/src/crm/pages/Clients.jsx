@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@compass/ui';
+import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@larch/ui';
 import { CLIENTS, CLIENT_TOTAL } from '../data/clients.js';
 
 export default function Clients() {

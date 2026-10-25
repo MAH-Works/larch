@@ -1,0 +1,3 @@
+/* Entry for the prebuilt dist/styles.css: preflight + tokens + every utility the components use. */
+@import 'tailwindcss';
+@import './theme.css';

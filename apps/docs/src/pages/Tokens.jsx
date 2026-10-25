@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, Kbd, useTheme } from '@compass/ui';
+import { Card, Kbd, useTheme } from '@larch/ui';
 import { C } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 
@@ -54,12 +54,15 @@ const GROUPS = [
 ];
 
 
+// The CSS minifier shortens #ffffff to #fff; always show the full six-digit form.
+const expandHex = (v) => (/^#[0-9a-f]{3}$/i.test(v) ? `#${[...v.slice(1)].map((c) => c + c).join('')}` : v);
+
 function useResolvedTokens(names) {
   const { theme } = useTheme();
   const [values, setValues] = useState({});
   useEffect(() => {
     const style = getComputedStyle(document.documentElement);
-    setValues(Object.fromEntries(names.map((n) => [n, style.getPropertyValue(`--${n}`).trim()])));
+    setValues(Object.fromEntries(names.map((n) => [n, expandHex(style.getPropertyValue(`--${n}`).trim())])));
   }, [theme, names]);
   return values;
 }

@@ -1,4 +1,4 @@
-import { MetricCard } from '@compass/ui';
+import { MetricCard } from '@larch/ui';
 
 export const title = 'Metric card';
 export const description = 'Trend text is green for up, red for down; plain meta stays grey.';

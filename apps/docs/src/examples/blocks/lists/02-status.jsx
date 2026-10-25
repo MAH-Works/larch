@@ -1,4 +1,4 @@
-import { Button, Icon, Panel, StatusList } from '@compass/ui';
+import { Button, Icon, Panel, StatusList } from '@larch/ui';
 
 export const title = 'Status list';
 export const layout = 'canvas';

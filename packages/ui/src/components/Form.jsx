@@ -1,9 +1,13 @@
 import { forwardRef } from 'react';
 
+// Shared look only. Height, padding and border state are added per control so each element carries
+// exactly one utility per property — nothing depends on which class Tailwind emits last.
 const CONTROL =
-  'h-[35px] w-full rounded-md border border-line-strong bg-surface px-[10px] text-xs text-ink outline-none transition placeholder:text-[#a0a5ad] focus:border-blue focus:shadow-[0_0_0_3px_var(--blue-soft)] disabled:cursor-not-allowed disabled:opacity-60';
+  'w-full rounded-md border bg-surface text-xs text-ink outline-hidden transition placeholder:text-[#a0a5ad] disabled:cursor-not-allowed disabled:opacity-60';
 
+const VALID = 'border-line-strong focus:border-blue focus:shadow-[0_0_0_3px_var(--blue-soft)]';
 const INVALID = 'border-red focus:border-red focus:shadow-[0_0_0_3px_var(--red-soft)]';
+const state = (invalid) => (invalid ? INVALID : VALID);
 
 /** Label + control + optional hint/error. Stacked Fields get a 12px gap. */
 export function Field({ label, id, hint, error, children, className = '' }) {
@@ -26,7 +30,7 @@ export const TextInput = forwardRef(function TextInput({ invalid, className = ''
       ref={ref}
       type={type}
       aria-invalid={invalid || undefined}
-      className={`${CONTROL} ${invalid ? INVALID : ''} ${className}`}
+      className={`${CONTROL} ${state(invalid)} h-[35px] px-[10px] ${className}`}
       {...props}
     />
   );
@@ -37,7 +41,7 @@ export const TextArea = forwardRef(function TextArea({ invalid, className = '', 
     <textarea
       ref={ref}
       aria-invalid={invalid || undefined}
-      className={`${CONTROL} h-[66px] resize-y px-[10px] py-[9px] ${invalid ? INVALID : ''} ${className}`}
+      className={`${CONTROL} ${state(invalid)} h-[66px] resize-y px-[10px] py-[9px] ${className}`}
       {...props}
     />
   );
@@ -46,7 +50,7 @@ export const TextArea = forwardRef(function TextArea({ invalid, className = '', 
 export const SelectInput = forwardRef(function SelectInput({ children, className = '', ...props }, ref) {
   return (
     <div className="relative">
-      <select ref={ref} className={`${CONTROL} appearance-none pr-[30px] ${className}`} {...props}>
+      <select ref={ref} className={`${CONTROL} ${VALID} h-[35px] appearance-none pl-[10px] pr-[30px] ${className}`} {...props}>
         {children}
       </select>
       <span className="pointer-events-none absolute right-[10px] top-[8px] text-[13px] text-[#8c929b]">⌄</span>

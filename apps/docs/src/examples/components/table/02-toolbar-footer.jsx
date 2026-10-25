@@ -11,7 +11,7 @@ import {
   Row,
   TableFooter,
   ToolbarTitle,
-} from '@compass/ui';
+} from '@larch/ui';
 
 export const title = 'With toolbar and footer';
 export const layout = 'canvas';

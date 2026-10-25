@@ -15,7 +15,7 @@ import {
   Row,
   ToolbarTitle,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 import { ACME_ACCOUNTS, ACME_METRICS } from '../data/workspace.js';
 
 export default function AcmeAccounts() {

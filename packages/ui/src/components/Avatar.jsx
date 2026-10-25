@@ -16,7 +16,7 @@ const SIZES = {
 export default function Avatar({ initials, tone = 'blue', size = 'sm', stacked = false, more = false, className = '' }) {
   const look = more
     ? 'bg-[#f0f1f3] text-[#7b8089] dark:bg-[#272d36] dark:text-[#aab2bd]'
-    : `bg-gradient-to-br text-white ${AVATAR_TONES[tone]}`;
+    : `bg-linear-to-br/srgb text-white ${AVATAR_TONES[tone]}`;
   const ring = stacked ? '-ml-[5px] border-2 border-surface first:ml-0' : '';
   return (
     <span className={`grid shrink-0 place-items-center rounded-full ${SIZES[size]} ${look} ${ring} ${className}`}>

@@ -40,7 +40,7 @@ export function Tabs({ tabs, value, defaultValue, onChange, className = '' }) {
               onClick={() => select(t.id)}
               className={`relative h-8 rounded-t-[5px] px-[10px] text-[11px] hover:text-ink ${
                 on
-                  ? 'font-semibold text-ink after:absolute after:inset-x-2 after:-bottom-px after:h-[2px] after:rounded-t-sm after:bg-blue after:content-[""]'
+                  ? 'font-semibold text-ink after:absolute after:inset-x-2 after:-bottom-px after:h-[2px] after:rounded-t-xs after:bg-blue'
                   : 'text-[#9298a1]'
               }`}
             >

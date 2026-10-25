@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Dialog, Field, Icon, SelectInput, TextInput, useToast } from '@compass/ui';
+import { Button, Dialog, Field, Icon, SelectInput, TextInput, useToast } from '@larch/ui';
 
 export const title = 'Quick create';
 

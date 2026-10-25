@@ -1,4 +1,4 @@
-import { ProgressBar } from '@compass/ui';
+import { ProgressBar } from '@larch/ui';
 
 export const title = 'Progress bar';
 export const layout = 'padded';

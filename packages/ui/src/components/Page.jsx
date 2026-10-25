@@ -23,7 +23,7 @@ export function PageHeading({ eyebrow, title, description, children }) {
         {description && <p className="mb-0 mt-[7px] text-[13px] text-muted">{description}</p>}
       </div>
       {children && (
-        <div className="flex items-center gap-2 mobile:w-full [&>*]:mobile:flex-1 [&>*]:mobile:justify-center">{children}</div>
+        <div className="flex items-center gap-2 mobile:w-full mobile:*:flex-1 mobile:*:justify-center">{children}</div>
       )}
     </div>
   );

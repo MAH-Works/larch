@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Badge, Button, Card, Icon, MetricGrid } from '@compass/ui';
+import { Badge, Button, Card, Icon, MetricGrid } from '@larch/ui';
 import { CodeBlock } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 import { BLOCKS, COMPONENTS, COMPONENT_GROUPS } from '../docs/registry.js';
 import { CRM_PAGES } from '../crm/routes.js';
 import { AUTH_PAGES } from '../auth/routes.js';
 
-const QUICK = `import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@compass/ui';
-import '@compass/ui/tokens.css';
+const QUICK = `/* src/index.css → @import 'tailwindcss'; @import '@larch/ui/theme.css'; */
+import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@larch/ui';
+import './index.css';
 
 export default function App() {
   return (
@@ -35,9 +36,9 @@ export default function Introduction() {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
       <DocHeader
-        eyebrow="Compass UI · v1.0"
+        eyebrow="Larch UI · v1.0"
         title="Quiet, dense interface primitives for client operations."
-        description="Compass UI is a React 18 + Tailwind CSS component library extracted from the Compass CRM. It ships primitives, composed blocks, design tokens with built-in dark mode, and complete example pages."
+        description="Larch UI is a React 18 + Tailwind CSS v4 component library extracted from the Compass CRM. It ships primitives, composed blocks, design tokens with built-in dark mode, and complete example pages."
       >
         <div className="mt-5 flex flex-wrap gap-2">
           <Button as={Link} to="/docs/installation" variant="primary">
@@ -73,7 +74,7 @@ export default function Introduction() {
       <Prose className="mt-10">
         <h2>Quick start</h2>
         <p>
-          Install the package, add the Tailwind preset and import the tokens once. The full setup — including the prebuilt CSS
+          Install the package, then import Tailwind and the Larch theme once in your CSS. The full setup — including the prebuilt CSS
           option for apps without Tailwind — is on the <Link to="/docs/installation">installation</Link> page.
         </p>
       </Prose>

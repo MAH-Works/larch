@@ -1,4 +1,4 @@
-import { Alert } from '@compass/ui';
+import { Alert } from '@larch/ui';
 import { C, CodeBlock } from '../docs/CodeBlock.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
 
@@ -7,54 +7,54 @@ const Code = ({ children }) => <CodeBlock className="my-4" code={children} />;
 export default function Installation() {
   return (
     <div className="mx-auto w-full max-w-[900px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
-      <DocHeader eyebrow="Getting started" title="Installation" description="Compass UI needs React 18+ and works best with Tailwind CSS 3. Apps without Tailwind can use the prebuilt stylesheet instead." />
+      <DocHeader eyebrow="Getting started" title="Installation" description="Larch UI needs React 18+ and is built for Tailwind CSS v4. Apps without Tailwind can use the prebuilt stylesheet instead." />
       <Prose>
         <h2>1. Install the package</h2>
         <p>Inside this monorepo the docs app already depends on it via <C>workspace:*</C>. In another project:</p>
       </Prose>
-      <Code>{`pnpm add @compass/ui
-# or: npm install @compass/ui`}</Code>
+      <Code>{`pnpm add @larch/ui
+# or: npm install @larch/ui`}</Code>
 
       <Prose>
-        <h2>2a. With Tailwind (recommended)</h2>
+        <h2>2a. With Tailwind CSS v4 (recommended)</h2>
         <p>
-          Add the preset — it registers the semantic colors (<C>bg-surface</C>, <C>text-ink</C>, <C>border-line</C>…), the
-          <C>narrow</C> / <C>tablet</C> / <C>mobile</C> max-width breakpoints, shadows and the <C>data-theme</C> dark-mode
-          selector. Include the package in <C>content</C> so its classes are generated.
+          Larch is configured in CSS — there is no <C>tailwind.config.js</C>. Add Tailwind's Vite plugin (or{' '}
+          <C>@tailwindcss/postcss</C> / <C>@tailwindcss/cli</C> for other setups):
         </p>
       </Prose>
-      <Code>{`// tailwind.config.js
-import compass from '@compass/ui/tailwind-preset';
+      <Code>{`pnpm add -D tailwindcss @tailwindcss/vite`}</Code>
+      <Code>{`// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
-export default {
-  presets: [compass],
-  content: [
-    './index.html',
-    './src/**/*.{js,jsx,ts,tsx}',
-    './node_modules/@compass/ui/dist/**/*.js',
-  ],
-};`}</Code>
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+});`}</Code>
       <Prose>
-        <p>Then import the tokens before Tailwind's layers:</p>
+        <p>
+          Then import Tailwind and the Larch theme in your stylesheet. <C>theme.css</C> registers the tokens, the semantic
+          colors (<C>bg-surface</C>, <C>text-ink</C>, <C>border-line</C>…) via <C>@theme</C>, the <C>narrow</C> /{' '}
+          <C>tablet</C> / <C>mobile</C> max-width variants and the <C>data-theme</C> dark variant via <C>@custom-variant</C>,
+          and an <C>@source</C> for the Larch components — so their classes are generated without any content globs.
+        </p>
       </Prose>
       <Code>{`/* src/index.css */
-@import '@compass/ui/tokens.css';
-@tailwind base;
-@tailwind components;
-@tailwind utilities;`}</Code>
+@import 'tailwindcss';
+@import '@larch/ui/theme.css';`}</Code>
 
       <Prose>
         <h2>2b. Without Tailwind</h2>
         <p>
           Import the prebuilt stylesheet. It contains the tokens, Tailwind's preflight and every utility the components use.
-          You can't use Compass utility classes in your own markup this way, but every component renders correctly.
+          You can't use Larch utility classes in your own markup this way, but every component renders correctly.
         </p>
       </Prose>
-      <Code>{`import '@compass/ui/styles.css';`}</Code>
+      <Code>{`import '@larch/ui/styles.css';`}</Code>
 
       <Prose>
         <h2>3. Fonts</h2>
-        <p>Compass is designed around Inter, with DM Mono for numerics. Load them however you like, e.g. from Google Fonts:</p>
+        <p>Larch is designed around Inter, with DM Mono for numerics. Load them however you like, e.g. from Google Fonts:</p>
       </Prose>
       <Code>{`<link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -67,7 +67,7 @@ export default {
           theme toggle). Both are optional — components that don't need them work without.
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, ToastProvider } from '@compass/ui';
+      <Code>{`import { ThemeProvider, ToastProvider } from '@larch/ui';
 
 createRoot(document.getElementById('root')).render(
   <ToastProvider>
@@ -86,7 +86,7 @@ createRoot(document.getElementById('root')).render(
       </Prose>
       <Code>{`import { forwardRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { AppShell, Button } from '@compass/ui';
+import { AppShell, Button } from '@larch/ui';
 
 const RouterLink = forwardRef(({ href, ...props }, ref) => <Link ref={ref} to={href} {...props} />);
 
@@ -103,7 +103,7 @@ function Layout({ children }) {
 
       <Alert tone="info" title="Building the package">
         Run <C>pnpm build:ui</C> at the repo root. Output lands in <C>packages/ui/dist</C>: ESM + CJS modules (one per component, so
-        bundlers tree-shake), the Tailwind preset, <C>tokens.css</C> and the prebuilt <C>styles.css</C>.
+        bundlers tree-shake), the Tailwind v4 <C>theme.css</C>, raw <C>tokens.css</C> and the prebuilt <C>styles.css</C>.
       </Alert>
     </div>
   );

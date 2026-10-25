@@ -1,4 +1,4 @@
-import { Badge, Button, Icon, PageHeading, Tabs } from '@compass/ui';
+import { Badge, Button, Icon, PageHeading, Tabs } from '@larch/ui';
 
 export const title = 'Record header with tabs';
 export const description = 'A detail page: status badges in the eyebrow row, actions on the right, tabs underneath.';

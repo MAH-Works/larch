@@ -1,4 +1,4 @@
-import { ProgressList } from '@compass/ui';
+import { ProgressList } from '@larch/ui';
 
 export const title = 'Progress rows';
 export const description = 'Label, bar and value in a fixed three-column grid — workload, pipeline stages, data health.';

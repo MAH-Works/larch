@@ -1,4 +1,4 @@
-import { MetricGrid } from '@compass/ui';
+import { MetricGrid } from '@larch/ui';
 
 export const title = 'KPI row';
 export const layout = 'canvas';

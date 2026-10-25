@@ -452,6 +452,7 @@ export const BLOCKS = [
         ['isActive', '(item) => boolean', 'href === activeHref', 'Custom matcher (e.g. prefix matching).'],
         ['linkComponent', 'ElementType', "'a'", 'Receives href, className, onClick, aria-current.'],
         ['brand / brandHref', 'ReactNode / string', '<Brand /> / "/"', 'Logo area.'],
+        ['Brand: name / suffix / mark', 'string / string / ReactNode', "'compass' / 'crm' / <BrandMark />", 'Wordmark text and logo for the default brand.'],
         ['footer', 'ReactNode', '', 'Pinned to the bottom, e.g. <SidebarStatus>.'],
       ],
       Topbar: [

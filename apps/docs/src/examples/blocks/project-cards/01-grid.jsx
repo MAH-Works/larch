@@ -1,4 +1,4 @@
-import { ProjectCard, ProjectGrid } from '@compass/ui';
+import { ProjectCard, ProjectGrid } from '@larch/ui';
 
 export const title = 'Project grid';
 export const layout = 'canvas';

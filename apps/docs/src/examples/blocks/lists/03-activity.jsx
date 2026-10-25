@@ -1,4 +1,4 @@
-import { ActivityList, Panel } from '@compass/ui';
+import { ActivityList, Panel } from '@larch/ui';
 
 export const title = 'Activity feed';
 export const layout = 'canvas';

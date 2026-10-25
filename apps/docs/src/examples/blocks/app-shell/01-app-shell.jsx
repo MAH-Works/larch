@@ -8,7 +8,7 @@ import {
   PageWrap,
   SidebarStatus,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 
 export const title = 'Application frame';
 export const description =

@@ -1,4 +1,4 @@
-import { Badge } from '@compass/ui';
+import { Badge } from '@larch/ui';
 
 export const title = 'Tags';
 export const description = 'Classification tags share the same pill shape.';

@@ -4,9 +4,16 @@ import Checkbox from '../components/Checkbox.jsx';
 import ClientMark from '../components/ClientMark.jsx';
 import { MoreButton } from '../components/Table.jsx';
 
-const TH = 'h-[41px] border-b border-line bg-head px-[14px] text-left text-[11px] font-medium text-label';
-const TD = 'h-[58px] border-b border-line px-[14px] align-middle text-xs font-medium text-body';
-const NUM = 'text-right';
+// Each cell gets exactly one padding / alignment / color utility, so no rule depends on CSS order.
+const HEAD = 'h-[41px] border-b border-line bg-head text-[11px] font-medium text-label';
+const TH = `${HEAD} px-[14px] text-left`;
+const TH_NUM = `${HEAD} px-[14px] text-right`;
+// v3 resolved the old `px-0` override to px-[14px] (arbitrary values were emitted last); kept for identical layout.
+const TH_ICON = `${HEAD} px-[14px] text-center`;
+const CELL = 'h-[58px] border-b border-line align-middle text-xs font-medium';
+const TD = `${CELL} px-[14px] text-body`;
+const TD_NUM = `${CELL} px-[14px] text-right text-[#535861] dark:text-[#c0c7d0]`;
+const TD_ICON = `${CELL} px-[14px] text-center text-body`;
 
 function SortHeader({ children, onClick }) {
   return (
@@ -42,9 +49,9 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
           [&_td+td]:border-l [&_td+td]:border-line-soft [&_th+th]:border-l [&_th+th]:border-line-soft
           [&_tbody_tr:last-child_td]:border-b-0"
       >
-        <thead className="sticky top-0 z-[1]">
+        <thead className="sticky top-0 z-1">
           <tr>
-            <th className={`${TH} w-[51px] px-0 text-center`}>
+            <th className={`${TH_ICON} w-[51px]`}>
               <Checkbox
                 aria-label="Select all rows"
                 checked={allChecked}
@@ -57,13 +64,13 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
             </th>
             <th className={`${TH} w-[14%]`}>Status</th>
             <th className={`${TH} w-[15%]`}>Tags</th>
-            <th className={`${TH} ${NUM} w-[9.5%]`}>
+            <th className={`${TH_NUM} w-[9.5%]`}>
               <SortHeader onClick={() => onSort?.('lastContact')}>Last contact</SortHeader>
             </th>
-            <th className={`${TH} ${NUM} w-[9.5%]`}>Projects</th>
-            <th className={`${TH} ${NUM} w-[9.5%]`}>Tasks</th>
-            <th className={`${TH} ${NUM} w-[9.5%]`}>Billing</th>
-            <th className={`${TH} w-[50px] px-0`}>
+            <th className={`${TH_NUM} w-[9.5%]`}>Projects</th>
+            <th className={`${TH_NUM} w-[9.5%]`}>Tasks</th>
+            <th className={`${TH_NUM} w-[9.5%]`}>Billing</th>
+            <th className={`${TH_ICON} w-[50px]`}>
               <span className="sr-only">Actions</span>
             </th>
           </tr>
@@ -73,7 +80,7 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
             const isSelected = selected.has(r.id);
             return (
               <tr key={r.id} className={isSelected ? 'bg-selected hover:bg-selected-hover' : 'hover:bg-row-hover'}>
-                <td className={`${TD} px-0 text-center`}>
+                <td className={TD_ICON}>
                   <Checkbox
                     aria-label={`Select ${r.name}`}
                     checked={isSelected}
@@ -102,10 +109,10 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
                 <td className={TD}>
                   <AvatarStack avatars={r.avatars} className="justify-end" />
                 </td>
-                <td className={`${TD} ${NUM} text-[#535861] dark:text-[#c0c7d0]`}>{r.projects}</td>
-                <td className={`${TD} ${NUM} text-[#535861] dark:text-[#c0c7d0]`}>{r.tasks}</td>
-                <td className={`${TD} ${NUM} text-[#535861] dark:text-[#c0c7d0]`}>{r.billing}</td>
-                <td className={`${TD} px-0 text-center`}>
+                <td className={TD_NUM}>{r.projects}</td>
+                <td className={TD_NUM}>{r.tasks}</td>
+                <td className={TD_NUM}>{r.billing}</td>
+                <td className={TD_ICON}>
                   <MoreButton label={`More actions for ${r.name}`} onClick={() => onRowAction?.(r)} />
                 </td>
               </tr>

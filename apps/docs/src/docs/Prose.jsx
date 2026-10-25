@@ -5,7 +5,7 @@ export function Prose({ children, className = '' }) {
   return (
     <div
       className={`max-w-[760px] text-[13.5px] leading-[1.7] text-body
-        [&_a]:font-medium [&_a]:text-blue [&_a]:no-underline hover:[&_a]:underline
+        [&_a]:font-medium [&_a]:text-blue [&_a]:no-underline [&_a]:hover:underline
         [&_h2]:mb-3 [&_h2]:mt-10 [&_h2]:scroll-mt-24 [&_h2]:text-lg [&_h2]:font-[650] [&_h2]:tracking-[-.03em] [&_h2]:text-ink [&>h2:first-child]:mt-0
         [&_h3]:mb-2 [&_h3]:mt-7 [&_h3]:text-[14px] [&_h3]:font-[650] [&_h3]:text-ink
         [&_li]:my-1 [&_ol]:pl-5 [&_p]:my-3 [&_strong]:font-semibold [&_strong]:text-strong [&_ul]:pl-5

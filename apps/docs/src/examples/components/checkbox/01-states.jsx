@@ -1,4 +1,4 @@
-import { Checkbox } from '@compass/ui';
+import { Checkbox } from '@larch/ui';
 
 export const title = 'States';
 

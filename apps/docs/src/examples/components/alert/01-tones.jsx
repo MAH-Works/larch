@@ -1,4 +1,4 @@
-import { Alert } from '@compass/ui';
+import { Alert } from '@larch/ui';
 
 export const title = 'Tones';
 export const layout = 'padded';

@@ -1,4 +1,4 @@
-import { ClientMark } from '@compass/ui';
+import { ClientMark } from '@larch/ui';
 
 export const title = 'Tones';
 

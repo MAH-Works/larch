@@ -1,4 +1,4 @@
-import { Avatar, Badge, Cell, CellTitle, DirectoryCard, DirectoryTable, MoreButton, Row } from '@compass/ui';
+import { Avatar, Badge, Cell, CellTitle, DirectoryCard, DirectoryTable, MoreButton, Row } from '@larch/ui';
 
 export const title = 'Basic table';
 export const description = 'Headers are an array; rows are composed from Row and Cell. CellTitle handles the avatar + two-line pattern.';

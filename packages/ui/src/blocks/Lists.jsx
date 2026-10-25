@@ -20,7 +20,7 @@ export function AccountItem({ name, mark = 'sky', meta, badge, value }) {
   );
 }
 
-/** @deprecated Original Compass name — use AccountItem. */
+/** @deprecated Original compass-react name — use AccountItem. */
 export const RenewalItem = AccountItem;
 
 /** Title + meta on the left, status badge on the right (saved reports, documents). */

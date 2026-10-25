@@ -1,4 +1,4 @@
-import { Switch } from '@compass/ui';
+import { Switch } from '@larch/ui';
 
 export const title = 'Settings list';
 export const layout = 'padded';

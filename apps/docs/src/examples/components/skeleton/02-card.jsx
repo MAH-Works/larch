@@ -1,4 +1,4 @@
-import { Card, Skeleton } from '@compass/ui';
+import { Card, Skeleton } from '@larch/ui';
 
 export const title = 'Loading metric cards';
 export const layout = 'canvas';

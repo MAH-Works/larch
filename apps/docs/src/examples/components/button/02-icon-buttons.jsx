@@ -1,4 +1,4 @@
-import { Button, Icon } from '@compass/ui';
+import { Button, Icon } from '@larch/ui';
 
 export const title = 'Icon buttons';
 export const description = 'The `icon` variant is a 36px square for topbars and toolbars. Icon-only buttons always need an aria-label.';

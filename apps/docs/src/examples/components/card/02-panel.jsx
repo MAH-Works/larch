@@ -1,4 +1,4 @@
-import { Panel, PanelLink, PanelSelect, ProgressList } from '@compass/ui';
+import { Panel, PanelLink, PanelSelect, ProgressList } from '@larch/ui';
 
 export const title = 'Panel';
 export const description = 'Title, subtitle and a header action — a PanelSelect, a PanelLink or a ghost button.';

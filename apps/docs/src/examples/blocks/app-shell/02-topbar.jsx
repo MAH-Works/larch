@@ -1,4 +1,4 @@
-import { Topbar, useToast } from '@compass/ui';
+import { Topbar, useToast } from '@larch/ui';
 
 export const title = 'Topbar on its own';
 export const description = 'Every control is optional: omit `onSearch`, `createLabel` or `onNotifications` to hide it.';

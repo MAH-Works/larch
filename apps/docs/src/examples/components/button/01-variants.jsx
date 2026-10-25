@@ -1,4 +1,4 @@
-import { Button, Icon } from '@compass/ui';
+import { Button, Icon } from '@larch/ui';
 
 export const title = 'Variants';
 export const description = 'Outline is the default. Use primary once per view, ghost inside toolbars, and danger for destructive confirmations.';

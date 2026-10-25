@@ -42,7 +42,7 @@ import {
   Tooltip,
   useSelection,
   useToast,
-} from '@compass/ui';
+} from '@larch/ui';
 import { CLIENTS } from '../data/clients.js';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, PROJECT_CARDS, WORKLOAD } from '../data/workspace.js';
 
@@ -92,7 +92,7 @@ export default function DesignSystem() {
     <PageWrap max="max-w-[1240px]">
       <PageHeading
         eyebrow="Reference / v1.0"
-        title="Compass design system"
+        title="Larch design system"
         description="Quiet, dense interface primitives for client operations."
       >
         <Button as={Link} to="/examples/crm/clients" variant="primary">

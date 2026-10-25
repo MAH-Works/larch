@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch } from '@compass/ui';
+import { Switch } from '@larch/ui';
 
 export const title = 'Controlled';
 export const layout = 'padded';

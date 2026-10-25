@@ -1,4 +1,4 @@
-import { Button, Icon, Tooltip } from '@compass/ui';
+import { Button, Icon, Tooltip } from '@larch/ui';
 
 export const title = 'Hover or focus';
 

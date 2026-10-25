@@ -1,4 +1,4 @@
-import { Skeleton } from '@compass/ui';
+import { Skeleton } from '@larch/ui';
 
 export const title = 'Text lines';
 export const layout = 'padded';

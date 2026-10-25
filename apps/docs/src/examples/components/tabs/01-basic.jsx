@@ -1,4 +1,4 @@
-import { Tabs } from '@compass/ui';
+import { Tabs } from '@larch/ui';
 
 export const title = 'Basic';
 export const description = 'Arrow keys move between tabs.';

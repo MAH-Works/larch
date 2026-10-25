@@ -13,7 +13,7 @@ import {
   Row,
   TableFooter,
   ToolbarDivider,
-} from '@compass/ui';
+} from '@larch/ui';
 
 export const title = 'Contacts directory';
 export const layout = 'canvas';

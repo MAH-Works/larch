@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Icon } from '@compass/ui';
+import { Icon } from '@larch/ui';
 import { CodeBlock } from './CodeBlock.jsx';
 import { Example } from './Example.jsx';
 import { PropsTable } from './PropsTable.jsx';
@@ -8,8 +8,8 @@ import { examplesFor } from './registry.js';
 
 const importLine = (names) =>
   names.length > 4
-    ? `import {\n${names.map((n) => `  ${n},`).join('\n')}\n} from '@compass/ui';`
-    : `import { ${names.join(', ')} } from '@compass/ui';`;
+    ? `import {\n${names.map((n) => `  ${n},`).join('\n')}\n} from '@larch/ui';`
+    : `import { ${names.join(', ')} } from '@larch/ui';`;
 
 /** Shared template for a component or block page: header, import, examples, API, prev/next. */
 export function EntryPage({ kind, entry, prev, next }) {
@@ -24,7 +24,7 @@ export function EntryPage({ kind, entry, prev, next }) {
         <CodeBlock className="mb-10" code={importLine(entry.imports)} />
 
         {examples.map((ex) => (
-          <Example key={ex.id} {...ex} previewUrl={`/preview/${kind}/${entry.slug}/${ex.id}`} />
+          <Example key={ex.id} {...ex} previewUrl={`${import.meta.env.BASE_URL}preview/${kind}/${entry.slug}/${ex.id}`} />
         ))}
 
         {entry.props && (

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, EmptyState, PageWrap } from '@compass/ui';
+import { Button, EmptyState, PageWrap } from '@larch/ui';
 
 export default function NotFound() {
   return (
@@ -7,7 +7,7 @@ export default function NotFound() {
       <EmptyState
         icon="search"
         title="Page not found"
-        description="That page doesn't exist in the Compass docs."
+        description="That page doesn't exist in the Larch docs."
         action={
           <Button as={Link} to="/" variant="primary">
             Back to introduction

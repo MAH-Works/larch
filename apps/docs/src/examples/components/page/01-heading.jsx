@@ -1,4 +1,4 @@
-import { Button, Icon, PageHeading } from '@compass/ui';
+import { Button, Icon, PageHeading } from '@larch/ui';
 
 export const title = 'Page heading';
 export const description = 'Actions sit right on desktop and go full width on mobile. Wrap the page in PageWrap for the standard gutters.';

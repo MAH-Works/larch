@@ -8,7 +8,7 @@ export function ActivityList({ items }) {
         const last = i === items.length - 1;
         return (
           <li key={i} className={`relative flex gap-3 ${last ? '' : 'pb-[17px]'}`}>
-            <span className="z-[1] grid size-[25px] shrink-0 place-items-center rounded-full bg-blue-soft text-blue">
+            <span className="z-1 grid size-[25px] shrink-0 place-items-center rounded-full bg-blue-soft text-blue">
               <Icon name={a.icon} size="xs" />
             </span>
             {!last && <span aria-hidden="true" className="absolute bottom-0 left-3 top-[27px] w-px bg-line" />}

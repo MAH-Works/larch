@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Button, Icon, useTheme } from '@compass/ui';
+import { Button, Icon, useTheme } from '@larch/ui';
 import { C, CodeBlock } from '../docs/CodeBlock.jsx';
 import { PropsTable } from '../docs/PropsTable.jsx';
 import { DocHeader, Prose } from '../docs/Prose.jsx';
@@ -25,8 +25,9 @@ export default function Theming() {
       <Prose>
         <h2>How it works</h2>
         <p>
-          The Tailwind preset maps names like <C>surface</C>, <C>ink</C> and <C>line</C> to <C>var(--surface)</C>,
-          <C>var(--ink)</C>… and sets <C>darkMode: ['selector', '[data-theme="dark"]']</C>. So <C>bg-surface</C> re-themes
+          <C>theme.css</C> maps names like <C>surface</C>, <C>ink</C> and <C>line</C> to <C>var(--surface)</C>,
+          <C>var(--ink)</C>… with <C>@theme inline</C>, and declares{' '}
+          <C>{"@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *))"}</C>. So <C>bg-surface</C> re-themes
           itself, and the few hand-tuned hues (badges, alerts) use explicit <C>dark:</C> variants.
         </p>
 
@@ -36,7 +37,7 @@ export default function Theming() {
           choice in <C>localStorage</C>.
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, useTheme, useToast } from '@compass/ui';
+      <Code>{`import { ThemeProvider, useTheme, useToast } from '@larch/ui';
 
 function Root() {
   const { showToast } = useToast();
@@ -54,7 +55,7 @@ function ThemeButton() {
       <PropsTable
         name="ThemeProvider"
         props={[
-          ['storageKey', 'string', "'compass-theme'", 'localStorage key for the explicit choice.'],
+          ['storageKey', 'string', "'larch-theme'", 'localStorage key for the explicit choice.'],
           ['defaultTheme', "'light' | 'dark'", 'OS preference', 'Used when nothing is stored.'],
           ['onChange', '(theme) => void', '', 'Fires on explicit changes (not OS changes).'],
         ]}
@@ -79,7 +80,7 @@ function ThemeButton() {
       <Code>{`<script>
   try {
     document.documentElement.dataset.theme =
-      localStorage.getItem('compass-theme') ||
+      localStorage.getItem('larch-theme') ||
       (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
   } catch (e) {
     document.documentElement.dataset.theme = 'light';
@@ -89,7 +90,7 @@ function ThemeButton() {
       <Prose>
         <h2>Customising the palette</h2>
         <p>
-          Override any token after importing <C>tokens.css</C>. For example, a green accent instead of blue:
+          Override any token after importing <C>theme.css</C> (or <C>tokens.css</C>). For example, a green accent instead of blue:
         </p>
       </Prose>
       <Code>{`:root {

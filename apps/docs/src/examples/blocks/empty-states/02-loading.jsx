@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Card, MetricGrid, Skeleton } from '@compass/ui';
+import { Button, Card, MetricGrid, Skeleton } from '@larch/ui';
 
 export const title = 'Loading → loaded';
 export const description = 'Skeletons keep the layout stable while data loads.';

@@ -1,4 +1,4 @@
-import { HealthChart, Panel, PanelSelect } from '@compass/ui';
+import { HealthChart, Panel, PanelSelect } from '@larch/ui';
 
 export const title = 'Category bars';
 export const layout = 'canvas';

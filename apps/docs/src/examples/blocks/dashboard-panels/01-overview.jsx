@@ -7,7 +7,7 @@ import {
   PanelLink,
   PanelSelect,
   ProgressList,
-} from '@compass/ui';
+} from '@larch/ui';
 
 export const title = 'Overview panels';
 export const description = 'Two PanelGrids stacked: chart + renewals, then activity + workload.';

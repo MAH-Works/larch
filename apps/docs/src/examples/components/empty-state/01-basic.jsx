@@ -1,4 +1,4 @@
-import { EmptyState } from '@compass/ui';
+import { EmptyState } from '@larch/ui';
 
 export const title = 'Basic';
 export const layout = 'padded';
