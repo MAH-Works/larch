@@ -130,6 +130,23 @@ components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProp
 `Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
 use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
 
+## What's new in 2.3
+
+- **Composable topbar:** `TopbarRoot` (the bar), `TopbarMenuButton`, `TopbarTitle`, `TopbarSpacer`,
+  `TopbarSearch`, `TopbarThemeToggle` and `TopbarCreateButton`. Arrange them however you like inside
+  `TopbarRoot`, so app-specific header changes don't need a Larch release. `Topbar` is now built from
+  these parts and works as before; its `icon` also accepts `null` to show no icon.
+
+```tsx
+<TopbarRoot tone="dark">
+  <TopbarMenuButton onClick={openDrawer} />
+  <TopbarTitle>{pageTitle}</TopbarTitle>
+  <TopbarSpacer />
+  <TopbarSearch placeholder="Search" onSearch={search} />
+  <TopbarThemeToggle />
+</TopbarRoot>
+```
+
 ## What's new in 2.2
 
 - **`Topbar` `leading` slot:** controls before the breadcrumb, e.g. a sidebar collapse toggle:

@@ -98,8 +98,17 @@ export { AppShell } from './blocks/AppShell.js';
 export type { AppShellProps } from './blocks/AppShell.js';
 export { Sidebar, SidebarNav, SidebarStatus } from './blocks/Sidebar.js';
 export type { SidebarItem, SidebarNavProps, SidebarProps } from './blocks/Sidebar.js';
-export { Topbar } from './blocks/Topbar.js';
-export type { TopbarProps } from './blocks/Topbar.js';
+export {
+  Topbar,
+  TopbarRoot,
+  TopbarMenuButton,
+  TopbarTitle,
+  TopbarSpacer,
+  TopbarSearch,
+  TopbarThemeToggle,
+  TopbarCreateButton,
+} from './blocks/Topbar.js';
+export type { TopbarProps, TopbarRootProps, TopbarTitleProps, TopbarSearchProps } from './blocks/Topbar.js';
 export { Brand, BrandMark } from './blocks/BrandMark.js';
 export { ClientsTable } from './blocks/ClientsTable.js';
 export type { ClientId, ClientRow, ClientsTableProps } from './blocks/ClientsTable.js';
