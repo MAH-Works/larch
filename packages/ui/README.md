@@ -1,6 +1,6 @@
 # @mah-works/larch
 
-Base UI, themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).
+Base UI, themed for quiet, dense client-operations dashboards (React 19 + Tailwind CSS v4, TypeScript).
 
 Every [Base UI](https://base-ui.com/react/overview/introduction) component keeps its name, parts and
 props; Larch supplies the styles. Copy an example from the Base UI docs, change the import, done.
@@ -16,7 +16,7 @@ Larch is published to GitHub Packages. Point the `@mah-works` scope at it in you
 ```
 
 ```bash
-pnpm add @mah-works/larch @base-ui/react   # peers: @base-ui/react ^1.9, react >= 18, react-dom >= 18
+pnpm add @mah-works/larch @base-ui/react   # peers: @base-ui/react ^1.9, react >= 19, react-dom >= 19
 ```
 
 ### With Tailwind CSS v4 (recommended)
@@ -47,7 +47,7 @@ Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
 
 ## Use
 
-```jsx
+```tsx
 - import { Dialog } from '@base-ui/react/dialog';
 + import { Dialog } from '@mah-works/larch/dialog';   // or from '@mah-works/larch'
 
@@ -101,10 +101,19 @@ AccountItem, StatusList, PanelLink, Toaster
 **Theme, tokens & hooks** — ThemeProvider, useTheme, themeScript, useSelection, useHotkey, useDismiss,
 BUTTON_VARIANTS, AVATAR_TONES, AVATAR_SIZES, PROGRESS_TONES
 
+## TypeScript
+
+Larch ships declarations. Every styled part keeps Base UI's prop types (ref included) plus Larch's
+visual props, so `<Button variant="nope">` or `<Avatar.Root tone="pink">` fail to compile. Larch's own
+components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProps`…).
+
+`Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
+use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
+
 ## Migrating from 1.x
 
-2.0 replaces Larch's hand-rolled Dialog, Dropdown, Tabs, Tooltip, Checkbox, CheckRow, Switch, Field,
-TextInput, SelectInput, ProgressBar, Avatar, Divider/ToolbarDivider and ToastProvider/useToast with Base
+2.0 requires React 19 and is written in TypeScript. It replaces Larch's hand-rolled Dialog, Dropdown,
+Tabs, Tooltip, Checkbox, CheckRow, Switch, Field, TextInput, SelectInput, ProgressBar, Avatar, Divider/ToolbarDivider and ToastProvider/useToast with Base
 UI components. See the "Base UI & styling" guide in the docs for a 1.x → 2.0 table.
 
 Original compass-react names `WorkloadRow` and `RenewalItem` remain as aliases of `ProgressRow` and

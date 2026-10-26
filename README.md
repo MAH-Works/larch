@@ -1,7 +1,7 @@
 # Larch UI
 
 A design system built on [Base UI](https://base-ui.com): Base UI's components, parts and APIs, styled
-with Larch's tokens and Tailwind CSS v4 for quiet, dense client-operations dashboards. It also ships
+with Larch's tokens and Tailwind CSS v4, written in TypeScript for React 19, for quiet, dense client-operations dashboards. It also ships
 Larch-only components, composed blocks, design tokens with built-in dark mode, a documentation site
 with live examples, and complete example apps.
 
@@ -19,7 +19,7 @@ pnpm build:ui     # library only → packages/ui/dist
 ```
 packages/ui/                 @mah-works/larch — the library
   src/base-ui/                one module per Base UI component, named after its @base-ui/react entry
-                             (dialog.js, select.jsx…); styled.js wraps parts, classes.js holds shared looks
+                             (dialog.ts, select.tsx…); styled.ts wraps parts, classes.ts holds shared looks
   src/components/            Larch-only components: Badge, Card/Panel, MetricCard, ProgressRow, Alert,
                              Table, Page, Icon, AvatarStack…
   src/blocks/                composed sections: AppShell, Sidebar, Topbar, ClientsTable,
@@ -57,9 +57,9 @@ The docs alias `@mah-works/larch` (and `@mah-works/larch/<component>`) to the li
 
 ### Adding an example
 
-Drop a file in `apps/docs/src/examples/<components|blocks>/<slug>/NN-name.jsx`:
+Drop a file in `apps/docs/src/examples/<components|blocks>/<slug>/NN-name.tsx`:
 
-```jsx
+```tsx
 import { Button } from '@mah-works/larch/button'; // Base UI components: mirror the @base-ui/react subpath
 
 export const title = 'Sizes';
@@ -72,7 +72,7 @@ export default function Sizes() {
 ```
 
 The page picks it up automatically (ordered by `NN-`). The `Code` tab shows the file minus the
-metadata exports. A new component or block also needs an entry in `src/docs/registry.js`.
+metadata exports. A new component or block also needs an entry in `src/docs/registry.ts`.
 
 ## Using the library in another app
 

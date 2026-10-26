@@ -8,7 +8,8 @@
     "build": "pnpm --filter @mah-works/larch build && pnpm --filter @larch/docs build",
     "build:ui": "pnpm --filter @mah-works/larch build",
     "build:docs": "pnpm --filter @larch/docs build",
-    "preview": "pnpm --filter @larch/docs preview"
+    "preview": "pnpm --filter @larch/docs preview",
+    "typecheck": "pnpm -r typecheck"
   },
   "packageManager": "pnpm@12.15.0"
 }

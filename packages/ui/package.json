@@ -17,160 +17,200 @@
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
     "./accordion": {
+      "types": "./dist/base-ui/accordion.d.ts",
       "import": "./dist/base-ui/accordion.js",
       "require": "./dist/base-ui/accordion.cjs"
     },
     "./alert-dialog": {
+      "types": "./dist/base-ui/alert-dialog.d.ts",
       "import": "./dist/base-ui/alert-dialog.js",
       "require": "./dist/base-ui/alert-dialog.cjs"
     },
     "./autocomplete": {
+      "types": "./dist/base-ui/autocomplete.d.ts",
       "import": "./dist/base-ui/autocomplete.js",
       "require": "./dist/base-ui/autocomplete.cjs"
     },
     "./avatar": {
+      "types": "./dist/base-ui/avatar.d.ts",
       "import": "./dist/base-ui/avatar.js",
       "require": "./dist/base-ui/avatar.cjs"
     },
     "./button": {
+      "types": "./dist/base-ui/button.d.ts",
       "import": "./dist/base-ui/button.js",
       "require": "./dist/base-ui/button.cjs"
     },
     "./checkbox": {
+      "types": "./dist/base-ui/checkbox.d.ts",
       "import": "./dist/base-ui/checkbox.js",
       "require": "./dist/base-ui/checkbox.cjs"
     },
     "./checkbox-group": {
+      "types": "./dist/base-ui/checkbox-group.d.ts",
       "import": "./dist/base-ui/checkbox-group.js",
       "require": "./dist/base-ui/checkbox-group.cjs"
     },
     "./collapsible": {
+      "types": "./dist/base-ui/collapsible.d.ts",
       "import": "./dist/base-ui/collapsible.js",
       "require": "./dist/base-ui/collapsible.cjs"
     },
     "./combobox": {
+      "types": "./dist/base-ui/combobox.d.ts",
       "import": "./dist/base-ui/combobox.js",
       "require": "./dist/base-ui/combobox.cjs"
     },
     "./context-menu": {
+      "types": "./dist/base-ui/context-menu.d.ts",
       "import": "./dist/base-ui/context-menu.js",
       "require": "./dist/base-ui/context-menu.cjs"
     },
     "./dialog": {
+      "types": "./dist/base-ui/dialog.d.ts",
       "import": "./dist/base-ui/dialog.js",
       "require": "./dist/base-ui/dialog.cjs"
     },
     "./drawer": {
+      "types": "./dist/base-ui/drawer.d.ts",
       "import": "./dist/base-ui/drawer.js",
       "require": "./dist/base-ui/drawer.cjs"
     },
     "./field": {
+      "types": "./dist/base-ui/field.d.ts",
       "import": "./dist/base-ui/field.js",
       "require": "./dist/base-ui/field.cjs"
     },
     "./fieldset": {
+      "types": "./dist/base-ui/fieldset.d.ts",
       "import": "./dist/base-ui/fieldset.js",
       "require": "./dist/base-ui/fieldset.cjs"
     },
     "./form": {
+      "types": "./dist/base-ui/form.d.ts",
       "import": "./dist/base-ui/form.js",
       "require": "./dist/base-ui/form.cjs"
     },
     "./input": {
+      "types": "./dist/base-ui/input.d.ts",
       "import": "./dist/base-ui/input.js",
       "require": "./dist/base-ui/input.cjs"
     },
     "./menu": {
+      "types": "./dist/base-ui/menu.d.ts",
       "import": "./dist/base-ui/menu.js",
       "require": "./dist/base-ui/menu.cjs"
     },
     "./menubar": {
+      "types": "./dist/base-ui/menubar.d.ts",
       "import": "./dist/base-ui/menubar.js",
       "require": "./dist/base-ui/menubar.cjs"
     },
     "./meter": {
+      "types": "./dist/base-ui/meter.d.ts",
       "import": "./dist/base-ui/meter.js",
       "require": "./dist/base-ui/meter.cjs"
     },
     "./navigation-menu": {
+      "types": "./dist/base-ui/navigation-menu.d.ts",
       "import": "./dist/base-ui/navigation-menu.js",
       "require": "./dist/base-ui/navigation-menu.cjs"
     },
     "./number-field": {
+      "types": "./dist/base-ui/number-field.d.ts",
       "import": "./dist/base-ui/number-field.js",
       "require": "./dist/base-ui/number-field.cjs"
     },
     "./otp-field": {
+      "types": "./dist/base-ui/otp-field.d.ts",
       "import": "./dist/base-ui/otp-field.js",
       "require": "./dist/base-ui/otp-field.cjs"
     },
     "./popover": {
+      "types": "./dist/base-ui/popover.d.ts",
       "import": "./dist/base-ui/popover.js",
       "require": "./dist/base-ui/popover.cjs"
     },
     "./preview-card": {
+      "types": "./dist/base-ui/preview-card.d.ts",
       "import": "./dist/base-ui/preview-card.js",
       "require": "./dist/base-ui/preview-card.cjs"
     },
     "./progress": {
+      "types": "./dist/base-ui/progress.d.ts",
       "import": "./dist/base-ui/progress.js",
       "require": "./dist/base-ui/progress.cjs"
     },
     "./radio": {
+      "types": "./dist/base-ui/radio.d.ts",
       "import": "./dist/base-ui/radio.js",
       "require": "./dist/base-ui/radio.cjs"
     },
     "./radio-group": {
+      "types": "./dist/base-ui/radio-group.d.ts",
       "import": "./dist/base-ui/radio-group.js",
       "require": "./dist/base-ui/radio-group.cjs"
     },
     "./scroll-area": {
+      "types": "./dist/base-ui/scroll-area.d.ts",
       "import": "./dist/base-ui/scroll-area.js",
       "require": "./dist/base-ui/scroll-area.cjs"
     },
     "./select": {
+      "types": "./dist/base-ui/select.d.ts",
       "import": "./dist/base-ui/select.js",
       "require": "./dist/base-ui/select.cjs"
     },
     "./separator": {
+      "types": "./dist/base-ui/separator.d.ts",
       "import": "./dist/base-ui/separator.js",
       "require": "./dist/base-ui/separator.cjs"
     },
     "./slider": {
+      "types": "./dist/base-ui/slider.d.ts",
       "import": "./dist/base-ui/slider.js",
       "require": "./dist/base-ui/slider.cjs"
     },
     "./switch": {
+      "types": "./dist/base-ui/switch.d.ts",
       "import": "./dist/base-ui/switch.js",
       "require": "./dist/base-ui/switch.cjs"
     },
     "./tabs": {
+      "types": "./dist/base-ui/tabs.d.ts",
       "import": "./dist/base-ui/tabs.js",
       "require": "./dist/base-ui/tabs.cjs"
     },
     "./toast": {
+      "types": "./dist/base-ui/toast.d.ts",
       "import": "./dist/base-ui/toast.js",
       "require": "./dist/base-ui/toast.cjs"
     },
     "./toggle": {
+      "types": "./dist/base-ui/toggle.d.ts",
       "import": "./dist/base-ui/toggle.js",
       "require": "./dist/base-ui/toggle.cjs"
     },
     "./toggle-group": {
+      "types": "./dist/base-ui/toggle-group.d.ts",
       "import": "./dist/base-ui/toggle-group.js",
       "require": "./dist/base-ui/toggle-group.cjs"
     },
     "./toolbar": {
+      "types": "./dist/base-ui/toolbar.d.ts",
       "import": "./dist/base-ui/toolbar.js",
       "require": "./dist/base-ui/toolbar.cjs"
     },
     "./tooltip": {
+      "types": "./dist/base-ui/tooltip.d.ts",
       "import": "./dist/base-ui/tooltip.js",
       "require": "./dist/base-ui/tooltip.cjs"
     },
@@ -183,25 +223,29 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build && node scripts/copy-assets.js && tailwindcss -i src/styles.css -o dist/styles.css --minify",
-    "dev": "vite build --watch"
+    "build": "vite build && tsc -p tsconfig.build.json && node scripts/copy-assets.js && tailwindcss -i src/styles.css -o dist/styles.css --minify",
+    "dev": "vite build --watch",
+    "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
     "tailwind-merge": "^3.7.0"
   },
   "peerDependencies": {
     "@base-ui/react": "^1.9.0",
-    "react": ">=18",
-    "react-dom": ">=18",
+    "react": ">=19",
+    "react-dom": ">=19",
     "tailwindcss": ">=4"
   },
   "devDependencies": {
     "@base-ui/react": "1.9.0",
     "@tailwindcss/cli": "4.3.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "tailwindcss": "4.3.3",
+    "typescript": "^7.0.2",
     "vite": "^5.4.11"
   },
   "peerDependenciesMeta": {
