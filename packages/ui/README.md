@@ -132,6 +132,10 @@ use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dia
 
 ## What's new in 2.1
 
+- **2.1.1:** `ThemeProvider` no longer causes a hydration mismatch in SSR apps when the stored or OS
+  theme is dark. It renders the fallback theme (`defaultTheme`, else light) on the server and on the
+  first client render, then switches to the real theme before paint.
+
 - **RSC-ready build:** every module carries `'use client'`; `themeScript` is also at
   `@mah-works/larch/theme-script` (no `'use client'`).
 - **Dark sections:** dark tokens apply to any `[data-theme='dark']` element, not only `<html>`.

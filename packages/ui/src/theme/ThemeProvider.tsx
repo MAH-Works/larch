@@ -1,4 +1,4 @@
-import { createContext, use, useCallback, useEffect, useState, type ReactNode } from 'react';
+import { createContext, use, useCallback, useEffect, useLayoutEffect, useState, type ReactNode } from 'react';
 
 export type Theme = 'light' | 'dark';
 
@@ -41,13 +41,22 @@ export interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, storageKey = 'larch-theme', defaultTheme, onChange }: ThemeProviderProps) {
-  const [theme, setThemeState] = useState<Theme>(
-    () => readStored(storageKey) || defaultTheme || (systemPrefersDark() ? 'dark' : 'light'),
-  );
+  // The server can't see localStorage or the OS preference, so the first render (server and hydration)
+  // uses the fallback theme and the real one is resolved after mount. That keeps SSR markup and the
+  // hydrating client identical; <html data-theme> is already correct from themeScript, so nothing flashes.
+  const fallback = defaultTheme || 'light';
+  const [resolved, setThemeState] = useState<Theme | null>(null);
+  const theme = resolved ?? fallback;
+
+  // Layout effect: re-render with the real theme before the browser paints.
+  useLayoutEffect(() => {
+    setThemeState(readStored(storageKey) || defaultTheme || (systemPrefersDark() ? 'dark' : 'light'));
+  }, [storageKey, defaultTheme]);
 
   useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-  }, [theme]);
+    // Don't overwrite the attribute set by themeScript before the real theme is known.
+    if (resolved) document.documentElement.dataset.theme = resolved;
+  }, [resolved]);
 
   useEffect(() => {
     const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
