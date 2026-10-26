@@ -6,7 +6,7 @@ export const title = 'Streaming output';
 export const description = 'Opens when the first output arrives; a non-zero exit code marks it failed.';
 export const layout = 'padded';
 
-const LINES = ['> larch@2.1.0 build', 'vite v5.4.21 building for production...', '✓ 412 modules transformed.', 'dist/index.js  6.20 kB', '✓ built in 1.84s'];
+const LINES = ['> larch@2.4.0 build', 'vite v5.4.21 building for production...', '✓ 412 modules transformed.', 'dist/index.js  6.20 kB', '✓ built in 1.84s'];
 
 export default function Streaming() {
   const [n, setN] = useState(LINES.length);

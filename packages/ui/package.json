@@ -1,6 +1,6 @@
 {
   "name": "@mah-works/larch",
-  "version": "2.1.0",
+  "version": "2.4.0",
   "description": "Larch — Base UI components themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).",
   "type": "module",
   "license": "MIT",
