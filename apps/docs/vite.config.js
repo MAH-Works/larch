@@ -13,6 +13,9 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: /^@mah-works\/larch\/(theme|tokens)\.css$/, replacement: `${ui}/$1.css` },
+      // AI Elements: the barrel and its modules (markdown, highlight, trace…).
+      { find: /^@mah-works\/larch\/ai$/, replacement: `${ui}/ai/index.ts` },
+      { find: /^@mah-works\/larch\/ai\/([a-z-]+)$/, replacement: `${ui}/ai/$1` },
       // `@mah-works/larch/dialog` etc. mirror `@base-ui/react/dialog`.
       { find: /^@mah-works\/larch\/([a-z-]+)$/, replacement: `${ui}/base-ui/$1` },
       { find: /^@mah-works\/larch$/, replacement: `${ui}/index.ts` },

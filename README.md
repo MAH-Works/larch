@@ -20,6 +20,8 @@ pnpm build:ui     # library only → packages/ui/dist
 packages/ui/                 @mah-works/larch — the library
   src/base-ui/                one module per Base UI component, named after its @base-ui/react entry
                              (dialog.ts, select.tsx…); styled.ts wraps parts, classes.ts holds shared looks
+  src/ai/                    AI Elements (shadcn/ui's, rebuilt on Larch): building blocks, agent patterns,
+                             ChatThread; markdown.tsx / highlight.tsx are separate entries (Streamdown, Shiki)
   src/components/            Larch-only components: Badge, Card/Panel, MetricCard, ProgressRow, Alert,
                              Table, Page, Icon, AvatarStack…
   src/blocks/                composed sections: AppShell, Sidebar, Topbar, ClientsTable,
@@ -45,11 +47,13 @@ apps/docs/                   documentation site (Vite + React Router)
 | Route | What |
 | --- | --- |
 | `/` | Introduction, quick start, inventory |
-| `/docs/installation` · `/docs/base-ui` · `/docs/theming` · `/docs/tokens` · `/docs/hooks` | Guides |
+| `/docs/installation` · `/docs/base-ui` · `/docs/ai-elements` · `/docs/theming` · `/docs/tokens` · `/docs/hooks` | Guides |
 | `/components/:slug` | 37 Base UI component pages (Base UI's catalog) + 15 Larch component pages |
 | `/blocks/:slug` | 12 block pages — app shell, stats, charts, tables, forms, dialogs… |
 | `/examples` | Gallery of example pages |
 | `/examples/crm/*` | Overview, Clients, Contacts, Projects, Acme accounts, Renewals, Reports, Design system |
+| `/ai/:slug` | 29 AI Elements pages — building blocks and agent patterns |
+| `/examples/assistant` | An agent chat built from AI Elements, streaming from a scripted stand-in for `useChat` |
 | `/examples/auth/*` | Auth variants: `sign-in` (centered card), `sign-up` (split screen), `passwordless` (email code) |
 | `/preview/:kind/:slug/:id` | Any single example, full-screen (used by iframe previews) |
 

@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 /* Larch tokens, semantic colors, variants — and @source for the library components. */
 @import '@mah-works/larch/theme.css';
+/* Streamdown (used by Larch's AI Markdown) ships Tailwind classes in its dist. */
+@source '../node_modules/streamdown/dist/*.js';
 
 /* Code viewer token colors — tuned for both themes. */
 @layer base {
