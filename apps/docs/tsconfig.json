@@ -16,6 +16,8 @@
     // Mirror the Vite aliases: the docs typecheck against the library source, not dist.
     "paths": {
       "@mah-works/larch": ["../../packages/ui/src/index.ts"],
+      "@mah-works/larch/ai": ["../../packages/ui/src/ai/index.ts"],
+      "@mah-works/larch/ai/*": ["../../packages/ui/src/ai/*"],
       "@mah-works/larch/*": ["../../packages/ui/src/base-ui/*"]
     }
   },

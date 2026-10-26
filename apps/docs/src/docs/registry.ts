@@ -47,6 +47,10 @@ export interface ComponentEntry {
   baseUi?: string;
   /** Base UI components only: what Larch adds on top of Base UI. */
   additions?: PropTables;
+  /** AI Elements only: the module to import from, e.g. `ai` or `ai/markdown`. */
+  importFrom?: string;
+  /** AI Elements only: the shadcn/ui page this element is rebuilt from. */
+  reference?: string;
 }
 
 export interface BlockEntry {
@@ -57,7 +61,7 @@ export interface BlockEntry {
   props?: PropTables;
 }
 
-export type EntryKind = 'components' | 'blocks';
+export type EntryKind = 'components' | 'blocks' | 'ai';
 
 const modules = import.meta.glob<ExampleModule>('../examples/**/*.tsx', { eager: true });
 const sources = import.meta.glob<string>('../examples/**/*.tsx', { eager: true, query: '?raw', import: 'default' });
@@ -86,6 +90,7 @@ export const GUIDES: Guide[] = [
   { slug: '', label: 'Introduction', icon: 'overview' },
   { slug: 'installation', label: 'Installation', icon: 'download' },
   { slug: 'base-ui', label: 'Base UI & styling', icon: 'window' },
+  { slug: 'ai-elements', label: 'AI Elements', icon: 'sparkles' },
   { slug: 'theming', label: 'Theming & dark mode', icon: 'moon' },
   { slug: 'tokens', label: 'Design tokens', icon: 'tag' },
   { slug: 'hooks', label: 'Hooks', icon: 'settings' },
@@ -532,6 +537,262 @@ const LARCH: ComponentEntry[] = [
 ];
 
 export const COMPONENTS = [...BASE_UI, ...LARCH];
+
+
+// AI Elements: shadcn/ui's AI Elements rebuilt on Larch. Building blocks first, then the patterns made
+// from them. Pages live at /ai/<slug>; examples in src/examples/ai/<slug>/.
+const SHADCN = 'https://ui.shadcn.com/docs';
+const block = (slug: string) => `${SHADCN}/components/base/${slug}`;
+const pattern = (slug: string) => `${SHADCN}/ai-elements/base/${slug}`;
+const STEP = "'pending' | 'running' | 'done' | 'error'";
+
+export const AI_ELEMENTS: ComponentEntry[] = [
+  // ── Building blocks ──
+  {
+    slug: 'message-scroller', name: 'Message Scroller', group: 'AI building blocks', imports: ['MessageScroller', 'useMessageScroller'], importFrom: 'ai', reference: block('message-scroller'),
+    description: 'The scroll container for a conversation: anchors each new turn near the top, follows a streaming reply while you stay at the live edge, keeps your place when history is prepended, and jumps to a message. Behaviour from `@shadcn/react`.',
+    props: {
+      'MessageScroller.Provider': [
+        ['autoScroll', 'boolean', 'false', 'Follow the live edge while a reply streams; scrolling away releases it.'],
+        ['defaultScrollPosition', "'start' | 'end' | 'last-anchor'", "'end'", 'Where a restored thread opens.'],
+        ['scrollPreviousItemPeek', 'number', '', 'Pixels of the previous item kept visible above a new anchor.'],
+      ],
+      'MessageScroller.Item': [
+        ['messageId', 'string', '', 'Stable id, for jumping and visibility tracking.'],
+        ['scrollAnchor', 'boolean', 'false', 'Starts a turn — usually the person’s messages.'],
+      ],
+      'useMessageScroller()': [['scrollToMessage / scrollToEnd / scrollToStart', '(…) => boolean', '', 'Imperative scrolling.']],
+    },
+  },
+  {
+    slug: 'message', name: 'Message', group: 'AI building blocks', imports: ['Message'], importFrom: 'ai', reference: block('message'),
+    description: 'One row of a conversation: avatar, header, the message surface (usually a Bubble) and a footer for status or actions.',
+    props: { 'Message.Root': [['align', "'start' | 'end'", "'start'", 'Put the person’s own turns on the right.']] },
+  },
+  {
+    slug: 'bubble', name: 'Bubble', group: 'AI building blocks', imports: ['Bubble'], importFrom: 'ai', reference: block('bubble'),
+    description: 'The visible surface of a message, with seven variants. `ghost` is unframed — for assistant markdown and rich content.',
+    props: {
+      'Bubble.Root': [
+        ['variant', "'default' | 'secondary' | 'muted' | 'tinted' | 'outline' | 'ghost' | 'destructive'", "'secondary'", 'Surface.'],
+        ['align', "'start' | 'end'", "'start'", 'Prefer setting `align` on Message.Root in chats.'],
+      ],
+      'Bubble.Reactions': [
+        ['side', "'top' | 'bottom'", "'bottom'", 'Edge the reactions overlap.'],
+        ['align', "'start' | 'end'", "'end'", 'Corner.'],
+      ],
+    },
+  },
+  {
+    slug: 'marker', name: 'Marker', group: 'AI building blocks', imports: ['Marker'], importFrom: 'ai', reference: block('marker'),
+    description: 'A note between turns: streaming status (with `role="status"`), system notes, or a labelled date break.',
+    props: { 'Marker.Root': [['variant', "'default' | 'border' | 'separator'", "'default'", 'Inline, bordered row, or a centred label between hairlines.']] },
+  },
+  {
+    slug: 'attachment', name: 'Attachment', group: 'AI building blocks', imports: ['Attachment'], importFrom: 'ai', reference: block('attachment'),
+    description: 'Files and images with metadata, upload state and actions. A full-card trigger keeps actions separately clickable.',
+    props: {
+      'Attachment.Root': [
+        ['state', "'idle' | 'uploading' | 'processing' | 'error' | 'done'", "'done'", 'Uploading and processing titles shimmer; error turns red.'],
+        ['size', "'default' | 'sm' | 'xs'", "'default'", 'Width and padding.'],
+        ['orientation', "'horizontal' | 'vertical'", "'horizontal'", 'Vertical stacks the media above the text.'],
+      ],
+      'Attachment.Media': [['variant', "'icon' | 'image'", "'icon'", 'An icon tile or an image preview.']],
+    },
+  },
+  {
+    slug: 'trace', name: 'Trace', group: 'AI building blocks', imports: ['Trace'], importFrom: 'ai', reference: block('trace'),
+    description: 'Rows for an agent’s steps — tool calls, reasoning, sources, edits. Every AI pattern below is built from it, so they read as one system.',
+    props: {
+      'Trace.Line': [['status', "'running' | 'error' | 'pending'", '—', 'Omit for finished work. Running titles shimmer (and stop for reduced motion).']],
+      'Trace.Collapsible': [['open / defaultOpen / onOpenChange', 'Base UI Collapsible.Root', 'closed', 'Use `open ?? running` to auto-open while streaming but let the reader decide.']],
+      'Trace.Content': [['keepMounted', 'boolean', 'false', 'Keep nested rows’ open state while collapsed.']],
+    },
+  },
+  {
+    slug: 'code-block', name: 'Code Block', group: 'AI building blocks', imports: ['CodeBlock'], importFrom: 'ai', reference: block('code-block'),
+    description: 'Code, terminal output, logs and diffs: header, copy button, line numbers, wrapping and highlighted or diff lines. Highlighting is opt-in from `@mah-works/larch/ai/highlight`.',
+    props: {
+      'CodeBlock.Root': [
+        ['variant', "'default' | 'destructive'", "'default'", 'Destructive for error output.'],
+        ['size', "'default' | 'sm'", "'default'", 'Tighter padding and smaller text, for tool output.'],
+      ],
+      'CodeBlock.Content': [
+        ['lineNumbers', 'boolean', 'false', 'CSS-counter numbers — never copied or read out.'],
+        ['startLine', 'number', '1', 'First line number.'],
+        ['wrap', 'boolean', 'false', 'Wrap instead of scrolling sideways.'],
+      ],
+      'CodeBlock.Line': [['variant', "'default' | 'added' | 'removed' | 'highlighted'", "'default'", 'Added / removed lines also print a +/− marker.']],
+      'CodeBlock.CopyButton': [['value', 'string', '', 'What gets copied.']],
+      'useHighlightedCode(code, lang)': [['→ ReactNode[]', 'from ai/highlight', '', 'Shiki (JS engine, no WASM), languages loaded on first use, `ansi` for terminals. `highlightCode` is the async/RSC version.']],
+    },
+  },
+  {
+    slug: 'markdown', name: 'Markdown', group: 'AI building blocks', imports: ['Markdown'], importFrom: 'ai/markdown', reference: 'https://streamdown.ai',
+    description: 'Streaming markdown for assistant replies, on Streamdown. Fenced code renders as a Larch Code Block whose copy button waits for the closing fence.',
+    props: {
+      Markdown: [
+        ['children', 'string', '', 'The markdown so far.'],
+        ['highlight', '(code, lang) => ReactNode[]', '—', 'Pass `useHighlightedCode` to highlight fenced code.'],
+        ['…StreamdownProps', '', '', '`mode`, `isAnimating`, `components`… go to Streamdown.'],
+      ],
+    },
+  },
+  {
+    slug: 'questionnaire', name: 'Questionnaire', group: 'AI building blocks', imports: ['Questionnaire'], importFrom: 'ai', reference: `${SHADCN}/react/questionnaire`,
+    description: 'A short form an agent asks the person to fill in, one question at a time, with letter or number shortcuts for choices. Behaviour from `@shadcn/react`.',
+  },
+
+  // ── Patterns ──
+  {
+    slug: 'chat-thread', name: 'Chat', group: 'AI patterns', imports: ['ChatThread'], importFrom: 'ai', reference: pattern('chat'),
+    description: 'A whole conversation in one block: Message Scroller, Message and Bubble, with each UIMessage part mapped to its AI Element.',
+    props: {
+      ChatThread: [
+        ['messages', 'MessageLike[]', '', '`useChat().messages` — anything shaped like UIMessage.'],
+        ['status', 'ChatStatus', "'ready'", '`useChat().status`; drives streaming rows and the “Thinking” marker.'],
+        ['renderText', '(text, ctx) => ReactNode', 'plain text', 'Pass `<Markdown>` for assistant replies.'],
+        ['renderPart', '(part, ctx) => ReactNode | undefined', '', 'Custom data parts or tool UIs; `undefined` falls back.'],
+        ['renderActions', '(message, ctx) => ReactNode', '', 'A footer per message: copy, retry, feedback.'],
+        ['empty / error', 'ReactNode', '', 'Empty state; message shown when status is `error`.'],
+      ],
+    },
+  },
+  {
+    slug: 'prompt-input', name: 'Prompt Input', group: 'AI patterns', imports: ['PromptInput', 'usePromptInput'], importFrom: 'ai', reference: pattern('prompt-input'),
+    description: 'The message field: an autosizing textarea, attachments by picker, drag-and-drop or paste, and a send button that turns into Stop while a reply streams.',
+    props: {
+      'PromptInput.Root': [
+        ['onSubmit', '({ text, files }, event) => void', '', 'Pass straight to `sendMessage({ text, files })`.'],
+        ['accept / multiple / maxFiles / maxFileSize', 'string / boolean / number / number', '— / true / — / —', 'File limits for picker, drop and paste.'],
+        ['onError', "({ code: 'max_files' | 'max_file_size' | 'accept', message }) => void", '', 'Called for each rejected file.'],
+      ],
+      'PromptInput.Textarea': [['…textarea props', '', '', 'Enter sends; Shift+Enter and IME composition don’t. Controlled or uncontrolled.']],
+      'PromptInput.Submit': [
+        ['status', 'ChatStatus', "'ready'", 'Submitted / streaming shows Stop (with `onStop`); error shows Retry.'],
+        ['onStop', '() => void', '', '`useChat().stop`.'],
+      ],
+    },
+  },
+  {
+    slug: 'model-selector', name: 'Model Selector', group: 'AI patterns', imports: ['ModelSelector'], importFrom: 'ai', reference: pattern('model-selector'),
+    description: 'Two compact menus for a prompt footer: one for the model, one for reasoning effort. Built on Larch’s Menu.',
+    props: {
+      'ModelSelector.Content': [['side / align / sideOffset', 'Menu.Positioner props', "'top' / 'start' / 6", 'Opens upward from a prompt by default.']],
+      'ModelSelector.Item': [['description', 'ReactNode', '', 'A caption under the model name.']],
+    },
+  },
+  {
+    slug: 'suggestion', name: 'Suggestion', group: 'AI patterns', imports: ['Suggestion'], importFrom: 'ai', reference: pattern('suggestion'),
+    description: 'One-click prompts in a row that scrolls sideways when they don’t fit.',
+    props: {
+      'Suggestion.Root': [['onSelect', '(value: string) => void', '', 'e.g. `sendMessage({ text: value })`.']],
+      'Suggestion.Item': [['value', 'string', '', 'Sent on click; also the label by default.']],
+    },
+  },
+  {
+    slug: 'context', name: 'Context', group: 'AI patterns', imports: ['Context'], importFrom: 'ai', reference: pattern('context'),
+    description: 'How much of the context window is used: “{n}% context” with a ring, and a breakdown on hover or focus.',
+    props: {
+      Context: [
+        ['used', 'number', '', 'Tokens used, e.g. `inputTokens + outputTokens` from usage metadata.'],
+        ['limit', 'number', '', 'The model’s context window (not sent by the AI SDK).'],
+        ['details', '{ label, value }[]', '[]', 'Rows under the bar — token types, cost.'],
+      ],
+    },
+  },
+  {
+    slug: 'confirmation', name: 'Confirmation', group: 'AI patterns', imports: ['Confirmation'], importFrom: 'ai', reference: pattern('confirmation'),
+    description: 'Approve or deny a tool before it runs, for parts in `approval-requested`.',
+    props: {
+      Confirmation: [
+        ['title / description', 'ReactNode', '', 'e.g. “Run pnpm build?”'],
+        ['onApprove / onDeny', '() => void', '', '`addToolApprovalResponse({ id: part.approval.id, approved })`.'],
+        ['icon / approveLabel / denyLabel / disabled', '', "'terminal' / 'Approve' / 'Deny'", ''],
+      ],
+    },
+  },
+  {
+    slug: 'checkpoint', name: 'Checkpoint', group: 'AI patterns', imports: ['Checkpoint'], importFrom: 'ai', reference: pattern('checkpoint'),
+    description: 'A point in the conversation you can return to: a separator with a Restore button.',
+    props: { Checkpoint: [['label', 'ReactNode', '', ''], ['onRestore', '() => void', '', '`setMessages(messages.slice(0, index + 1))`.'], ['restoreLabel', 'ReactNode', "'Restore'", '']] },
+  },
+  {
+    slug: 'inline-citation', name: 'Inline Citation', group: 'AI patterns', imports: ['InlineCitation'], importFrom: 'ai', reference: pattern('inline-citation'),
+    description: 'A source inside a sentence: a pill with the host (+N), previewing every cited source on hover or focus.',
+    props: { InlineCitation: [['sources', 'SourceUrlPart[]', '', 'The `source-url` parts the sentence cites.']] },
+  },
+  {
+    slug: 'reasoning', name: 'Reasoning', group: 'AI patterns', imports: ['Reasoning'], importFrom: 'ai', reference: pattern('reasoning'),
+    description: 'The agent’s thinking: opens while it streams, closes when done — unless the reader chose otherwise.',
+    props: { Reasoning: [['text', 'string', '', 'Reasoning so far.'], ['running', 'boolean', '', '`streaming && part.state === "streaming"`.'], ['duration', 'ReactNode', '', 'e.g. “12s”, from your own metadata.']] },
+  },
+  {
+    slug: 'tool', name: 'Tool', group: 'AI patterns', imports: ['Tool'], importFrom: 'ai', reference: pattern('tool'),
+    description: 'One tool call from input to output as a Trace line: running, waiting for approval, ran (output inside), failed or denied.',
+    props: {
+      Tool: [
+        ['part', 'ToolPart', '', 'An AI SDK `tool-*` or `dynamic-tool` part.'],
+        ['streaming', 'boolean', '', 'An unfinished call after the stream stops reads as failed.'],
+        ['label', 'ReactNode', 'title or tool name', 'What it acts on — “Ran {label}”.'],
+        ['icon', 'IconName', "'terminal'", ''],
+        ['renderOutput', '(part) => ReactNode', 'text / JSON', 'The expanded detail.'],
+      ],
+    },
+  },
+  {
+    slug: 'plan', name: 'Plan', group: 'AI patterns', imports: ['Plan'], importFrom: 'ai', reference: pattern('plan'),
+    description: 'The steps an agent intends to take, with a running count of what’s done.',
+    props: { Plan: [['title', 'ReactNode', '', ''], ['steps', `{ title, status: ${STEP.replace(" | 'error'", '')} }[]`, '', ''], ['defaultOpen', 'boolean', 'true', '']] },
+  },
+  {
+    slug: 'queue', name: 'Queue', group: 'AI patterns', imports: ['Queue'], importFrom: 'ai', reference: pattern('queue'),
+    description: 'An agent’s todo list, split into “to do” and “completed”.',
+    props: { Queue: [['todos', "{ title, description?, status: 'pending' | 'in_progress' | 'completed' }[]", '', ''], ['streaming', 'boolean', 'false', 'In-progress todos shimmer only while streaming.']] },
+  },
+  {
+    slug: 'task', name: 'Task', group: 'AI patterns', imports: ['Task'], importFrom: 'ai', reference: pattern('task'),
+    description: 'Steps an agent takes as it discovers them; steps can link to the files they touched.',
+    props: { Task: [['title', 'ReactNode', '', ''], ['steps', `{ title, status?: ${STEP}, icon?, href? }[]`, '', ''], ['status', STEP, 'derived', 'Overall status.']] },
+  },
+  {
+    slug: 'chain-of-thought', name: 'Chain of Thought', group: 'AI patterns', imports: ['ChainOfThought'], importFrom: 'ai', reference: pattern('chain-of-thought'),
+    description: 'A summary that expands into the steps behind it — “Researched in 3 steps”.',
+    props: { ChainOfThought: [['steps', `{ title, status?, icon?, detail? }[]`, '', '`detail` shows when a step expands.'], ['running', 'boolean', '', ''], ['runningLabel / doneLabel', 'ReactNode', "'Researching' / 'Researched in N steps'", '']] },
+  },
+  {
+    slug: 'sources', name: 'Sources', group: 'AI patterns', imports: ['Sources', 'uniqueSources'], importFrom: 'ai', reference: pattern('sources'),
+    description: 'The links an agent used: “Used N sources”, expanding into one link row each.',
+    props: { Sources: [['sources', 'SourceUrlPart[]', '', '`uniqueSources(message.parts)` dedupes by URL.']] },
+  },
+  {
+    slug: 'stack-trace', name: 'Stack Trace', group: 'AI patterns', imports: ['StackTrace', 'parseStack'], importFrom: 'ai', reference: pattern('stack-trace'),
+    description: 'A failed call and its frames; framework frames fold into one line.',
+    props: { StackTrace: [['stack', 'string', '', 'A raw stack, e.g. a tool part’s `errorText`.'], ['onFrameClick', '(file, line) => void', '', 'Turns file paths into buttons.']] },
+  },
+  {
+    slug: 'subagent', name: 'Subagent', group: 'AI patterns', imports: ['Subagent'], importFrom: 'ai', reference: pattern('subagent'),
+    description: 'A subagent run with its task, model, tools, calls and result.',
+    props: { Subagent: [['name / task', 'ReactNode', '', ''], ['status', "'running' | 'done' | 'error'", '', ''], ['model / tools / duration', 'string / string[] / ReactNode', '', ''], ['calls', '{ title, status }[]', '[]', ''], ['result', 'ReactNode', '', '']] },
+  },
+  {
+    slug: 'terminal', name: 'Terminal', group: 'AI patterns', imports: ['Terminal'], importFrom: 'ai', reference: pattern('terminal'),
+    description: 'A command and its streaming output; opens when the first output arrives.',
+    props: { Terminal: [['command', 'ReactNode', '', ''], ['output', 'string', '', ''], ['running', 'boolean', '', ''], ['exitCode', 'number', '', 'Non-zero marks it failed.'], ['children', 'ReactNode', 'output', 'e.g. ANSI-highlighted lines.']] },
+  },
+  {
+    slug: 'test-results', name: 'Test Results', group: 'AI patterns', imports: ['TestResults'], importFrom: 'ai', reference: pattern('test-results'),
+    description: 'A test run with suites and failures; only failing suites open by default.',
+    props: { TestResults: [['suites', "{ name, tests: { name, status: 'passed' | 'failed' | 'skipped', message?, duration? }[] }[]", '', '']] },
+  },
+  {
+    slug: 'file-tree', name: 'File Tree', group: 'AI patterns', imports: ['FileTree'], importFrom: 'ai', reference: pattern('file-tree'),
+    description: 'Files an agent changed, as a folder tree. Larch adds A/M/D markers and diff counts.',
+    props: { FileTree: [['nodes', 'FileTreeNode[]', '', "Folders `{ type: 'folder', children }`, files `{ type: 'file', change?, additions?, deletions? }`."], ['onSelect', '(path) => void', '', '']] },
+  },
+];
+
+export const AI_GROUPS = [...new Set(AI_ELEMENTS.map((e) => e.group))];
 
 export const BLOCKS: BlockEntry[] = [
   {

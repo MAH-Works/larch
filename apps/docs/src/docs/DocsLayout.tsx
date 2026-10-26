@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { AppShell, Brand, Button, Icon, SidebarStatus, Toast, type SidebarNavProps } from '@mah-works/larch';
 import { RouterLink } from '../RouterLink.js';
 import { LarchMark } from './LarchMark.js';
-import { BLOCKS, COMPONENTS, COMPONENT_GROUPS, GUIDES } from './registry.js';
+import { AI_ELEMENTS, AI_GROUPS, BLOCKS, COMPONENTS, COMPONENT_GROUPS, GUIDES } from './registry.js';
 
 const guideHref = (slug: string) => (slug ? `/docs/${slug}` : '/');
 
@@ -13,6 +13,10 @@ export const NAV_SECTIONS: SidebarNavProps['sections'] = [
     label: group,
     items: COMPONENTS.filter((c) => c.group === group).map((c) => ({ href: `/components/${c.slug}`, label: c.name })),
   })),
+  ...AI_GROUPS.map((group) => ({
+    label: group,
+    items: AI_ELEMENTS.filter((c) => c.group === group).map((c) => ({ href: `/ai/${c.slug}`, label: c.name })),
+  })),
   { label: 'Blocks', items: BLOCKS.map((b) => ({ href: `/blocks/${b.slug}`, label: b.name })) },
   {
     label: 'Examples',
@@ -20,6 +24,7 @@ export const NAV_SECTIONS: SidebarNavProps['sections'] = [
       { href: '/examples', label: 'Example pages', icon: 'window' },
       { href: '/examples/crm/overview', label: 'Compass CRM', icon: 'arrowRight' },
       { href: '/examples/auth/sign-in', label: 'Auth pages', icon: 'lock' },
+      { href: '/examples/assistant', label: 'AI assistant', icon: 'sparkles' },
     ],
   },
 ];
@@ -28,12 +33,17 @@ const SEARCHABLE = [
   ...GUIDES.map((g) => ({ label: g.label, href: guideHref(g.slug) })),
   ...COMPONENTS.map((c) => ({ label: `${c.name} ${c.imports.join(' ')}`, href: `/components/${c.slug}` })),
   ...BLOCKS.map((b) => ({ label: `${b.name} ${b.imports.join(' ')}`, href: `/blocks/${b.slug}` })),
+  ...AI_ELEMENTS.map((c) => ({ label: `${c.name} ${c.imports.join(' ')}`, href: `/ai/${c.slug}` })),
 ];
 
 function breadcrumb(pathname: string) {
   if (pathname.startsWith('/components/')) {
     const c = COMPONENTS.find((x) => pathname.endsWith(`/${x.slug}`));
     return { section: 'Components', title: c?.name ?? 'Not found' };
+  }
+  if (pathname.startsWith('/ai/')) {
+    const c = AI_ELEMENTS.find((x) => pathname.endsWith(`/${x.slug}`));
+    return { section: 'AI Elements', title: c?.name ?? 'Not found' };
   }
   if (pathname.startsWith('/blocks/')) {
     const b = BLOCKS.find((x) => pathname.endsWith(`/${x.slug}`));

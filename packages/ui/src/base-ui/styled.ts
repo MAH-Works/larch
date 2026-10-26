@@ -21,6 +21,11 @@ export interface StyleOptions<V extends Variants = Variants> {
   defaults?: VariantProps<V>;
   /** Default content (usually a Larch icon), rendered only when the consumer passes no children. */
   children?: ReactNode;
+  /**
+   * The part takes a plain string `className` (e.g. `@shadcn/react` parts) rather than Base UI's
+   * `(state) => string`: classes are merged eagerly and state is styled through its data attributes.
+   */
+  plainClassName?: boolean;
   name?: string;
 }
 
@@ -37,6 +42,15 @@ const resolve = (value: unknown, state: unknown): string | undefined =>
   typeof value === 'function' ? value(state) : (value as string | undefined);
 
 /**
+ * Layer extra default classes under a consumer `className` that may be a string or Base UI's
+ * `(state) => string` — for composites that pass a className on to a styled part.
+ */
+export const extend =
+  <State>(extra: string, className?: string | ((state: State) => string | undefined)) =>
+  (state: State): string =>
+    merge(extra, resolve(className, state));
+
+/**
  * Give a Base UI part Larch's default classes without changing its API.
  *
  * `base` is a class string (or `(state) => string`). The consumer's `className` — a string or Base UI's
@@ -49,7 +63,7 @@ const resolve = (value: unknown, state: unknown): string | undefined =>
 export function styled<C extends AnyComponent, V extends Variants = Record<never, never>>(
   Part: C,
   base?: ClassValue,
-  { variants, defaults, children, name }: StyleOptions<V> = {},
+  { variants, defaults, children, plainClassName, name }: StyleOptions<V> = {},
 ): Styled<C, V> {
   const keys = Object.keys(variants ?? {});
 
@@ -65,7 +79,9 @@ export function styled<C extends AnyComponent, V extends Variants = Record<never
     if (props.children === undefined && children !== undefined) props.children = children;
     return createElement(Part, {
       ...props,
-      className: (state: unknown) => merge(resolve(base, state), ...extra, resolve(className, state)),
+      className: plainClassName
+        ? merge(resolve(base, undefined), ...extra, resolve(className, undefined))
+        : (state: unknown) => merge(resolve(base, state), ...extra, resolve(className, state)),
     });
   }
 

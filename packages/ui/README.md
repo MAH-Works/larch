@@ -170,6 +170,40 @@ use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dia
 If you override dark tokens with `:root[data-theme='dark']`, they still apply to the page; use
 `[data-theme='dark']` so they also reach dark sections.
 
+## AI Elements
+
+shadcn/ui's AI Elements, rebuilt on Larch: chat building blocks (MessageScroller, Message, Bubble,
+Marker, Attachment, Trace, CodeBlock, Markdown, Questionnaire) and the agent patterns made from them
+(PromptInput, ModelSelector, Suggestion, Context, Confirmation, Checkpoint, InlineCitation, Reasoning,
+Tool, Plan, Queue, Task, ChainOfThought, Sources, StackTrace, Subagent, Terminal, TestResults,
+FileTree), plus a `ChatThread` block. They are **not** exported from the root:
+
+| Import | Contains | Loads |
+| --- | --- | --- |
+| `@mah-works/larch/ai` | every element, `ChatThread`, AI SDK-shaped types | `@shadcn/react` (dependency) |
+| `@mah-works/larch/ai/markdown` | `Markdown` (streaming replies) | `streamdown` (optional peer) |
+| `@mah-works/larch/ai/highlight` | `useHighlightedCode`, `highlightCode` | `shiki` (optional peer, lazy) |
+
+```tsx
+import { useChat } from '@ai-sdk/react';
+import { ChatThread, PromptInput } from '@mah-works/larch/ai';
+import { Markdown } from '@mah-works/larch/ai/markdown';
+
+const { messages, status, sendMessage, stop } = useChat();
+
+<ChatThread messages={messages} status={status} renderText={(text) => <Markdown>{text}</Markdown>} />
+<PromptInput.Root onSubmit={({ text, files }) => sendMessage({ text, files })}>
+  <PromptInput.Textarea />
+  <PromptInput.Footer>
+    <PromptInput.AttachButton />
+    <PromptInput.Submit status={status} onStop={stop} />
+  </PromptInput.Footer>
+</PromptInput.Root>
+```
+
+The types mirror the AI SDK's `UIMessage` parts, so `useChat()` output drops in without Larch importing
+`ai`. With Markdown, add `@source "…/node_modules/streamdown/dist/*.js";` to your CSS.
+
 ## Migrating from 1.x
 
 2.0 requires React 19 and is written in TypeScript. It replaces Larch's hand-rolled Dialog, Dropdown,

@@ -36,6 +36,9 @@ const withBase = Object.fromEntries(
   Object.entries(BUTTON_VARIANTS).map(([k, v]) => [k, `${BUTTON_BASE} ${v}`]),
 ) as Record<keyof typeof BUTTON_VARIANTS, string>;
 
+/** The full class string for a button variant — for elements that aren't styled through `styled()`. */
+export const buttonClasses = (variant: ButtonVariant): string => (variant === 'unstyled' ? '' : withBase[variant]);
+
 /** `styled()` options for anything that renders a button. `variant="unstyled"` opts out entirely. */
 export const button = (defaultVariant: ButtonVariant = 'outline') => ({
   variants: { variant: { ...withBase, unstyled: '' } },

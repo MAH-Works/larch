@@ -46,6 +46,16 @@ export default function ExamplesIndex() {
         description="Complete screens built only from Larch UI components and blocks. Each opens full-screen; the source is in apps/docs/src/crm and apps/docs/src/auth."
       />
 
+      <Section title="AI assistant" description="An agent chat built from Larch AI Elements, streaming from a scripted stand-in for useChat.">
+        <ExampleCard
+          to="/examples/assistant"
+          icon="sparkles"
+          title="Compass assistant"
+          summary="Streaming replies with reasoning, a tool call, markdown with highlighted code and sources; attachments, a model menu, stop and retry."
+          uses={['ChatThread', 'PromptInput', 'ModelSelector', 'Suggestion', 'Context', 'Markdown']}
+        />
+      </Section>
+
       <Section title="Authentication" description="Three sign-in layouts. Submitting any of them lands you in the CRM example.">
         {AUTH_PAGES.map((p) => (
           <ExampleCard key={p.path} to={`/examples/auth/${p.path}`} {...p} />

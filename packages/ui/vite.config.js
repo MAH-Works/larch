@@ -11,12 +11,27 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: resolve(import.meta.dirname, 'src/index.ts'),
+      // AI Elements live outside the root entry; markdown / highlight are their own entries because they
+      // load optional peers (Streamdown, Shiki).
+      entry: {
+        index: resolve(import.meta.dirname, 'src/index.ts'),
+        'ai/index': resolve(import.meta.dirname, 'src/ai/index.ts'),
+        'ai/markdown': resolve(import.meta.dirname, 'src/ai/markdown.tsx'),
+        'ai/highlight': resolve(import.meta.dirname, 'src/ai/highlight.tsx'),
+      },
       formats: ['es', 'cjs'],
       fileName: (format, name) => `${name}.${format === 'es' ? 'js' : 'cjs'}`,
     },
     rollupOptions: {
-      external: [/^react($|\/)/, /^react-dom($|\/)/, /^@base-ui\/react($|\/)/, 'tailwind-merge'],
+      external: [
+        /^react($|\/)/,
+        /^react-dom($|\/)/,
+        /^@base-ui\/react($|\/)/,
+        /^@shadcn\/react($|\/)/,
+        /^shiki($|\/)/,
+        'streamdown',
+        'tailwind-merge',
+      ],
       output: {
         preserveModules: true,
         preserveModulesRoot: 'src',

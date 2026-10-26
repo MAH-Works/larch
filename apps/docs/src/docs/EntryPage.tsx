@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import * as Larch from '@mah-works/larch';
+import * as LarchAI from '@mah-works/larch/ai';
 import { Icon } from '@mah-works/larch';
 import { CodeBlock } from './CodeBlock.js';
 import { Example } from './Example.js';
@@ -7,10 +8,10 @@ import { PropsTable } from './PropsTable.js';
 import { DocHeader } from './Prose.js';
 import { examplesFor, type BlockEntry, type ComponentEntry, type EntryKind } from './registry.js';
 
-const importLine = (names: string[]) =>
+const importLine = (names: string[], from = '@mah-works/larch') =>
   names.length > 4
-    ? `import {\n${names.map((n) => `  ${n},`).join('\n')}\n} from '@mah-works/larch';`
-    : `import { ${names.join(', ')} } from '@mah-works/larch';`;
+    ? `import {\n${names.map((n) => `  ${n},`).join('\n')}\n} from '${from}';`
+    : `import { ${names.join(', ')} } from '${from}';`;
 
 // Base UI components import from a subpath that mirrors `@base-ui/react/<component>`.
 const SUBPATH: Record<string, string> = { OTPField: 'otp-field', TextArea: 'input' };
@@ -27,8 +28,8 @@ const baseImports = (names: string[]) => {
  * Which parts of a Larch export carry Larch styles, read from the library itself: styled parts are named
  * `<Export>.<Part>`; every other part is Base UI's own, passed through untouched.
  */
-function partsOf(name: string) {
-  const exp = (Larch as Record<string, unknown>)[name] as
+function partsOf(name: string, module: Record<string, unknown> = Larch) {
+  const exp = module[name] as
     | ({ displayName?: string } & Record<string, { displayName?: string } | undefined>)
     | undefined;
   if (!exp) return null;
@@ -83,20 +84,60 @@ function BaseUiNote({ entry }: { entry: ComponentEntry & { base: string } }) {
 /** Shared template for a component or block page: header, import, examples, API, prev/next. */
 type Entry = ComponentEntry | BlockEntry;
 
+/** AI Elements: which shadcn/ui element this rebuilds, and which parts carry Larch styles. */
+function AiNote({ entry }: { entry: ComponentEntry }) {
+  const name = entry.imports[0]!;
+  const parts = partsOf(name, LarchAI as Record<string, unknown>);
+  const namespaced = parts && (parts.styled.length > 1 || parts.passthrough.length > 0);
+  return (
+    <section className="mb-10 rounded-[10px] border border-line bg-surface p-5 text-xs leading-relaxed text-body">
+      <p className="m-0">
+        Rebuilt from{' '}
+        <a href={entry.reference} target="_blank" rel="noreferrer" className="font-semibold text-blue no-underline hover:underline">
+          {entry.reference?.includes('shadcn') ? `shadcn/ui ${entry.name} ↗` : 'Streamdown ↗'}
+        </a>{' '}
+        on Larch’s Base UI parts and tokens.{' '}
+        {namespaced
+          ? 'Parts are a namespace, like the Base UI components.'
+          : 'A data-driven component: pass AI SDK-shaped data and it composes the building blocks for you.'}
+      </p>
+      {namespaced && (
+        <div className="mt-3 flex flex-wrap items-center gap-[6px]">
+          <span className="text-[11px] text-muted">Parts:</span>
+          {[...parts.styled, ...parts.passthrough].map((p) => (
+            <Larch.Badge key={p} variant={parts.styled.includes(p) ? 'blue' : 'inactive'}>
+              {`${name}.${p}`}
+            </Larch.Badge>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
 export function EntryPage({ kind, entry, prev, next }: { kind: EntryKind; entry: Entry; prev?: Entry; next?: Entry }) {
   const component = 'group' in entry ? entry : undefined;
   const baseName = component?.base;
   const tables = entry.props ?? component?.additions;
   const examples = examplesFor(kind, entry.slug);
-  const base = kind === 'components' ? '/components' : '/blocks';
+  const base = kind === 'components' ? '/components' : kind === 'ai' ? '/ai' : '/blocks';
+  const aiEntry = kind === 'ai' ? component : undefined;
 
   return (
     <div className="mx-auto grid w-full max-w-[1240px] grid-cols-[minmax(0,1fr)_180px] gap-10 px-[33px] pb-16 pt-[29px] narrow:grid-cols-1 tablet:px-5 mobile:px-[13px]">
       <article className="min-w-0">
         <DocHeader eyebrow={component?.group ?? 'Block'} title={entry.name} description={entry.description} />
 
-        <CodeBlock className={baseName ? 'mb-4' : 'mb-10'} code={baseName ? baseImports(entry.imports) : importLine(entry.imports)} />
+        <CodeBlock
+          className={baseName || aiEntry ? 'mb-4' : 'mb-10'}
+          code={
+            baseName
+              ? baseImports(entry.imports)
+              : importLine(entry.imports, aiEntry ? `@mah-works/larch/${aiEntry.importFrom}` : undefined)
+          }
+        />
         {component && baseName && <BaseUiNote entry={{ ...component, base: baseName }} />}
+        {aiEntry && <AiNote entry={aiEntry} />}
 
         {examples.map((ex) => (
           <Example key={ex.id} {...ex} previewUrl={`${import.meta.env.BASE_URL}preview/${kind}/${entry.slug}/${ex.id}`} />
