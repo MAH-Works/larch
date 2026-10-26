@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { PageHeading, PageWrap, Sidebar, SidebarStatus, Topbar, type SidebarNavProps } from '@mah-works/larch';
+import { Button, Icon, PageHeading, PageWrap, Sidebar, SidebarStatus, Topbar, type SidebarNavProps } from '@mah-works/larch';
 
 export const title = 'Collapsible sidebar, dark topbar';
 export const description =
-  'Pass `collapsed` and `onCollapsedChange` to let people shrink the sidebar to an icon rail. `tone="dark"` keeps the topbar dark in light mode — useful to mark an admin area.';
+  'Pass `collapsed` to shrink the sidebar to an icon rail, toggled here from the topbar’s `leading` slot (or pass `onCollapsedChange` for a toggle at the bottom of the sidebar). `tone="dark"` keeps the topbar dark in light mode — useful to mark an admin area.';
 export const layout = 'frame';
 
 const SECTIONS: SidebarNavProps['sections'] = [
@@ -27,11 +27,28 @@ export default function CollapsedSidebarExample() {
         sections={SECTIONS}
         activeHref="#fleet"
         collapsed={collapsed}
-        onCollapsedChange={setCollapsed}
         footer={collapsed ? undefined : <SidebarStatus initials="MA" />}
       />
       <main className="flex min-w-0 flex-1 flex-col">
-        <Topbar tone="dark" section="Admin" title="Fleet" icon="car" />
+        <Topbar
+          tone="dark"
+          section="Admin"
+          title="Fleet"
+          icon="car"
+          leading={
+            // The wrapper hides it on phones (the drawer has its own menu button).
+            <div className="mobile:hidden">
+              <Button
+                variant="icon"
+                aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                aria-pressed={collapsed}
+                onClick={() => setCollapsed((c) => !c)}
+              >
+                <Icon name="sidebar" />
+              </Button>
+            </div>
+          }
+        />
         <PageWrap>
           <PageHeading title="Fleet" description={collapsed ? 'Sidebar collapsed to icons.' : 'Sidebar expanded.'} />
         </PageWrap>

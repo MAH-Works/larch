@@ -565,6 +565,7 @@ export const BLOCKS: BlockEntry[] = [
         ['onNotifications', '() => void', '', 'Shows the bell button.'],
         ['showThemeToggle', 'boolean', 'true', 'Sun/moon toggle wired to ThemeProvider.'],
         ['actions', 'ReactNode', '', 'Extra controls before the create button.'],
+        ['leading', 'ReactNode', '', 'Controls before the breadcrumb, e.g. a sidebar collapse toggle.'],
         ['tone', "'default' | 'dark'", "'default'", '`dark` keeps the bar dark in light mode (a dark theme scope), e.g. to mark an admin area.'],
         ['className', 'string', '', 'Merged onto the <header>.'],
       ],

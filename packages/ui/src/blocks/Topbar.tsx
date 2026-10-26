@@ -18,6 +18,8 @@ export interface TopbarProps {
   showThemeToggle?: boolean;
   /** Extra controls before the create button. */
   actions?: ReactNode;
+  /** Controls before the breadcrumb, e.g. a sidebar collapse toggle. */
+  leading?: ReactNode;
   /** `dark` renders the bar with dark tokens in either page theme (e.g. to mark an admin area). */
   tone?: 'default' | 'dark';
   className?: string;
@@ -39,6 +41,7 @@ export function Topbar({
   onOpenMenu,
   showThemeToggle = true,
   actions,
+  leading,
   tone = 'default',
   className = '',
 }: TopbarProps) {
@@ -62,6 +65,8 @@ export function Topbar({
           </Button>
         </div>
       )}
+
+      {leading}
 
       <div className="flex min-w-[183px] items-center gap-[9px] text-[13px] text-[#92969e] mobile:min-w-0">
         <Icon name={icon} size="sm" className="text-[#888d96]" />

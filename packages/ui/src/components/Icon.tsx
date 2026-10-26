@@ -65,6 +65,12 @@ const GLYPHS = {
       <circle cx="17" cy="17" r="2" />
     </>
   ),
+  sidebar: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M9 4v16" />
+    </>
+  ),
   money: (
     <>
       <rect x="3" y="6" width="18" height="12" rx="2" />

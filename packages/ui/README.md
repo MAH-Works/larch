@@ -130,6 +130,12 @@ components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProp
 `Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
 use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
 
+## What's new in 2.2
+
+- **`Topbar` `leading` slot:** controls before the breadcrumb, e.g. a sidebar collapse toggle:
+  `<Topbar leading={<Button variant="icon" aria-label="Collapse sidebar" onClick={…}><Icon name="sidebar" /></Button>} />`.
+- **Icon:** `sidebar` (panel).
+
 ## What's new in 2.1
 
 - **2.1.1:** `ThemeProvider` no longer causes a hydration mismatch in SSR apps when the stored or OS
