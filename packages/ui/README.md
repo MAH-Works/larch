@@ -130,12 +130,13 @@ components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProp
 `Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
 use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
 
-## What's new in 2.5
+## Layout
 
 - **Composable sidebar:** `SidebarRoot` (desktop sidebar + mobile drawer), `SidebarBrand`, `SidebarSlot`,
   `SidebarMenu` and `SidebarFooter`, plus `useSidebar()` for your own parts. Put anything between them,
-  such as a workspace picker under the brand, without a Larch release. `Sidebar` and `SidebarNav` are now
-  built from these parts and work as before.
+  such as a workspace picker under the brand, without a Larch release. `Sidebar` and `SidebarNav` are
+  built from these parts. Both take `collapsed`, `collapsedBrand` and `onCollapsedChange` (64px icon
+  rail; the mobile drawer always shows the full menu).
 
 ```tsx
 <SidebarRoot open={drawerOpen} onClose={closeDrawer} collapsed={collapsed} linkComponent={Link}>
@@ -148,12 +149,11 @@ use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dia
 </SidebarRoot>
 ```
 
-## What's new in 2.3
-
 - **Composable topbar:** `TopbarRoot` (the bar), `TopbarMenuButton`, `TopbarTitle`, `TopbarSpacer`,
   `TopbarSearch`, `TopbarThemeToggle` and `TopbarCreateButton`. Arrange them however you like inside
-  `TopbarRoot`, so app-specific header changes don't need a Larch release. `Topbar` is now built from
-  these parts and works as before; its `icon` also accepts `null` to show no icon.
+  `TopbarRoot`, so app-specific header changes don't need a Larch release. `Topbar` is built from
+  these parts; its `icon` accepts `null` to show no icon, `leading` holds controls before the
+  breadcrumb (e.g. a sidebar collapse toggle), and it takes `className`.
 
 ```tsx
 <TopbarRoot tone="dark">
@@ -165,28 +165,15 @@ use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dia
 </TopbarRoot>
 ```
 
-## What's new in 2.2
-
-- **`Topbar` `leading` slot:** controls before the breadcrumb, e.g. a sidebar collapse toggle:
-  `<Topbar leading={<Button variant="icon" aria-label="Collapse sidebar" onClick={…}><Icon name="sidebar" /></Button>} />`.
-- **Icon:** `sidebar` (panel).
-
-## What's new in 2.1
-
-- **2.1.1:** `ThemeProvider` no longer causes a hydration mismatch in SSR apps when the stored or OS
-  theme is dark. It renders the fallback theme (`defaultTheme`, else light) on the server and on the
-  first client render, then switches to the real theme before paint.
+## Dark sections and SSR
 
 - **RSC-ready build:** every module carries `'use client'`; `themeScript` is also at
   `@mah-works/larch/theme-script` (no `'use client'`).
 - **Dark sections:** dark tokens apply to any `[data-theme='dark']` element, not only `<html>`.
-  `<Topbar tone="dark">` keeps the bar dark in light mode. `Topbar` also takes `className`.
-- **Collapsible sidebar:** `Sidebar` / `SidebarNav` take `collapsed`, `collapsedBrand` and
-  `onCollapsedChange` (64px icon rail; the mobile drawer always shows the full menu).
-- **Icons:** `car`, `money`.
-
-If you override dark tokens with `:root[data-theme='dark']`, they still apply to the page; use
-`[data-theme='dark']` so they also reach dark sections.
+  `<Topbar tone="dark">` keeps the bar dark in light mode. Override dark tokens with
+  `[data-theme='dark']` (not `:root[data-theme='dark']`) so they also reach dark sections.
+- **No hydration mismatch:** `ThemeProvider` renders the fallback theme (`defaultTheme`, else light)
+  on the server and on the first client render, then switches to the real theme before paint.
 
 ## AI Elements
 
@@ -222,11 +209,7 @@ const { messages, status, sendMessage, stop } = useChat();
 The types mirror the AI SDK's `UIMessage` parts, so `useChat()` output drops in without Larch importing
 `ai`. With Markdown, add `@source "…/node_modules/streamdown/dist/*.js";` to your CSS.
 
-## Migrating from 1.x
-
-2.0 requires React 19 and is written in TypeScript. It replaces Larch's hand-rolled Dialog, Dropdown,
-Tabs, Tooltip, Checkbox, CheckRow, Switch, Field, TextInput, SelectInput, ProgressBar, Avatar, Divider/ToolbarDivider and ToastProvider/useToast with Base
-UI components. See the "Base UI & styling" guide in the docs for a 1.x → 2.0 table.
+## Aliases
 
 Original compass-react names `WorkloadRow` and `RenewalItem` remain as aliases of `ProgressRow` and
 `AccountItem`.

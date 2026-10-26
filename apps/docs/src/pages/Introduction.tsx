@@ -45,7 +45,7 @@ export default function Introduction() {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
       <DocHeader
-        eyebrow="Larch UI · v2.0"
+        eyebrow="Larch UI · v1.0"
         title="Quiet, dense interface primitives for client operations."
         description="Larch is a design system built on Base UI: Base UI’s components and APIs, styled with Larch’s tokens and Tailwind CSS v4. It also ships Larch-only components, composed blocks, built-in dark mode and complete example pages."
       >

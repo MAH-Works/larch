@@ -47,24 +47,6 @@ const CONVENTIONS = [
   ['Motion', '150 ms ease-out for popups, 200 ms for dialogs and panels; `data-instant` disables it.'],
 ];
 
-const MIGRATION = [
-  ['<Button as={Link} to="/x">', '<Button render={<Link to="/x" />} nativeButton={false}>'],
-  ['<Dialog open onClose title description footer>', 'Dialog.Root / Trigger / Portal / Backdrop / Popup / Title / Description / Close'],
-  ['<Dropdown label items />', 'Menu.Root / Trigger / Portal / Positioner / Popup / Item (RadioItem, CheckboxItem…)'],
-  ['<Tabs tabs value onChange />', 'Tabs.Root / List / Tab / Indicator / Panel — `onValueChange`'],
-  ['<Tooltip text>', 'Tooltip.Root / Trigger / Portal / Positioner / Popup / Arrow'],
-  ['<Checkbox onChange indeterminate />', '<Checkbox.Root onCheckedChange indeterminate><Checkbox.Indicator /></Checkbox.Root>'],
-  ['<CheckRow>', '<label><Checkbox.Root>…</Checkbox.Root>Text</label>'],
-  ['<Switch label description />', 'Field.Root + Field.Label + Field.Description + Switch.Root / Thumb'],
-  ['<Field label id hint error>', 'Field.Root / Label / Control / Description / Error — no ids needed'],
-  ['<TextInput invalid />', '<Input /> inside a Field (or `aria-invalid`)'],
-  ['<SelectInput><option/></SelectInput>', 'Select.Root / Trigger / Value / Icon / Portal / Positioner / Popup / List / Item'],
-  ['<ProgressBar percent tone />', '<Progress.Root value><Progress.Track><Progress.Indicator tone /></Progress.Track></Progress.Root>'],
-  ['<Avatar initials tone size more />', '<Avatar.Root tone size><Avatar.Fallback>JD</Avatar.Fallback></Avatar.Root> — `more` → `tone="muted"`'],
-  ['<Divider /> · <ToolbarDivider />', '<Separator className="my-[19px]" /> · <Separator orientation="vertical" … />'],
-  ['<ToastProvider> + useToast().showToast(msg)', '<Toast.Provider> + <Toaster /> + Toast.useToastManager().add({ title })'],
-];
-
 export default function BaseUi() {
   return (
     <div className="mx-auto w-full max-w-[900px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
@@ -187,14 +169,7 @@ import { mergeProps, useRender } from '@base-ui/react';`}</Code>
             use <C>{'ComponentProps<typeof Dialog.Root>'}</C>, or import the namespace types from <C>@base-ui/react/dialog</C>.
           </li>
         </ul>
-
-        <h2>Migrating from Larch 1.x</h2>
-        <p>
-          2.0 replaces Larch’s hand-rolled interactive components with Base UI. Larch-only components, blocks, tokens and the theme
-          are unchanged apart from the internals noted.
-        </p>
       </Prose>
-      <Table head={['Larch 1.x', 'Larch 2.0 (Base UI)']} rows={MIGRATION} />
     </div>
   );
 }
