@@ -96,8 +96,27 @@ export type { PageHeadingProps } from './components/Page.js';
 // Blocks
 export { AppShell } from './blocks/AppShell.js';
 export type { AppShellProps } from './blocks/AppShell.js';
-export { Sidebar, SidebarNav, SidebarStatus } from './blocks/Sidebar.js';
-export type { SidebarItem, SidebarNavProps, SidebarProps } from './blocks/Sidebar.js';
+export {
+  Sidebar,
+  SidebarNav,
+  SidebarStatus,
+  SidebarRoot,
+  SidebarBrand,
+  SidebarSlot,
+  SidebarMenu,
+  SidebarFooter,
+  useSidebar,
+} from './blocks/Sidebar.js';
+export type {
+  SidebarItem,
+  SidebarNavProps,
+  SidebarProps,
+  SidebarRootProps,
+  SidebarBrandProps,
+  SidebarSlotProps,
+  SidebarMenuProps,
+  SidebarFooterProps,
+} from './blocks/Sidebar.js';
 export {
   Topbar,
   TopbarRoot,

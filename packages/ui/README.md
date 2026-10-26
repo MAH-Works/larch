@@ -130,6 +130,24 @@ components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProp
 `Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
 use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
 
+## What's new in 2.5
+
+- **Composable sidebar:** `SidebarRoot` (desktop sidebar + mobile drawer), `SidebarBrand`, `SidebarSlot`,
+  `SidebarMenu` and `SidebarFooter`, plus `useSidebar()` for your own parts. Put anything between them,
+  such as a workspace picker under the brand, without a Larch release. `Sidebar` and `SidebarNav` are now
+  built from these parts and work as before.
+
+```tsx
+<SidebarRoot open={drawerOpen} onClose={closeDrawer} collapsed={collapsed} linkComponent={Link}>
+  <SidebarBrand brand={<Brand name="control" suffix="panel" />} className="mb-4" />
+  <SidebarSlot>
+    <WorkspacePicker />
+  </SidebarSlot>
+  <SidebarMenu sections={sections} activeHref={pathname} />
+  <SidebarFooter>{user}</SidebarFooter>
+</SidebarRoot>
+```
+
 ## What's new in 2.3
 
 - **Composable topbar:** `TopbarRoot` (the bar), `TopbarMenuButton`, `TopbarTitle`, `TopbarSpacer`,
