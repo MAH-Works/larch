@@ -1,5 +1,6 @@
 // Theme
-export { ThemeProvider, useTheme, themeScript } from './theme/ThemeProvider.js';
+export { ThemeProvider, useTheme } from './theme/ThemeProvider.js';
+export { themeScript } from './theme/script.js';
 export type { Theme, ThemeContextValue, ThemeProviderProps } from './theme/ThemeProvider.js';
 
 // Hooks

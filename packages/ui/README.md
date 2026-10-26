@@ -45,6 +45,26 @@ import '@mah-works/larch/styles.css'; // tokens + preflight + every utility the 
 
 Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
 
+### Next.js (App Router) and other RSC frameworks
+
+Every module is built with `'use client'`, so Server Components can render Larch components
+directly. Keep `ThemeProvider`, `Toast.Provider` and `<Toaster />` in a client providers file, and
+inline the theme script from its server-safe entry in the root layout:
+
+```tsx
+import { themeScript } from '@mah-works/larch/theme-script';
+
+<html suppressHydrationWarning>
+  <head>
+    <script dangerouslySetInnerHTML={{ __html: themeScript() }} />
+  </head>
+  …
+</html>
+```
+
+Values exported from a client module (`ICON_NAMES`, `BUTTON_VARIANTS`…) are client references on the
+server; use them in client components.
+
 ## Use
 
 ```tsx
@@ -109,6 +129,29 @@ components export their prop types (`BadgeVariant`, `ClientRow`, `MetricCardProp
 
 `Dialog` and friends are values, so Base UI's type namespaces (`Dialog.Root.Props`) don't come along —
 use `ComponentProps<typeof Dialog.Root>` or import them from `@base-ui/react/dialog`.
+
+## What's new in 2.2
+
+- **`Topbar` `leading` slot:** controls before the breadcrumb, e.g. a sidebar collapse toggle:
+  `<Topbar leading={<Button variant="icon" aria-label="Collapse sidebar" onClick={…}><Icon name="sidebar" /></Button>} />`.
+- **Icon:** `sidebar` (panel).
+
+## What's new in 2.1
+
+- **2.1.1:** `ThemeProvider` no longer causes a hydration mismatch in SSR apps when the stored or OS
+  theme is dark. It renders the fallback theme (`defaultTheme`, else light) on the server and on the
+  first client render, then switches to the real theme before paint.
+
+- **RSC-ready build:** every module carries `'use client'`; `themeScript` is also at
+  `@mah-works/larch/theme-script` (no `'use client'`).
+- **Dark sections:** dark tokens apply to any `[data-theme='dark']` element, not only `<html>`.
+  `<Topbar tone="dark">` keeps the bar dark in light mode. `Topbar` also takes `className`.
+- **Collapsible sidebar:** `Sidebar` / `SidebarNav` take `collapsed`, `collapsedBrand` and
+  `onCollapsedChange` (64px icon rail; the mobile drawer always shows the full menu).
+- **Icons:** `car`, `money`.
+
+If you override dark tokens with `:root[data-theme='dark']`, they still apply to the page; use
+`[data-theme='dark']` so they also reach dark sections.
 
 ## Migrating from 1.x
 

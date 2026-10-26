@@ -1,7 +1,7 @@
 import { Drawer } from '../base-ui/drawer.js';
 import type { ElementType, ReactNode } from 'react';
 import Icon, { type IconName } from '../components/Icon.js';
-import { Brand } from './BrandMark.js';
+import { Brand, BrandMark } from './BrandMark.js';
 
 const linkBase = 'flex min-h-[34px] items-center gap-[10px] rounded-[7px] px-[10px] text-[13px] no-underline transition-colors';
 
@@ -30,6 +30,12 @@ export interface SidebarNavProps {
   brandHref?: string;
   footer?: ReactNode;
   onNavigate?: () => void;
+  /** Icons-only rail: labels become tooltips and screen-reader text. Ignored in the mobile drawer. */
+  collapsed?: boolean;
+  /** Logo shown while collapsed. */
+  collapsedBrand?: ReactNode;
+  /** Shows a collapse / expand button at the bottom of the desktop sidebar. */
+  onCollapsedChange?: (collapsed: boolean) => void;
 }
 
 export function SidebarNav({
@@ -41,17 +47,31 @@ export function SidebarNav({
   brandHref = '/',
   footer,
   onNavigate,
+  collapsed = false,
+  collapsedBrand = <BrandMark />,
+  onCollapsedChange,
 }: SidebarNavProps) {
   return (
     <>
-      <Link href={brandHref} onClick={onNavigate} className="mb-[37px] flex items-center gap-[10px] px-[11px] text-ink no-underline" aria-label="Home">
-        {brand}
+      <Link
+        href={brandHref}
+        onClick={onNavigate}
+        className={`mb-[37px] flex items-center gap-[10px] text-ink no-underline ${collapsed ? 'justify-center' : 'px-[11px]'}`}
+        aria-label="Home"
+      >
+        {collapsed ? collapsedBrand : brand}
       </Link>
 
       <nav aria-label="Main navigation">
         {sections.map((section) => (
           <div key={section.label} className="mb-[25px]">
-            <div className="mb-[7px] px-[11px] text-[10px] font-semibold uppercase tracking-[.105em] text-[#a2a6ae] dark:text-[#707987]">
+            <div
+              className={
+                collapsed
+                  ? 'sr-only'
+                  : 'mb-[7px] px-[11px] text-[10px] font-semibold uppercase tracking-[.105em] text-[#a2a6ae] dark:text-[#707987]'
+              }
+            >
               {section.label}
             </div>
             {section.items.map((item) => {
@@ -62,7 +82,8 @@ export function SidebarNav({
                   href={item.href}
                   onClick={onNavigate}
                   aria-current={active ? 'page' : undefined}
-                  className={`${linkBase} ${
+                  title={collapsed && typeof item.label === 'string' ? item.label : undefined}
+                  className={`${linkBase} ${collapsed ? 'justify-center px-0' : ''} ${
                     active
                       ? 'bg-[#ebedf0] font-semibold text-[#22252a] dark:bg-[#252b34] dark:text-[#f2f4f7]'
                       : 'font-medium text-[#646974] hover:bg-[#f0f1f3] hover:text-ink dark:text-muted dark:hover:bg-[#1b2028]'
@@ -74,8 +95,8 @@ export function SidebarNav({
                       className={active ? 'text-[#4d535d] dark:text-[#b9c1cc]' : 'text-[#80858e] dark:text-[#7f8997]'}
                     />
                   )}
-                  {item.label}
-                  {item.count != null && <span className="ml-auto text-xs font-normal text-[#969ba4]">{item.count}</span>}
+                  {collapsed ? <span className="sr-only">{item.label}</span> : item.label}
+                  {item.count != null && !collapsed && <span className="ml-auto text-xs font-normal text-[#969ba4]">{item.count}</span>}
                 </Link>
               );
             })}
@@ -83,7 +104,23 @@ export function SidebarNav({
         ))}
       </nav>
 
-      {footer && <div className="mt-auto px-[10px]">{footer}</div>}
+      {(footer || onCollapsedChange) && (
+        <div className={`mt-auto ${collapsed ? '' : 'px-[10px]'}`}>
+          {footer}
+          {onCollapsedChange && (
+            <button
+              type="button"
+              onClick={() => onCollapsedChange(!collapsed)}
+              aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              className={`${linkBase} mt-2 w-full border-0 bg-transparent font-medium text-[#80858e] hover:bg-[#f0f1f3] hover:text-ink dark:text-[#7f8997] dark:hover:bg-[#1b2028] ${collapsed ? 'justify-center px-0' : ''}`}
+            >
+              <Icon name={collapsed ? 'chevronRight' : 'chevronLeft'} />
+              {!collapsed && 'Collapse'}
+            </button>
+          )}
+        </div>
+      )}
     </>
   );
 }
@@ -103,9 +140,13 @@ export function SidebarStatus({ text = 'All systems operational', initials }: { 
   );
 }
 
-const PANEL = 'flex w-[244px] flex-col overflow-y-auto border-r border-line bg-sidebar px-[14px] pb-[18px] pt-[22px]';
+const PANEL = 'flex flex-col overflow-y-auto border-r border-line bg-sidebar pb-[18px] pt-[22px]';
+const PANEL_WIDTH = 'w-[244px] px-[14px]';
 
-/** Desktop sidebar (≥ 681px) plus a swipe-to-close Base UI Drawer on mobile when `open`. */
+/**
+ * Desktop sidebar (≥ 681px) plus a swipe-to-close Base UI Drawer on mobile when `open`.
+ * `collapsed` turns the desktop sidebar into a 64px icon rail; `onCollapsedChange` adds the toggle.
+ */
 export interface SidebarProps extends SidebarNavProps {
   /** Mobile drawer visibility. */
   open?: boolean;
@@ -113,9 +154,15 @@ export interface SidebarProps extends SidebarNavProps {
 }
 
 export function Sidebar({ open = false, onClose, ...navProps }: SidebarProps) {
+  const collapsed = navProps.collapsed ?? false;
+  const drawerProps = { ...navProps, collapsed: false, onCollapsedChange: undefined };
   return (
     <>
-      <aside className={`${PANEL} sticky top-0 h-screen shrink-0 tablet:w-[214px] mobile:hidden`}>
+      <aside
+        className={`${PANEL} sticky top-0 h-screen shrink-0 transition-[width] mobile:hidden ${
+          collapsed ? 'w-[64px] px-[10px]' : `${PANEL_WIDTH} tablet:w-[214px]`
+        }`}
+      >
         <SidebarNav {...navProps} />
       </aside>
 
@@ -126,10 +173,11 @@ export function Sidebar({ open = false, onClose, ...navProps }: SidebarProps) {
             {/* Placement styles are keyed to data-swipe-direction, so overrides use the same variant. */}
             <Drawer.Popup
               aria-label="Navigation"
-              className={`${PANEL} data-[swipe-direction=left]:w-[244px] data-[swipe-direction=left]:px-[14px] data-[swipe-direction=left]:pb-[18px] data-[swipe-direction=left]:pt-[22px]`}
+              className={`${PANEL} ${PANEL_WIDTH} data-[swipe-direction=left]:w-[244px] data-[swipe-direction=left]:px-[14px] data-[swipe-direction=left]:pb-[18px] data-[swipe-direction=left]:pt-[22px]`}
             >
+              {/* The drawer always shows the full menu. */}
               <SidebarNav
-                {...navProps}
+                {...drawerProps}
                 onNavigate={() => {
                   navProps.onNavigate?.();
                   onClose?.();

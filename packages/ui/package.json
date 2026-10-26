@@ -1,7 +1,7 @@
 {
   "name": "@mah-works/larch",
-  "version": "2.0.0",
-  "description": "Larch — Base UI components themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).",
+  "version": "2.2.0",
+  "description": "Larch \u2014 Base UI components themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -213,6 +213,11 @@
       "types": "./dist/base-ui/tooltip.d.ts",
       "import": "./dist/base-ui/tooltip.js",
       "require": "./dist/base-ui/tooltip.cjs"
+    },
+    "./theme-script": {
+      "types": "./dist/theme/script.d.ts",
+      "import": "./dist/theme/script.js",
+      "require": "./dist/theme/script.cjs"
     },
     "./theme.css": "./dist/theme.css",
     "./tokens.css": "./dist/tokens.css",

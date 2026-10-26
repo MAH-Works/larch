@@ -10,7 +10,7 @@ export default function Theming() {
   const { theme, toggleTheme } = useTheme();
   return (
     <div className="mx-auto w-full max-w-[900px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
-      <DocHeader eyebrow="Getting started" title="Theming & dark mode" description="Every component reads semantic CSS variables. Light values live on :root; dark values on :root[data-theme='dark'].">
+      <DocHeader eyebrow="Getting started" title="Theming & dark mode" description="Every component reads semantic CSS variables. Light values live on :root; dark values on [data-theme='dark'].">
         <div className="mt-5 flex items-center gap-3">
           <Button variant="primary" onClick={toggleTheme}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} size="sm" />
@@ -88,6 +88,28 @@ function ThemeButton() {
 </script>`}</Code>
 
       <Prose>
+        <h2>Server components</h2>
+        <p>
+          Every Larch module is built with <C>'use client'</C>, so React Server Components (Next.js App Router) can render
+          Larch components directly. <C>themeScript</C> has its own server-safe entry for a root layout:
+        </p>
+      </Prose>
+      <Code>{`import { themeScript } from '@mah-works/larch/theme-script';
+
+<head>
+  <script dangerouslySetInnerHTML={{ __html: themeScript() }} />
+</head>`}</Code>
+
+      <Prose>
+        <h2>Dark sections</h2>
+        <p>
+          Dark tokens apply to any element with <C>data-theme="dark"</C>, not only <C>{'<html>'}</C>. Everything inside re-themes,
+          including <C>dark:</C> variants, so a section can stay dark on a light page. <C>{'<Topbar tone="dark">'}</C> uses this.
+        </p>
+      </Prose>
+      <Code>{`<div data-theme="dark" className="bg-surface text-ink">…</div>`}</Code>
+
+      <Prose>
         <h2>Customising the palette</h2>
         <p>
           Override any token after importing <C>theme.css</C> (or <C>tokens.css</C>). For example, a green accent instead of blue:
@@ -99,7 +121,7 @@ function ThemeButton() {
   --blue-border: #0e6649;
   --blue-soft: #e7f6ef;
 }
-:root[data-theme='dark'] {
+[data-theme='dark'] {
   --blue: #4cc596;
   --blue-hover: #63d1a6;
   --blue-border: #39a87d;
