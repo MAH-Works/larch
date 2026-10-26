@@ -538,7 +538,7 @@ export const BLOCKS: BlockEntry[] = [
     slug: 'app-shell',
     name: 'App shell',
     description: 'Sidebar + topbar frame with a mobile drawer, ⌘K search, theme toggle and a primary create action. Router-agnostic: pass your Link as `linkComponent`.',
-    imports: ['AppShell', 'Sidebar', 'SidebarNav', 'SidebarStatus', 'Topbar', 'Brand'],
+    imports: ['AppShell', 'Sidebar', 'SidebarNav', 'SidebarStatus', 'Topbar', 'TopbarRoot', 'TopbarTitle', 'TopbarSearch', 'TopbarThemeToggle', 'Brand'],
     props: {
       AppShell: [
         ['sidebar', 'SidebarProps', '', 'Forwarded to <Sidebar> (the drawer state is managed for you).'],
@@ -568,6 +568,15 @@ export const BLOCKS: BlockEntry[] = [
         ['leading', 'ReactNode', '', 'Controls before the breadcrumb, e.g. a sidebar collapse toggle.'],
         ['tone', "'default' | 'dark'", "'default'", '`dark` keeps the bar dark in light mode (a dark theme scope), e.g. to mark an admin area.'],
         ['className', 'string', '', 'Merged onto the <header>.'],
+      ],
+      'Topbar parts': [
+        ['TopbarRoot', '{ tone?, className?, children }', '', 'The bar itself (height, padding, border, background). Compose the parts inside it.'],
+        ['TopbarMenuButton', '{ onClick, label? }', '', 'Opens the mobile drawer; only visible on phones.'],
+        ['TopbarTitle', '{ section?, icon?, children }', '', 'Page title with an optional icon and breadcrumb section.'],
+        ['TopbarSpacer', '', '', 'Pushes the following parts to the right.'],
+        ['TopbarSearch', '{ onSearch, placeholder?, hotkey? }', "hotkey 'k'", 'Search field with a ⌘K hint; called on Enter.'],
+        ['TopbarThemeToggle', '', '', 'Sun / moon button wired to ThemeProvider.'],
+        ['TopbarCreateButton', '{ label, onClick? }', '', 'Primary create action; the label hides on phones.'],
       ],
     },
   },
