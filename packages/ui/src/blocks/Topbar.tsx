@@ -18,11 +18,14 @@ export interface TopbarProps {
   showThemeToggle?: boolean;
   /** Extra controls before the create button. */
   actions?: ReactNode;
+  /** `dark` renders the bar with dark tokens in either page theme (e.g. to mark an admin area). */
+  tone?: 'default' | 'dark';
+  className?: string;
 }
 
 /**
  * App header: breadcrumb, ⌘K search, primary "create" action, theme toggle and notifications.
- * Every piece is optional — omit a handler/label to hide it.
+ * Every piece is optional — omit a handler/label to hide it. `tone="dark"` keeps the bar dark in light mode.
  */
 export function Topbar({
   section,
@@ -36,6 +39,8 @@ export function Topbar({
   onOpenMenu,
   showThemeToggle = true,
   actions,
+  tone = 'default',
+  className = '',
 }: TopbarProps) {
   const { isDark, toggleTheme } = useTheme();
   const searchRef = useRef<HTMLInputElement>(null);
@@ -44,7 +49,11 @@ export function Topbar({
   const themeLabel = isDark ? 'Switch to light mode' : 'Switch to dark mode';
 
   return (
-    <header className="flex h-[70px] min-h-[70px] items-center gap-[15px] border-b border-line bg-sidebar px-[33px] tablet:px-5 mobile:h-[61px] mobile:min-h-[61px] mobile:gap-2 mobile:px-[14px]">
+    <header
+      // A dark-tone bar is its own dark theme scope: tokens and dark: variants switch inside it.
+      data-theme={tone === 'dark' ? 'dark' : undefined}
+      className={`flex h-[70px] min-h-[70px] items-center gap-[15px] border-b border-line bg-sidebar px-[33px] text-ink tablet:px-5 mobile:h-[61px] mobile:min-h-[61px] mobile:gap-2 mobile:px-[14px] ${className}`}
+    >
       {/* Wrapper toggles visibility so it never competes with Button's own display utility. */}
       {onOpenMenu && (
         <div className="hidden mobile:block">

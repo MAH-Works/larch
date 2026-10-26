@@ -90,9 +90,5 @@ export function ThemeProvider({ children, storageKey = 'larch-theme', defaultThe
 
 export const useTheme = (): ThemeContextValue => use(ThemeContext);
 
-/**
- * Inline script for <head> that sets the theme before first paint (avoids a light/dark flash).
- * Render it in SSR output or paste its string into index.html.
- */
-export const themeScript = (storageKey = 'larch-theme') =>
-  `try{document.documentElement.dataset.theme=localStorage.getItem('${storageKey}')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){document.documentElement.dataset.theme='light'}`;
+// Re-exported for existing imports; the server-safe entry is '@mah-works/larch/theme-script'.
+export { themeScript } from './script.js';

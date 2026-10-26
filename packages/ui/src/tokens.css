@@ -1,4 +1,5 @@
-/* Larch design tokens. Light values on :root, dark values on [data-theme='dark'].
+/* Larch design tokens. Light values on :root, dark values on [data-theme='dark']: on <html> for the
+   whole page, or on any element for a dark section inside a light page (e.g. a dark topbar).
    Tailwind apps get these via `@mah-works/larch/theme.css`; plain-CSS apps can import this file directly. */
 :root {
   --canvas: #f6f7f9;
@@ -31,7 +32,7 @@
   color-scheme: light;
 }
 
-:root[data-theme='dark'] {
+[data-theme='dark'] {
   --canvas: #0e1116;
   --surface: #15191f;
   --sidebar: #111419;

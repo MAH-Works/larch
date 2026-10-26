@@ -58,6 +58,20 @@ const GLYPHS = {
   filter: <path d="M4 6h16M7 12h10M10 18h4" />,
   sort: <path d="M8 6h12M8 12h8M8 18h4M4 6h.01M4 12h.01M4 18h.01" />,
   tag: <path d="m8 12 3 3 8-8M4 5h16v14H4z" />,
+  car: (
+    <>
+      <path d="M5 17H4v-4l2-5a2 2 0 0 1 1.9-1.3h8.2A2 2 0 0 1 18 8l2 5v4h-1M4 13h16M9 17h6" />
+      <circle cx="7" cy="17" r="2" />
+      <circle cx="17" cy="17" r="2" />
+    </>
+  ),
+  money: (
+    <>
+      <rect x="3" y="6" width="18" height="12" rx="2" />
+      <circle cx="12" cy="12" r="2.5" />
+      <path d="M6.5 9.5h.01M17.5 14.5h.01" />
+    </>
+  ),
   trash: <path d="M5 7h14M10 11v5M14 11v5M6 7l1 12h10l1-12M9 7V4h6v3" />,
   chevronDown: <path d="m6 9 6 6 6-6" />,
   chevronLeft: <path d="m15 18-6-6 6-6" />,
