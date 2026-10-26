@@ -799,7 +799,7 @@ export const BLOCKS: BlockEntry[] = [
     slug: 'app-shell',
     name: 'App shell',
     description: 'Sidebar + topbar frame with a mobile drawer, ⌘K search, theme toggle and a primary create action. Router-agnostic: pass your Link as `linkComponent`.',
-    imports: ['AppShell', 'Sidebar', 'SidebarNav', 'SidebarStatus', 'Topbar', 'TopbarRoot', 'TopbarTitle', 'TopbarSearch', 'TopbarThemeToggle', 'Brand'],
+    imports: ['AppShell', 'Sidebar', 'SidebarNav', 'SidebarStatus', 'SidebarRoot', 'SidebarBrand', 'SidebarSlot', 'SidebarMenu', 'SidebarFooter', 'Topbar', 'TopbarRoot', 'TopbarTitle', 'TopbarSearch', 'TopbarThemeToggle', 'Brand'],
     props: {
       AppShell: [
         ['sidebar', 'SidebarProps', '', 'Forwarded to <Sidebar> (the drawer state is managed for you).'],
@@ -817,6 +817,14 @@ export const BLOCKS: BlockEntry[] = [
         ['collapsed', 'boolean', 'false', 'Desktop icon rail (64px): labels become tooltips and screen-reader text. The mobile drawer always shows the full menu.'],
         ['collapsedBrand', 'ReactNode', '<BrandMark />', 'Logo shown while collapsed.'],
         ['onCollapsedChange', '(collapsed) => void', '', 'Shows a collapse / expand button at the bottom.'],
+      ],
+      'Sidebar parts': [
+        ['SidebarRoot', '{ open?, onClose?, collapsed?, linkComponent?, onNavigate?, children }', '', 'The frame: desktop sidebar plus the mobile drawer. Compose the parts inside it; in the drawer they see collapsed = false.'],
+        ['SidebarBrand', '{ brand?, collapsedBrand?, href?, className? }', "className 'mb-[37px]'", 'Logo link at the top. Pass a smaller margin when something sits under it.'],
+        ['SidebarSlot', '{ children, hideWhenCollapsed?, className? }', 'hideWhenCollapsed true', 'Free area with the menu padding, e.g. a workspace picker under the brand.'],
+        ['SidebarMenu', '{ sections, activeHref?, isActive? }', '', 'The menu sections and links.'],
+        ['SidebarFooter', '{ children, onCollapsedChange? }', '', 'Pinned to the bottom; adds the collapse toggle when given onCollapsedChange.'],
+        ['useSidebar()', '{ collapsed, linkComponent, onNavigate }', '', 'For your own parts: react to the icon rail, use the router link, close the drawer after navigating.'],
       ],
       Topbar: [
         ['section / title / icon', 'string', '', 'Breadcrumb.'],
