@@ -80,7 +80,7 @@ export default function DocsLayout() {
         activeHref: pathname,
         linkComponent: RouterLink,
         brand: <Brand name="larch" suffix="ui" mark={<LarchMark />} />,
-        footer: <SidebarStatus text="v2.0.0 · Base UI 1.9 · Tailwind 4" />,
+        footer: <SidebarStatus text="v1.0.0 · Base UI 1.9 · Tailwind 4" />,
       }}
       topbar={{
         ...breadcrumb(pathname),

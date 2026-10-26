@@ -132,7 +132,7 @@ export default function DesignSystem() {
   return (
     <PageWrap max="max-w-[1240px]">
       <PageHeading
-        eyebrow="Reference / v2.0"
+        eyebrow="Reference / v1.0"
         title="Larch design system"
         description="Quiet, dense interface primitives for client operations."
       >
