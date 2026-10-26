@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import * as Larch from '@mah-works/larch';
 import { Icon } from '@mah-works/larch';
 import { CodeBlock } from './CodeBlock.jsx';
 import { Example } from './Example.jsx';
@@ -11,6 +12,72 @@ const importLine = (names) =>
     ? `import {\n${names.map((n) => `  ${n},`).join('\n')}\n} from '@mah-works/larch';`
     : `import { ${names.join(', ')} } from '@mah-works/larch';`;
 
+// Base UI components import from a subpath that mirrors `@base-ui/react/<component>`.
+const SUBPATH = { OTPField: 'otp-field', TextArea: 'input' };
+const subpath = (name) => SUBPATH[name] ?? name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+const baseImports = (names) => {
+  const bySubpath = {};
+  for (const n of names) (bySubpath[subpath(n)] ??= []).push(n);
+  return Object.entries(bySubpath)
+    .map(([path, list]) => `import { ${list.join(', ')} } from '@mah-works/larch/${path}';`)
+    .join('\n');
+};
+
+/**
+ * Which parts of a Larch export carry Larch styles, read from the library itself: styled parts are named
+ * `<Export>.<Part>`; every other part is Base UI's own, passed through untouched.
+ */
+function partsOf(name) {
+  const exp = Larch[name];
+  if (!exp) return null;
+  if (exp.displayName === name) return { styled: [name], passthrough: [] };
+  const parts = Object.keys(exp).filter((k) => /^[A-Z]/.test(k));
+  const styled = parts.filter((k) => exp[k]?.displayName === `${name}.${k}`);
+  return { styled, passthrough: parts.filter((k) => !styled.includes(k)) };
+}
+
+function BaseUiNote({ entry }) {
+  const parts = partsOf(entry.base);
+  const href = `https://base-ui.com/react/components/${entry.baseUi}`;
+  return (
+    <section className="mb-10 rounded-[10px] border border-line bg-surface p-5 text-xs leading-relaxed text-body">
+      <p className="m-0">
+        <strong className="font-semibold text-ink">Base UI {entry.name}</strong>, styled by Larch. Parts, props, state attributes and
+        behaviour are Base UI’s — see the{' '}
+        <a href={href} target="_blank" rel="noreferrer" className="font-semibold text-blue no-underline hover:underline">
+          Base UI API reference ↗
+        </a>
+        . Swap the import from <code className="font-mono text-[11px]">@base-ui/react/{subpath(entry.base)}</code> and the
+        same code renders with Larch styles.
+      </p>
+      {parts && (
+        <div className="mt-3 flex flex-wrap items-center gap-[6px]">
+          <span className="text-[11px] text-muted">Styled parts:</span>
+          {parts.styled.length ? (
+            parts.styled.map((p) => (
+              <Larch.Badge key={p} variant="blue">
+                {p === entry.base ? p : `${entry.base}.${p}`}
+              </Larch.Badge>
+            ))
+          ) : (
+            <Larch.Badge variant="inactive">none — re-exported unchanged</Larch.Badge>
+          )}
+          {parts.passthrough.length > 0 && (
+            <>
+              <span className="ml-2 text-[11px] text-muted">Base UI as-is:</span>
+              {parts.passthrough.map((p) => (
+                <Larch.Badge key={p} variant="inactive">
+                  {p}
+                </Larch.Badge>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 /** Shared template for a component or block page: header, import, examples, API, prev/next. */
 export function EntryPage({ kind, entry, prev, next }) {
   const examples = examplesFor(kind, entry.slug);
@@ -21,16 +88,20 @@ export function EntryPage({ kind, entry, prev, next }) {
       <article className="min-w-0">
         <DocHeader eyebrow={kind === 'components' ? entry.group : 'Block'} title={entry.name} description={entry.description} />
 
-        <CodeBlock className="mb-10" code={importLine(entry.imports)} />
+        <CodeBlock className={entry.base ? 'mb-4' : 'mb-10'} code={entry.base ? baseImports(entry.imports) : importLine(entry.imports)} />
+        {entry.base && <BaseUiNote entry={entry} />}
 
         {examples.map((ex) => (
           <Example key={ex.id} {...ex} previewUrl={`${import.meta.env.BASE_URL}preview/${kind}/${entry.slug}/${ex.id}`} />
         ))}
 
-        {entry.props && (
+        {(entry.props || entry.additions) && (
           <section id="api" className="scroll-mt-24">
-            <h2 className="mb-4 mt-12 text-lg font-[650] tracking-[-.03em] text-ink">API reference</h2>
-            {Object.entries(entry.props).map(([name, props]) => (
+            <h2 className="mb-1 mt-12 text-lg font-[650] tracking-[-.03em] text-ink">{entry.base ? 'Larch additions' : 'API reference'}</h2>
+            {entry.base && (
+              <p className="mb-4 mt-0 text-xs text-muted">Visual props and default content Larch adds. They never reach Base UI or the DOM.</p>
+            )}
+            {Object.entries(entry.props ?? entry.additions).map(([name, props]) => (
               <PropsTable key={name} name={name} props={props} />
             ))}
           </section>
@@ -69,10 +140,10 @@ export function EntryPage({ kind, entry, prev, next }) {
                 </a>
               </li>
             ))}
-            {entry.props && (
+            {(entry.props || entry.additions) && (
               <li>
                 <a href="#api" className="-ml-px block border-l border-transparent pl-3 text-muted no-underline hover:border-ink hover:text-ink">
-                  API reference
+                  {entry.base ? 'Larch additions' : 'API reference'}
                 </a>
               </li>
             )}

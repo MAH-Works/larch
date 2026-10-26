@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { AppShell, Brand, Button, Icon, SidebarStatus, useToast } from '@mah-works/larch';
+import { AppShell, Brand, Button, Icon, SidebarStatus, Toast } from '@mah-works/larch';
 import { RouterLink } from '../RouterLink.jsx';
 import { LarchMark } from './LarchMark.jsx';
 import { BLOCKS, COMPONENTS, COMPONENT_GROUPS, GUIDES } from './registry.js';
@@ -48,7 +48,7 @@ function breadcrumb(pathname) {
 export default function DocsLayout() {
   const { pathname, hash } = useLocation();
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
 
   useEffect(() => {
     if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
@@ -57,10 +57,10 @@ export default function DocsLayout() {
 
   const onSearch = (query) => {
     const q = query.trim().toLowerCase();
-    if (!q) return showToast('Type a component name');
+    if (!q) return toastManager.add({ title: 'Type a component name' });
     const hit = SEARCHABLE.find((s) => s.label.toLowerCase().includes(q));
     if (hit) navigate(hit.href);
-    else showToast(`Nothing matches “${query}”`);
+    else toastManager.add({ title: `Nothing matches “${query}”` });
   };
 
   return (
@@ -70,7 +70,7 @@ export default function DocsLayout() {
         activeHref: pathname,
         linkComponent: RouterLink,
         brand: <Brand name="larch" suffix="ui" mark={<LarchMark />} />,
-        footer: <SidebarStatus text="v1.0.0 · React 18 · Tailwind 4" />,
+        footer: <SidebarStatus text="v2.0.0 · Base UI 1.9 · Tailwind 4" />,
       }}
       topbar={{
         ...breadcrumb(pathname),
@@ -78,7 +78,7 @@ export default function DocsLayout() {
         searchPlaceholder: 'Search docs',
         onSearch,
         actions: (
-          <Button as={Link} to="/examples/crm/overview" className="h-9 mobile:hidden">
+          <Button render={<Link to="/examples/crm/overview" />} nativeButton={false} className="h-9 mobile:hidden">
             Live example <Icon name="arrowRight" size="xs" />
           </Button>
         ),

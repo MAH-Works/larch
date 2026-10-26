@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Button from '../components/Button.jsx';
+import { Button } from '../base-ui/button.js';
 import Icon from '../components/Icon.jsx';
 import { useHotkey } from '../hooks/useHotkey.js';
 import { useTheme } from '../theme/ThemeProvider.jsx';

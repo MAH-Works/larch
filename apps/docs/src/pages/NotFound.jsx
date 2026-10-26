@@ -9,7 +9,7 @@ export default function NotFound() {
         title="Page not found"
         description="That page doesn't exist in the Larch docs."
         action={
-          <Button as={Link} to="/" variant="primary">
+          <Button render={<Link to="/" />} nativeButton={false} variant="primary">
             Back to introduction
           </Button>
         }

@@ -1,41 +1,34 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Card, CheckRow, Field, TextInput, useToast } from '@mah-works/larch';
+import { Alert, Card, Checkbox, Field, Form, Input, Toast } from '@mah-works/larch';
 import { AuthTopbar, EMAIL_RE, LegalNote, OrDivider, PasswordInput, SocialButtons, SubmitButton, useFakeRequest } from '../shared.jsx';
+
+const validateEmail = (value) => (!value ? 'Enter your email.' : !EMAIL_RE.test(value) ? 'Enter a valid email address.' : null);
+const validatePassword = (value) =>
+  !value ? 'Enter your password.' : value.length < 8 ? 'Passwords are at least 8 characters.' : null;
 
 /** Variant 1 — centered card: SSO, email + password, remember me, inline errors. */
 export default function SignIn() {
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [pending, request] = useFakeRequest();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const [authError, setAuthError] = useState(null);
 
-  const errors = {
-    email: !email ? 'Enter your email.' : !EMAIL_RE.test(email) ? 'Enter a valid email address.' : null,
-    password: !password ? 'Enter your password.' : password.length < 8 ? 'Passwords are at least 8 characters.' : null,
-  };
-  const show = (key) => (submitted ? errors[key] : null);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
+  // Base UI's Form runs every Field's `validate` on submit and only calls onFormSubmit when all pass.
+  const onFormSubmit = ({ password }) => {
     setAuthError(null);
-    if (errors.email || errors.password) return;
     request(() => {
       if (password === 'wrongpass') {
         setAuthError('That email and password don’t match. Try again or sign in with a code.');
         return;
       }
-      showToast('Signed in');
+      toastManager.add({ title: 'Signed in' });
       navigate('/examples/crm/overview');
     });
   };
 
   const sso = (provider) => request(() => {
-    showToast(`Signed in with ${provider}`);
+    toastManager.add({ title: `Signed in with ${provider}` });
     navigate('/examples/crm/overview');
   });
 
@@ -58,31 +51,25 @@ export default function SignIn() {
               </Alert>
             )}
 
-            <form noValidate onSubmit={onSubmit}>
-              <Field label="Email" id="si-email" error={show('email')}>
-                <TextInput
-                  id="si-email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  invalid={!!show('email')}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Field>
-              <Field label="Password" id="si-password" error={show('password')}>
-                <PasswordInput
-                  id="si-password"
-                  autoComplete="current-password"
-                  placeholder="••••••••"
-                  value={password}
-                  invalid={!!show('password')}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Field>
+            <Form onFormSubmit={onFormSubmit}>
+              <Field.Root name="email" validate={validateEmail}>
+                <Field.Label>Email</Field.Label>
+                <Input inputMode="email" autoComplete="email" placeholder="you@company.com" />
+                <Field.Error />
+              </Field.Root>
+              <Field.Root name="password" validate={validatePassword}>
+                <Field.Label>Password</Field.Label>
+                <PasswordInput autoComplete="current-password" placeholder="••••••••" />
+                <Field.Error />
+              </Field.Root>
 
               <div className="my-4 flex items-center justify-between gap-3">
-                <CheckRow defaultChecked>Remember me for 30 days</CheckRow>
+                <label className="flex items-center gap-2 text-xs text-[#656b74] dark:text-muted">
+                  <Checkbox.Root name="remember" defaultChecked>
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
+                  Remember me for 30 days
+                </label>
                 <Link to="/examples/auth/passwordless" className="text-xs font-medium text-blue no-underline hover:underline">
                   Forgot password?
                 </Link>
@@ -91,7 +78,7 @@ export default function SignIn() {
               <SubmitButton pending={pending} pendingLabel="Signing in…">
                 Sign in
               </SubmitButton>
-            </form>
+            </Form>
           </Card>
 
           <p className="mb-5 mt-5 text-center text-xs text-muted">

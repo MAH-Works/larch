@@ -13,6 +13,8 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: /^@mah-works\/larch\/(theme|tokens)\.css$/, replacement: `${ui}/$1.css` },
+      // `@mah-works/larch/dialog` etc. mirror `@base-ui/react/dialog`.
+      { find: /^@mah-works\/larch\/([a-z-]+)$/, replacement: `${ui}/base-ui/$1` },
       { find: /^@mah-works\/larch$/, replacement: `${ui}/index.js` },
     ],
   },

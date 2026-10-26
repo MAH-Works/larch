@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AppShell, SidebarStatus, useToast } from '@mah-works/larch';
+import { AppShell, SidebarStatus, Toast } from '@mah-works/larch';
 import { RouterLink } from '../RouterLink.jsx';
 import { CRM_PAGES } from './routes.js';
 import Overview from './pages/Overview.jsx';
@@ -24,13 +24,13 @@ SECTIONS.push({ label: 'Library', items: [{ href: '/', label: 'Back to docs', ic
 /** The Compass CRM, assembled from @mah-works/larch blocks. */
 export default function CrmApp() {
   const { pathname } = useLocation();
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const page = CRM_PAGES.find((p) => pathname === `${BASE}/${p.path}`) ?? CRM_PAGES[0];
   // Block body on purpose: newer Chromium returns a Promise from scrollTo, which React would call as cleanup.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  const onSearch = useCallback((q) => showToast(q ? `Searching for “${q}”` : 'Type a search term'), [showToast]);
+  const onSearch = useCallback((q) => toastManager.add({ title: q ? `Searching for “${q}”` : 'Type a search term' }), [toastManager]);
 
   return (
     <AppShell
@@ -48,8 +48,8 @@ export default function CrmApp() {
         searchPlaceholder: page.search,
         onSearch,
         createLabel: page.create,
-        onCreate: () => showToast(`${page.create} form`),
-        onNotifications: () => showToast('No new notifications'),
+        onCreate: () => toastManager.add({ title: `${page.create} form` }),
+        onNotifications: () => toastManager.add({ title: 'No new notifications' }),
       }}
     >
       <Routes>

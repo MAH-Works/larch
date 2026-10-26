@@ -13,12 +13,12 @@ import {
   PanelLink,
   PanelSelect,
   ProgressList,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, UPCOMING_RENEWALS, WORKLOAD } from '../data/workspace.js';
 
 export default function Overview() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <PageWrap>
       <PageHeading
@@ -26,11 +26,11 @@ export default function Overview() {
         title="Good morning, Mohamad"
         description="Here is what is happening across your client workspace."
       >
-        <Button onClick={() => showToast('Date range menu')}>
+        <Button onClick={() => toastManager.add({ title: 'Date range menu' })}>
           <Icon name="calendar" size="sm" />
           Last 30 days
         </Button>
-        <Button variant="primary" onClick={() => showToast('Report export started')}>
+        <Button variant="primary" onClick={() => toastManager.add({ title: 'Report export started' })}>
           <Icon name="download" size="sm" />
           Export
         </Button>

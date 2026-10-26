@@ -25,7 +25,7 @@ export default function WithPeriod() {
     <>
       <div className="mb-3 flex items-center justify-between">
         <h2 className="m-0 text-sm font-[650] tracking-[-.02em] text-ink">Renewals at a glance</h2>
-        <PanelSelect label="Period" options={Object.keys(DATA)} value={period} onChange={(e) => setPeriod(e.target.value)} />
+        <PanelSelect label="Period" options={Object.keys(DATA)} value={period} onValueChange={setPeriod} />
       </div>
       <MetricGrid className="mb-0" items={DATA[period]} />
     </>

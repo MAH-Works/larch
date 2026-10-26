@@ -1,4 +1,5 @@
-import { Badge, Button, Icon, PageHeading, Tabs } from '@mah-works/larch';
+import { Tabs } from '@mah-works/larch/tabs';
+import { Badge, Button, Icon, PageHeading } from '@mah-works/larch';
 
 export const title = 'Record header with tabs';
 export const description = 'A detail page: status badges in the eyebrow row, actions on the right, tabs underneath.';
@@ -25,14 +26,19 @@ export default function RecordHeader() {
           New project
         </Button>
       </PageHeading>
-      <Tabs
-        tabs={[
-          { id: 'overview', label: 'Overview', content: '12 projects · 48 open tasks · $24.8k billed this month.' },
-          { id: 'projects', label: 'Projects', content: 'Website redesign, Mobile app audit, …' },
-          { id: 'contacts', label: 'Contacts', content: 'Jamie Davis, Head of Product.' },
-          { id: 'billing', label: 'Billing', content: 'Next invoice on Nov 1.' },
-        ]}
-      />
+      <Tabs.Root defaultValue="overview">
+        <Tabs.List>
+          <Tabs.Tab value="overview">Overview</Tabs.Tab>
+          <Tabs.Tab value="projects">Projects</Tabs.Tab>
+          <Tabs.Tab value="contacts">Contacts</Tabs.Tab>
+          <Tabs.Tab value="billing">Billing</Tabs.Tab>
+          <Tabs.Indicator />
+        </Tabs.List>
+        <Tabs.Panel value="overview">12 projects · 48 open tasks · $24.8k billed this month.</Tabs.Panel>
+        <Tabs.Panel value="projects">Website redesign, Mobile app audit, …</Tabs.Panel>
+        <Tabs.Panel value="contacts">Jamie Davis, Head of Product.</Tabs.Panel>
+        <Tabs.Panel value="billing">Next invoice on Nov 1.</Tabs.Panel>
+      </Tabs.Root>
     </>
   );
 }

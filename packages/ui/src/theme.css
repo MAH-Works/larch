@@ -69,6 +69,7 @@
   --shadow-toast: 0 8px 25px rgba(22, 28, 39, 0.2);
 
   --animate-shimmer: shimmer 1.5s ease-in-out infinite;
+  --animate-indeterminate: indeterminate 1.4s ease-in-out infinite;
 
   @keyframes shimmer {
     from {
@@ -76,6 +77,16 @@
     }
     to {
       background-position: -200% 0;
+    }
+  }
+
+  /* Indeterminate Progress: a 40% bar sweeping across the track. */
+  @keyframes indeterminate {
+    from {
+      translate: -100% 0;
+    }
+    to {
+      translate: 250% 0;
     }
   }
 }

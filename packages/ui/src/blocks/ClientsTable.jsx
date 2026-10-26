@@ -1,6 +1,6 @@
 import Badge from '../components/Badge.jsx';
 import { AvatarStack } from '../components/Avatar.jsx';
-import Checkbox from '../components/Checkbox.jsx';
+import { Checkbox } from '../base-ui/checkbox.js';
 import ClientMark from '../components/ClientMark.jsx';
 import { MoreButton } from '../components/Table.jsx';
 
@@ -52,12 +52,14 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
         <thead className="sticky top-0 z-1">
           <tr>
             <th className={`${TH_ICON} w-[51px]`}>
-              <Checkbox
+              <Checkbox.Root
                 aria-label="Select all rows"
                 checked={allChecked}
                 indeterminate={someChecked && !allChecked}
-                onChange={(e) => onToggleAll(rows.map((r) => r.id), e.target.checked)}
-              />
+                onCheckedChange={(checked) => onToggleAll(rows.map((r) => r.id), checked)}
+              >
+                <Checkbox.Indicator />
+              </Checkbox.Root>
             </th>
             <th className={`${TH} w-[23%]`}>
               <SortHeader onClick={() => onSort?.('name')}>Client</SortHeader>
@@ -81,11 +83,13 @@ export function ClientsTable({ rows, selected, onToggle, onToggleAll, onSort, on
             return (
               <tr key={r.id} className={isSelected ? 'bg-selected hover:bg-selected-hover' : 'hover:bg-row-hover'}>
                 <td className={TD_ICON}>
-                  <Checkbox
+                  <Checkbox.Root
                     aria-label={`Select ${r.name}`}
                     checked={isSelected}
-                    onChange={(e) => onToggle(r.id, e.target.checked)}
-                  />
+                    onCheckedChange={(checked) => onToggle(r.id, checked)}
+                  >
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
                 </td>
                 <td className={TD}>
                   <div className="flex min-w-0 items-center gap-[10px]">

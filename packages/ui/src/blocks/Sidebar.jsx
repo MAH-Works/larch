@@ -1,3 +1,4 @@
+import { Drawer } from '../base-ui/drawer.js';
 import Icon from '../components/Icon.jsx';
 import { Brand } from './BrandMark.jsx';
 
@@ -82,7 +83,7 @@ export function SidebarStatus({ text = 'All systems operational', initials }) {
 
 const PANEL = 'flex w-[244px] flex-col overflow-y-auto border-r border-line bg-sidebar px-[14px] pb-[18px] pt-[22px]';
 
-/** Desktop sidebar (≥ 681px) plus a slide-over drawer on mobile when `open`. */
+/** Desktop sidebar (≥ 681px) plus a swipe-to-close Base UI Drawer on mobile when `open`. */
 export function Sidebar({ open = false, onClose, ...navProps }) {
   return (
     <>
@@ -90,20 +91,26 @@ export function Sidebar({ open = false, onClose, ...navProps }) {
         <SidebarNav {...navProps} />
       </aside>
 
-      {open && (
-        <div className="fixed inset-0 z-40 hidden mobile:block">
-          <div className="absolute inset-0 bg-[rgba(16,21,29,.52)]" onClick={onClose} />
-          <aside className={`${PANEL} relative h-full shadow-dialog`}>
-            <SidebarNav
-              {...navProps}
-              onNavigate={() => {
-                navProps.onNavigate?.();
-                onClose?.();
-              }}
-            />
-          </aside>
-        </div>
-      )}
+      <Drawer.Root open={open} onOpenChange={(next) => !next && onClose?.()} swipeDirection="left">
+        <Drawer.Portal>
+          <Drawer.Backdrop className="hidden mobile:block" />
+          <Drawer.Viewport className="hidden mobile:flex">
+            {/* Placement styles are keyed to data-swipe-direction, so overrides use the same variant. */}
+            <Drawer.Popup
+              aria-label="Navigation"
+              className={`${PANEL} data-[swipe-direction=left]:w-[244px] data-[swipe-direction=left]:px-[14px] data-[swipe-direction=left]:pb-[18px] data-[swipe-direction=left]:pt-[22px]`}
+            >
+              <SidebarNav
+                {...navProps}
+                onNavigate={() => {
+                  navProps.onNavigate?.();
+                  onClose?.();
+                }}
+              />
+            </Drawer.Popup>
+          </Drawer.Viewport>
+        </Drawer.Portal>
+      </Drawer.Root>
     </>
   );
 }

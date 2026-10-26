@@ -1,3 +1,5 @@
+import { forwardRef } from 'react';
+import { Select } from '../base-ui/select.jsx';
 import { Card } from './Card.jsx';
 import Icon from './Icon.jsx';
 
@@ -94,10 +96,11 @@ export function CellTitle({ leading, title, caption }) {
   );
 }
 
-/** "···" row-actions trigger. */
-export function MoreButton({ label = 'More actions', ...props }) {
+/** "···" row-actions trigger. Forwards its ref, so it can be a Base UI `render` target (e.g. Menu.Trigger). */
+export const MoreButton = forwardRef(function MoreButton({ label = 'More actions', ...props }, ref) {
   return (
     <button
+      ref={ref}
       type="button"
       aria-label={label}
       className="rounded-[5px] border-0 bg-transparent p-[7px] text-lg leading-[10px] text-[#9ea2aa] hover:bg-hover hover:text-[#555a63] dark:text-[#7d8794] dark:hover:text-[#d5dae1]"
@@ -106,7 +109,7 @@ export function MoreButton({ label = 'More actions', ...props }) {
       ···
     </button>
   );
-}
+});
 
 export function TableFooter({ children, pagination, className = '' }) {
   return (
@@ -136,23 +139,34 @@ export function Pagination({ onPrev, onNext, disabledPrev = !onPrev, disabledNex
   );
 }
 
-/** "Show [20]" rows-per-page select for table footers. */
+/** "Show [20]" rows-per-page select for table footers, built on Base UI Select. */
 export function PageSizeSelect({ value, onChange, options = [10, 20, 50] }) {
   return (
-    <label>
-      Show{' '}
-      <select
-        aria-label="Rows per page"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="rounded-[5px] border border-line-strong bg-surface py-[5px] pl-2 pr-[23px] text-[11px] text-[#60656e] dark:text-soft"
-      >
-        {options.map((n) => (
-          <option key={n} value={n}>
-            {n}
-          </option>
-        ))}
-      </select>
-    </label>
+    <Select.Root value={value} onValueChange={(n) => onChange(Number(n))}>
+      <span className="inline-flex items-center gap-[6px]">
+        Show
+        <Select.Trigger
+          aria-label="Rows per page"
+          className="h-auto w-auto gap-[6px] rounded-[5px] py-[5px] pl-2 pr-[7px] text-[11px] text-[#60656e] dark:text-soft"
+        >
+          <Select.Value />
+          <Select.Icon />
+        </Select.Trigger>
+      </span>
+      <Select.Portal>
+        <Select.Positioner>
+          <Select.Popup>
+            <Select.List>
+              {options.map((n) => (
+                <Select.Item key={n} value={n}>
+                  <Select.ItemText>{n}</Select.ItemText>
+                  <Select.ItemIndicator />
+                </Select.Item>
+              ))}
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
   );
 }

@@ -1,6 +1,9 @@
 # @mah-works/larch
 
-Quiet, dense React + Tailwind CSS v4 components for client-operations dashboards.
+Base UI, themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).
+
+Every [Base UI](https://base-ui.com/react/overview/introduction) component keeps its name, parts and
+props; Larch supplies the styles. Copy an example from the Base UI docs, change the import, done.
 
 ## Install
 
@@ -13,7 +16,7 @@ Larch is published to GitHub Packages. Point the `@mah-works` scope at it in you
 ```
 
 ```bash
-pnpm add @mah-works/larch     # peer deps: react >= 18, react-dom >= 18
+pnpm add @mah-works/larch @base-ui/react   # peers: @base-ui/react ^1.9, react >= 18, react-dom >= 18
 ```
 
 ### With Tailwind CSS v4 (recommended)
@@ -45,22 +48,32 @@ Load Inter (UI) and DM Mono (numerics), e.g. from Google Fonts.
 ## Use
 
 ```jsx
-import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@mah-works/larch';
+- import { Dialog } from '@base-ui/react/dialog';
++ import { Dialog } from '@mah-works/larch/dialog';   // or from '@mah-works/larch'
 
-<ToastProvider>
-  <ThemeProvider>
-    <PageWrap>
-      <PageHeading eyebrow="Workspace" title="Overview">
-        <Button variant="primary"><Icon name="download" size="sm" /> Export</Button>
-      </PageHeading>
-      <MetricGrid items={[{ label: 'Active clients', value: '24', meta: [{ text: '↗ 8.3%', trend: 'up' }] }]} />
-    </PageWrap>
-  </ThemeProvider>
-</ToastProvider>
+<Dialog.Root>
+  <Dialog.Trigger variant="primary">Open</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Backdrop />
+    <Dialog.Popup>
+      <Dialog.Title>Share view</Dialog.Title>
+      <Dialog.Description>Anyone on the workspace can open it.</Dialog.Description>
+      <Dialog.Close>Close</Dialog.Close>
+    </Dialog.Popup>
+  </Dialog.Portal>
+</Dialog.Root>
 ```
 
-The library is router-agnostic: `Button`, `Card` and `PanelLink` take `as={Link}`, and `Sidebar` /
-`AppShell` take a `linkComponent` that receives `href`.
+- Styled parts merge your `className` after Larch's defaults (tailwind-merge), so overrides win.
+  `className={(state) => …}`, `render`, data attributes and CSS variables work exactly as in Base UI.
+- Larch adds visual props only: `variant` on Button and button-like triggers/closes, `tone`/`size` on
+  Avatar.Root, `tone` on Progress/Meter/Slider indicators, and default glyphs for empty icon parts.
+- Parts with no element of their own (Root, Portal, Provider) and helpers (`createHandle`,
+  `useToastManager`…) are Base UI's own objects.
+- App setup: wrap in `<Toast.Provider>` + `<Toaster />` and `ThemeProvider`; give the app root
+  `isolation: isolate` (Base UI's portal recommendation).
+- Routing: `<Button render={<Link to="/x" />} nativeButton={false}>`. `Card` / `PanelLink` take `as`,
+  `Sidebar` / `AppShell` take a `linkComponent` that receives `href`.
 
 ## Theming
 
@@ -70,19 +83,29 @@ Semantic colors (`bg-surface`, `text-ink`, `border-line`, `bg-blue`…) map to C
 
 ## Exports
 
-**Components** — Button, Badge, Avatar, AvatarStack, ClientMark, Icon, Checkbox, CheckRow, Switch,
-Field, TextInput, TextArea, SelectInput, Card, Panel, PanelGrid, PanelSelect, MetricCard, MetricGrid,
-ProgressBar, ProgressRow, ProgressList, Legend, Dot, Alert, Skeleton, Tooltip, Kbd, EmptyState,
-Eyebrow, Divider, ToolbarDivider, Dropdown, Tabs, Dialog, DirectoryCard, DirectoryToolbar,
-ToolbarTitle, DirectoryTable, Row, Cell, CellTitle, Caption, MoreButton, TableFooter, Pagination,
-PageSizeSelect, PageWrap, PageHeading
+**Base UI components** (also at `@mah-works/larch/<component>`) — Accordion, AlertDialog, Autocomplete,
+Avatar, Button, Checkbox, CheckboxGroup, Collapsible, Combobox, ContextMenu, Dialog, Drawer, Field,
+Fieldset, Form, Input, Menu, Menubar, Meter, NavigationMenu, NumberField, OTPField, Popover,
+PreviewCard, Progress, Radio, RadioGroup, ScrollArea, Select, Separator, Slider, Switch, Tabs, Toast,
+Toggle, ToggleGroup, Toolbar, Tooltip — plus `TextArea` (Larch extension: Base UI Input as a textarea).
+
+**Larch components** — Badge, AvatarStack, ClientMark, Icon, Card, Panel, PanelGrid, PanelSelect,
+MetricCard, MetricGrid, ProgressRow, ProgressList, Legend, Dot, Alert, Skeleton, Kbd, EmptyState,
+Eyebrow, DirectoryCard, DirectoryToolbar, ToolbarTitle, DirectoryTable, Row, Cell, CellTitle, Caption,
+MoreButton, TableFooter, Pagination, PageSizeSelect, PageWrap, PageHeading
 
 **Blocks** — AppShell, Sidebar, SidebarNav, SidebarStatus, Topbar, Brand, BrandMark, ClientsTable,
 SelectionToolbar, ProjectCard, ProjectGrid, HealthChart, BarChart, Breakdown, ActivityList,
-AccountItem, StatusList, PanelLink
+AccountItem, StatusList, PanelLink, Toaster
 
-**Theme & hooks** — ThemeProvider, useTheme, themeScript, ToastProvider, useToast, useSelection,
-useHotkey, useDismiss
+**Theme, tokens & hooks** — ThemeProvider, useTheme, themeScript, useSelection, useHotkey, useDismiss,
+BUTTON_VARIANTS, AVATAR_TONES, AVATAR_SIZES, PROGRESS_TONES
+
+## Migrating from 1.x
+
+2.0 replaces Larch's hand-rolled Dialog, Dropdown, Tabs, Tooltip, Checkbox, CheckRow, Switch, Field,
+TextInput, SelectInput, ProgressBar, Avatar, Divider/ToolbarDivider and ToastProvider/useToast with Base
+UI components. See the "Base UI & styling" guide in the docs for a 1.x → 2.0 table.
 
 Original compass-react names `WorkloadRow` and `RenewalItem` remain as aliases of `ProgressRow` and
 `AccountItem`.

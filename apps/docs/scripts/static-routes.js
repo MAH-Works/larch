@@ -21,8 +21,8 @@ const examples = (kind) =>
   );
 
 const routes = [
-  ...slugs(section('export const GUIDES', 'export const COMPONENTS')).filter(Boolean).map((s) => `docs/${s}`),
-  ...slugs(section('export const COMPONENTS', 'export const BLOCKS')).map((s) => `components/${s}`),
+  ...slugs(section('export const GUIDES', 'const BASE_UI')).filter(Boolean).map((s) => `docs/${s}`),
+  ...slugs(section('const BASE_UI', 'export const BLOCKS')).map((s) => `components/${s}`),
   ...slugs(section('export const BLOCKS')).map((s) => `blocks/${s}`),
   'examples',
   ...CRM_PAGES.map((p) => `examples/crm/${p.path}`),

@@ -37,12 +37,12 @@ export default function Theming() {
           choice in <C>localStorage</C>.
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, useTheme, useToast } from '@mah-works/larch';
+      <Code>{`import { Button, ThemeProvider, Toast, useTheme } from '@mah-works/larch';
 
 function Root() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
-    <ThemeProvider onChange={(t) => showToast(\`\${t === 'dark' ? 'Dark' : 'Light'} mode enabled\`)}>
+    <ThemeProvider onChange={(t) => toastManager.add({ title: \`\${t === 'dark' ? 'Dark' : 'Light'} mode enabled\` })}>
       <App />
     </ThemeProvider>
   );

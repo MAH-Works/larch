@@ -81,7 +81,9 @@
     background: var(--canvas);
   }
 
+  /* Base UI: lets modal backdrops use position: absolute on iOS 26+ Safari and still cover the page. */
   body {
+    position: relative;
     margin: 0;
     background: var(--canvas);
     color: var(--ink);

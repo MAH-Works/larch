@@ -27,57 +27,222 @@ export function examplesFor(kind, slug) {
 export const GUIDES = [
   { slug: '', label: 'Introduction', icon: 'overview' },
   { slug: 'installation', label: 'Installation', icon: 'download' },
+  { slug: 'base-ui', label: 'Base UI & styling', icon: 'window' },
   { slug: 'theming', label: 'Theming & dark mode', icon: 'moon' },
   { slug: 'tokens', label: 'Design tokens', icon: 'tag' },
   { slug: 'hooks', label: 'Hooks', icon: 'settings' },
 ];
 
-export const COMPONENTS = [
-  // ── Actions ──
-  {
-    slug: 'button',
-    name: 'Button',
-    group: 'Actions',
-    description: 'Polymorphic button with seven variants. Ghost controls keep attention on the data; primary is reserved for the one thing a page wants you to do.',
-    imports: ['Button'],
-    props: {
-      Button: [
-        ['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon'", "'outline'", 'Visual style. `create` is the taller topbar primary; `icon` is a 36px square (always pass aria-label).'],
-        ['as', 'ElementType', "'button'", 'Render as another element, e.g. a router <Link> or <a>.'],
-        ['className', 'string', '', 'Extra classes appended to the variant.'],
-        ['...props', 'ButtonHTMLAttributes', '', 'Forwarded to the element. `type="button"` is set by default. Ref is forwarded.'],
-      ],
-    },
-  },
-  {
-    slug: 'dropdown',
-    name: 'Dropdown',
-    group: 'Actions',
-    description: 'A button that opens a small action menu. Closes on outside click, Escape or selection.',
-    imports: ['Dropdown'],
-    props: {
-      Dropdown: [
-        ['label', 'ReactNode', '', 'Trigger content (a chevron is appended).'],
-        ['items', '{ label, icon?, danger?, onSelect? }[]', '', 'Menu entries. `danger` colors the row red.'],
-        ['variant', 'Button variant', "'outline'", 'Trigger button style.'],
-        ['align', "'left' | 'right'", "'left'", 'Which edge of the trigger the menu aligns to.'],
-      ],
-    },
-  },
-  {
-    slug: 'kbd',
-    name: 'Kbd',
-    group: 'Actions',
-    description: 'Keyboard key cap for shortcuts and hints.',
-    imports: ['Kbd'],
-    props: { Kbd: [['children', 'ReactNode', '', 'Key label, e.g. "⌘ K".']] },
-  },
 
-  // ── Data display ──
+// Base UI's catalog, one page per component, in Base UI's order. `base` is the export name (a namespace or
+// a single component); `baseUi` is the slug of the matching page on base-ui.com. `additions` documents only
+// what Larch adds on top of Base UI — every other prop is Base UI's own.
+const BASE_UI = [
+  {
+    slug: 'accordion', name: 'Accordion', base: 'Accordion',
+    description: 'Collapsible sections with hairline dividers and a CSS chevron on each trigger.',
+  },
+  {
+    slug: 'alert-dialog', name: 'Alert Dialog', base: 'AlertDialog',
+    description: 'A dialog that requires a response. Shares every Dialog style.',
+    additions: { 'AlertDialog.Trigger · AlertDialog.Close': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']] },
+  },
+  {
+    slug: 'autocomplete', name: 'Autocomplete', base: 'Autocomplete',
+    description: 'A text input with suggestions; the value is the free text. Shares Combobox’s styles.',
+    additions: { 'Autocomplete.Trigger': [['children', 'ReactNode', '<Icon name="chevronDown" />', 'Rendered when you pass no children.']], 'Autocomplete.Clear': [['children', 'ReactNode', '<Icon name="close" />', 'Rendered when you pass no children.']] },
+  },
+  {
+    slug: 'avatar', name: 'Avatar', base: 'Avatar',
+    description: 'Gradient initials avatars with an optional image. AvatarStack is a Larch helper that overlaps several.',
+    additions: {
+      'Avatar.Root': [
+        ['tone', "'blue' | 'coral' | 'green' | 'sand' | 'purple' | 'muted'", "'blue'", 'Gradient (or the neutral `muted` look for “+N”).'],
+        ['size', "'sm' | 'md' | 'lg'", "'sm'", '25px · 30px · 35px.'],
+      ],
+      'AvatarStack (Larch)': [
+        ['avatars', '{ initials, tone?, size?, src? }[]', '[]', 'Avatars to overlap, left to right.'],
+        ['className', 'string', '', 'Extra classes on the flex wrapper.'],
+      ],
+    },
+  },
+  {
+    slug: 'button', name: 'Button', base: 'Button',
+    description: 'Base UI’s Button with Larch’s variants. Ghost controls keep attention on the data; primary is for the one thing a page wants you to do.',
+    additions: { Button: [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']] },
+  },
+  {
+    slug: 'checkbox', name: 'Checkbox', base: 'Checkbox',
+    description: 'A 15px box that fills blue. An empty Indicator draws the check or the indeterminate dash.',
+    additions: { 'Checkbox.Indicator': [['children', 'ReactNode', 'CSS check / dash', 'Pass an icon to replace the drawn glyph.']] },
+  },
+  {
+    slug: 'checkbox-group', name: 'Checkbox Group', base: 'CheckboxGroup', also: ['Checkbox'],
+    description: 'Shared state for a list of checkboxes, including a parent “select all” checkbox.',
+  },
+  {
+    slug: 'collapsible', name: 'Collapsible', base: 'Collapsible',
+    description: 'A single disclosure with an animated panel.',
+  },
+  {
+    slug: 'combobox', name: 'Combobox', base: 'Combobox',
+    description: 'An input that filters a list and selects one or many values. Multiple values render as Larch pills.',
+    additions: {
+      'Combobox.Trigger': [['children', 'ReactNode', '<Icon name="chevronDown" />', 'Rendered when you pass no children.']],
+      'Combobox.Clear · Combobox.ChipRemove': [['children', 'ReactNode', '<Icon name="close" />', 'Rendered when you pass no children.']],
+      'Combobox.ItemIndicator': [['children', 'ReactNode', '<Icon name="check" />', 'Rendered when you pass no children.']],
+    },
+  },
+  {
+    slug: 'context-menu', name: 'Context Menu', base: 'ContextMenu',
+    description: 'A menu opened by right-click or long-press. Shares every Menu style.',
+    additions: { 'ContextMenu.CheckboxItemIndicator': [['children', 'ReactNode', '<Icon name="check" />', 'Rendered when you pass no children.']] },
+  },
+  {
+    slug: 'dialog', name: 'Dialog', base: 'Dialog',
+    description: 'A modal window. Centred on its own, or laid out by Dialog.Viewport when you include it.',
+    additions: { 'Dialog.Trigger · Dialog.Close': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']] },
+  },
+  {
+    slug: 'drawer', name: 'Drawer', base: 'Drawer',
+    description: 'A sheet that slides in from an edge and can be swiped away. Placement follows `swipeDirection` on the Root.',
+    additions: { 'Drawer.Trigger · Drawer.Close': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']] },
+  },
+  {
+    slug: 'field', name: 'Field', base: 'Field',
+    description: 'Label, control, description and error wired together, with Larch’s 35px control and red invalid state.',
+  },
+  {
+    slug: 'fieldset', name: 'Fieldset', base: 'Fieldset',
+    description: 'Groups related fields under a legend in Larch’s eyebrow style.',
+  },
+  {
+    slug: 'form', name: 'Form', base: 'Form', also: ['Field', 'Input'],
+    description: 'Native form with Base UI validation and server errors. Larch re-exports it unchanged — a form has no look of its own.',
+  },
+  {
+    slug: 'input', name: 'Input', base: 'Input', also: ['TextArea'],
+    description: 'Text input with Larch’s 35px control style, plus a TextArea extension.',
+    additions: {
+      'TextArea (Larch)': [
+        ['…Input props', 'Input.Props', '', 'Base UI Input rendered as `<textarea>` — Base UI has no textarea of its own.'],
+      ],
+    },
+  },
+  {
+    slug: 'menu', name: 'Menu', base: 'Menu',
+    description: 'A list of actions in a popup, with checkbox and radio items, groups and submenus.',
+    additions: {
+      'Menu.Trigger': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']],
+      'Menu.CheckboxItemIndicator': [['children', 'ReactNode', '<Icon name="check" />', 'Rendered when you pass no children.']],
+      'Menu.Clear': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'iconSm'", 'Larch Button look for this part.'], ['children', 'ReactNode', '<Icon name="close" />', 'Rendered when you pass no children.']],
+    },
+  },
+  {
+    slug: 'menubar', name: 'Menubar', base: 'Menubar', also: ['Menu'],
+    description: 'A bar of menus with arrow-key navigation between them.',
+  },
+  {
+    slug: 'meter', name: 'Meter', base: 'Meter',
+    description: 'A static measurement within a range, on Larch’s 7px track.',
+    additions: { 'Meter.Indicator': [['tone', "'blue' | 'green' | 'amber' | 'violet' | 'red'", "'blue'", 'Fill color.']] },
+  },
+  {
+    slug: 'navigation-menu', name: 'Navigation Menu', base: 'NavigationMenu',
+    description: 'Site navigation whose popup morphs between panels.',
+    additions: { 'NavigationMenu.Trigger': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'ghost'", 'Larch Button look for this part.']], 'NavigationMenu.Icon': [['children', 'ReactNode', '<Icon name="chevronDown" />', 'Rendered when you pass no children.']] },
+  },
+  {
+    slug: 'number-field', name: 'Number Field', base: 'NumberField',
+    description: 'A numeric input with steppers and scrubbing.',
+    additions: { 'NumberField.Decrement · NumberField.Increment': [['children', 'ReactNode', '<Icon name="minus" /> · <Icon name="plus" />', 'Rendered when you pass no children.']] },
+  },
+  {
+    slug: 'otp-field', name: 'OTP Field', base: 'OTPField',
+    description: 'One square control per character of a one-time code.',
+  },
+  {
+    slug: 'popover', name: 'Popover', base: 'Popover',
+    description: 'A floating panel anchored to its trigger.',
+    additions: { 'Popover.Trigger': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'outline'", 'Larch Button look for this part.']], 'Popover.Close': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'iconSm'", 'Larch Button look for this part.'], ['children', 'ReactNode', '<Icon name="close" />', 'Rendered when you pass no children.']] },
+  },
+  {
+    slug: 'preview-card', name: 'Preview Card', base: 'PreviewCard',
+    description: 'A hover card that previews a link’s destination.',
+  },
+  {
+    slug: 'progress', name: 'Progress', base: 'Progress',
+    description: 'Task progress on Larch’s 7px track, determinate or indeterminate.',
+    additions: { 'Progress.Indicator': [['tone', "'blue' | 'green' | 'amber' | 'violet' | 'red'", "'blue'", 'Fill color.']] },
+  },
+  {
+    slug: 'radio-group', name: 'Radio Group', base: 'RadioGroup', also: ['Radio'],
+    description: 'A set of radio buttons where one can be selected.',
+  },
+  {
+    slug: 'scroll-area', name: 'Scroll Area', base: 'ScrollArea',
+    description: 'Native scrolling with thin overlay scrollbars.',
+  },
+  {
+    slug: 'select', name: 'Select', base: 'Select',
+    description: 'Choose one value from a popup list, with Larch’s 35px trigger.',
+    additions: {
+      'Select.Icon': [['children', 'ReactNode', '<Icon name="chevronDown" />', 'Rendered when you pass no children.']],
+      'Select.ItemIndicator': [['children', 'ReactNode', '<Icon name="check" />', 'Rendered when you pass no children.']],
+      'Select.ScrollUpArrow · Select.ScrollDownArrow': [['children', 'ReactNode', 'chevron glyphs', 'Rendered when you pass no children.']],
+    },
+  },
+  {
+    slug: 'separator', name: 'Separator', base: 'Separator',
+    description: 'A hairline rule in either orientation. Replaces Larch 1’s Divider and ToolbarDivider.',
+  },
+  {
+    slug: 'slider', name: 'Slider', base: 'Slider',
+    description: 'Pick a value or a range by dragging along a track.',
+    additions: { 'Slider.Indicator': [['tone', "'blue' | 'green' | 'amber' | 'violet' | 'red'", "'blue'", 'Fill color.']] },
+  },
+  {
+    slug: 'switch', name: 'Switch', base: 'Switch',
+    description: 'A 34×20 on/off toggle. Pair it with a Field for a labelled settings row.',
+  },
+  {
+    slug: 'tabs', name: 'Tabs', base: 'Tabs',
+    description: 'Underlined tabs; Tabs.Indicator slides the blue underline between them.',
+  },
+  {
+    slug: 'toast', name: 'Toast', base: 'Toast',
+    description: 'Stacked notifications. Wrap the app in Toast.Provider and render the Toaster block (or your own list).',
+    additions: {
+      'Toast.Close': [['children', 'ReactNode', '<Icon name="close" />', 'Rendered when you pass no children.']],
+      'Toaster (Larch block)': [['—', '', '', 'Renders Toast.Portal → Toast.Viewport → one Toast.Root per toast from the surrounding Provider.']],
+    },
+  },
+  {
+    slug: 'toggle', name: 'Toggle', base: 'Toggle',
+    description: 'A two-state button that turns soft blue when pressed.',
+  },
+  {
+    slug: 'toggle-group', name: 'Toggle Group', base: 'ToggleGroup', also: ['Toggle'],
+    description: 'A segmented control of Toggles.',
+  },
+  {
+    slug: 'toolbar', name: 'Toolbar', base: 'Toolbar',
+    description: 'A row of controls with one tab stop and arrow-key navigation.',
+    additions: { 'Toolbar.Button': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'ghost'", 'Larch Button look for this part.']] },
+  },
+  {
+    slug: 'tooltip', name: 'Tooltip', base: 'Tooltip',
+    description: 'Larch’s small dark tooltip for supplementary hints.',
+    additions: { 'Tooltip.Trigger': [['variant', "'outline' | 'ghost' | 'ghostDanger' | 'primary' | 'danger' | 'create' | 'icon' | 'iconSm' | 'unstyled'", "'unstyled'", 'Larch Button look for this part.']] },
+  },
+].map((entry) => ({ ...entry, group: 'Components', baseUi: entry.slug, imports: [entry.base, ...(entry.also ?? [])] }));
+
+// Larch's own components — no Base UI equivalent.
+const LARCH = [
   {
     slug: 'badge',
     name: 'Badge',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Pills share one shape; hue communicates state (status) or classification (tag). A `count` badge is a compact numeric pill.',
     imports: ['Badge', 'BADGE_VARIANTS'],
     props: {
@@ -89,29 +254,9 @@ export const COMPONENTS = [
     },
   },
   {
-    slug: 'avatar',
-    name: 'Avatar',
-    group: 'Data display',
-    description: 'Gradient initials avatar in three sizes, plus an overlapping stack for teams.',
-    imports: ['Avatar', 'AvatarStack'],
-    props: {
-      Avatar: [
-        ['initials', 'string', '', 'One or two characters, or "+N" for overflow.'],
-        ['tone', "'blue' | 'coral' | 'green' | 'sand' | 'purple'", "'blue'", 'Gradient.'],
-        ['size', "'sm' | 'md' | 'lg'", "'sm'", '25px · 30px · 35px.'],
-        ['more', 'boolean', 'false', 'Neutral grey look for "+N" overflow avatars.'],
-        ['stacked', 'boolean', 'false', 'Adds the overlap + surface ring (set automatically by AvatarStack).'],
-      ],
-      AvatarStack: [
-        ['avatars', 'AvatarProps[]', '[]', 'Avatars to overlap, left to right.'],
-        ['className', 'string', '', 'Extra classes on the flex wrapper.'],
-      ],
-    },
-  },
-  {
     slug: 'client-mark',
     name: 'ClientMark',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Rounded-square monogram that identifies an organisation in tables and lists.',
     imports: ['ClientMark'],
     props: {
@@ -125,7 +270,7 @@ export const COMPONENTS = [
   {
     slug: 'icon',
     name: 'Icon',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'A compact 24×24 stroke icon set. Icons inherit `currentColor`, so color them with text utilities.',
     imports: ['Icon', 'ICON_NAMES'],
     props: {
@@ -139,7 +284,7 @@ export const COMPONENTS = [
   {
     slug: 'card',
     name: 'Card & Panel',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Card is the base surface. Panel adds a title, subtitle and header action; PanelGrid lays panels out wide + narrow.',
     imports: ['Card', 'Panel', 'PanelGrid', 'PanelSelect'],
     props: {
@@ -164,7 +309,7 @@ export const COMPONENTS = [
   {
     slug: 'metric-card',
     name: 'MetricCard',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'KPI tile with an uppercase label, a large value and trend meta. MetricGrid lays out four in a row.',
     imports: ['MetricCard', 'MetricGrid'],
     props: {
@@ -177,30 +322,9 @@ export const COMPONENTS = [
     },
   },
   {
-    slug: 'progress',
-    name: 'Progress',
-    group: 'Data display',
-    description: 'A thin progress track, a labelled row for workload-style breakdowns, and a list helper.',
-    imports: ['ProgressBar', 'ProgressRow', 'ProgressList'],
-    props: {
-      ProgressBar: [
-        ['percent', 'number', '', '0–100 (clamped).'],
-        ['tone', "'blue' | 'green' | 'amber' | 'violet' | 'red'", "'blue'", 'Fill color.'],
-        ['label', 'string', '', 'Accessible name.'],
-      ],
-      ProgressRow: [
-        ['label', 'string', '', 'Left label (90px column).'],
-        ['value', 'ReactNode', '', 'Right-aligned value.'],
-        ['percent', 'number', '', 'Bar fill.'],
-        ['tone', 'string', "'blue'", 'Bar color.'],
-      ],
-      ProgressList: [['items', 'ProgressRowProps[]', '', 'Rows stacked with 17px gaps.']],
-    },
-  },
-  {
     slug: 'legend',
     name: 'Legend',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Colored dots that key chart series.',
     imports: ['Legend', 'Dot'],
     props: {
@@ -211,7 +335,7 @@ export const COMPONENTS = [
   {
     slug: 'table',
     name: 'Directory table',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Composable table parts for people, accounts and projects: a card shell, toolbar, header row, cells with captions and a footer.',
     imports: ['DirectoryCard', 'DirectoryToolbar', 'ToolbarTitle', 'DirectoryTable', 'Row', 'Cell', 'CellTitle', 'Caption', 'MoreButton', 'TableFooter'],
     props: {
@@ -235,7 +359,7 @@ export const COMPONENTS = [
   {
     slug: 'pagination',
     name: 'Pagination',
-    group: 'Data display',
+    group: 'Larch components',
     description: 'Previous/next buttons and a rows-per-page select for table footers.',
     imports: ['Pagination', 'PageSizeSelect'],
     props: {
@@ -252,66 +376,10 @@ export const COMPONENTS = [
       ],
     },
   },
-
-  // ── Forms ──
-  {
-    slug: 'form',
-    name: 'Inputs & Field',
-    group: 'Forms',
-    description: 'Text input, textarea and select share one 35px control style with a soft blue focus ring. Field adds the label and an optional hint or error.',
-    imports: ['Field', 'TextInput', 'TextArea', 'SelectInput'],
-    props: {
-      Field: [
-        ['label', 'ReactNode', '', 'Label text.'],
-        ['id', 'string', '', 'Links the label to the control — pass the same id to the input.'],
-        ['hint', 'ReactNode', '', 'Helper text under the control.'],
-        ['error', 'ReactNode', '', 'Error text (replaces the hint, shown in red).'],
-      ],
-      'TextInput / TextArea': [
-        ['invalid', 'boolean', 'false', 'Red border + aria-invalid.'],
-        ['...props', 'InputHTMLAttributes', '', 'Forwarded to the native element; refs are forwarded.'],
-      ],
-      SelectInput: [['children', '<option>[]', '', 'Native options. All select props are forwarded.']],
-    },
-  },
-  {
-    slug: 'checkbox',
-    name: 'Checkbox',
-    group: 'Forms',
-    description: 'A custom-drawn checkbox with an indeterminate state for select-all, and CheckRow for labelled options.',
-    imports: ['Checkbox', 'CheckRow'],
-    props: {
-      Checkbox: [
-        ['indeterminate', 'boolean', 'false', 'Shows a dash — use when some, not all, rows are selected.'],
-        ['...props', 'InputHTMLAttributes', '', 'checked, onChange, aria-label… Ref is forwarded.'],
-      ],
-      CheckRow: [
-        ['children', 'ReactNode', '', 'Label.'],
-        ['...props', 'InputHTMLAttributes', '', 'defaultChecked / checked / onChange.'],
-      ],
-    },
-  },
-  {
-    slug: 'switch',
-    name: 'Switch',
-    group: 'Forms',
-    description: 'A labelled on/off toggle for settings, with an optional description.',
-    imports: ['Switch'],
-    props: {
-      Switch: [
-        ['label', 'string', '', 'Bold label (also the accessible name).'],
-        ['description', 'ReactNode', '', 'Small caption under the label.'],
-        ['checked / onChange', 'boolean / handler', '', 'Controlled usage.'],
-        ['defaultChecked', 'boolean', '', 'Uncontrolled usage.'],
-      ],
-    },
-  },
-
-  // ── Feedback ──
   {
     slug: 'alert',
     name: 'Alert',
-    group: 'Feedback',
+    group: 'Larch components',
     description: 'Inline messages in four tones. Warnings and errors use role="alert".',
     imports: ['Alert'],
     props: {
@@ -323,41 +391,17 @@ export const COMPONENTS = [
     },
   },
   {
-    slug: 'toast',
-    name: 'Toast',
-    group: 'Feedback',
-    description: 'A single global toast for lightweight confirmations. Wrap the app in ToastProvider, then call showToast() anywhere.',
-    imports: ['ToastProvider', 'useToast'],
-    props: {
-      ToastProvider: [['duration', 'number', '1800', 'Milliseconds the toast stays visible.']],
-      'useToast()': [['showToast', '(message: string) => void', '', 'Shows (or replaces) the toast.']],
-    },
-  },
-  {
     slug: 'skeleton',
     name: 'Skeleton',
-    group: 'Feedback',
+    group: 'Larch components',
     description: 'Shimmering placeholder bars for loading states.',
     imports: ['Skeleton'],
     props: { Skeleton: [['width', 'string', "'w-full'", 'A Tailwind width class.']] },
   },
   {
-    slug: 'tooltip',
-    name: 'Tooltip',
-    group: 'Feedback',
-    description: 'A CSS-only tooltip that appears above its child on hover and keyboard focus.',
-    imports: ['Tooltip'],
-    props: {
-      Tooltip: [
-        ['text', 'ReactNode', '', 'Tooltip content (max 190px wide).'],
-        ['children', 'ReactNode', '', 'The focusable trigger.'],
-      ],
-    },
-  },
-  {
     slug: 'empty-state',
     name: 'EmptyState',
-    group: 'Feedback',
+    group: 'Larch components',
     description: 'A quiet answer when there is no data, with an optional call to action.',
     imports: ['EmptyState'],
     props: {
@@ -369,45 +413,18 @@ export const COMPONENTS = [
       ],
     },
   },
-
-  // ── Overlays & navigation ──
   {
-    slug: 'dialog',
-    name: 'Dialog',
-    group: 'Overlays & navigation',
-    description: 'Modal dialog rendered into a portal. Closes on backdrop click or Escape, locks scroll and restores focus on close.',
-    imports: ['Dialog'],
-    props: {
-      Dialog: [
-        ['open', 'boolean', '', 'Visibility.'],
-        ['onClose', '() => void', '', 'Called on Escape, backdrop click or the × button.'],
-        ['title', 'string', '', 'Heading and accessible name.'],
-        ['description', 'ReactNode', '', 'Caption under the title.'],
-        ['footer', 'ReactNode', '', 'Right-aligned action buttons.'],
-        ['width', 'number', '440', 'Max width in px.'],
-      ],
-    },
+    slug: 'kbd',
+    name: 'Kbd',
+    group: 'Larch components',
+    description: 'Keyboard key cap for shortcuts and hints.',
+    imports: ['Kbd'],
+    props: { Kbd: [['children', 'ReactNode', '', 'Key label, e.g. "⌘ K".']] },
   },
-  {
-    slug: 'tabs',
-    name: 'Tabs',
-    group: 'Overlays & navigation',
-    description: 'Underlined tabs with arrow-key navigation. Uncontrolled by default, controllable when needed.',
-    imports: ['Tabs'],
-    props: {
-      Tabs: [
-        ['tabs', '{ id, label, content }[]', '', 'Tab definitions.'],
-        ['defaultValue', 'string', 'tabs[0].id', 'Initially active tab (uncontrolled).'],
-        ['value / onChange', 'string / (id) => void', '', 'Controlled usage.'],
-      ],
-    },
-  },
-
-  // ── Layout ──
   {
     slug: 'page',
     name: 'Page layout',
-    group: 'Layout',
+    group: 'Larch components',
     description: 'PageWrap is the centered content column; PageHeading is the eyebrow, title, description and right-aligned actions at the top of every page.',
     imports: ['PageWrap', 'PageHeading'],
     props: {
@@ -421,18 +438,32 @@ export const COMPONENTS = [
     },
   },
   {
-    slug: 'typography',
-    name: 'Eyebrow & Divider',
-    group: 'Layout',
-    description: 'Small typographic helpers: section eyebrows, horizontal dividers and toolbar separators.',
-    imports: ['Eyebrow', 'Divider', 'ToolbarDivider'],
+    slug: 'progress-row',
+    name: 'ProgressRow',
+    group: 'Larch components',
+    description: 'A label ── bar ── value row for workload and pipeline breakdowns, built on Base UI Meter. ProgressList stacks them.',
+    imports: ['ProgressRow', 'ProgressList'],
     props: {
-      Eyebrow: [['children', 'ReactNode', '', 'Uppercase label text.']],
-      Divider: [['className', 'string', '', 'Override the 19px vertical margin.']],
-      ToolbarDivider: [['className', 'string', '', 'Hidden on mobile.']],
+      ProgressRow: [
+        ['label', 'ReactNode', '', 'Left label (90px column) — the Meter.Label.'],
+        ['value', 'ReactNode', '', 'Right-aligned text, also used as the aria-valuetext.'],
+        ['percent', 'number', '', 'Bar fill, 0–100 (clamped).'],
+        ['tone', "'blue' | 'green' | 'amber' | 'violet' | 'red'", "'blue'", 'Indicator tone.'],
+      ],
+      ProgressList: [['items', 'ProgressRowProps[]', '', 'Rows stacked with 17px gaps.']],
     },
   },
+  {
+    slug: 'eyebrow',
+    name: 'Eyebrow',
+    group: 'Larch components',
+    description: 'Small uppercase label above groups of controls. (Rules and toolbar dividers are Base UI Separator.)',
+    imports: ['Eyebrow'],
+    props: { Eyebrow: [['children', 'ReactNode', '', 'Uppercase label text.']] },
+  },
 ];
+
+export const COMPONENTS = [...BASE_UI, ...LARCH];
 
 export const BLOCKS = [
   {
@@ -466,7 +497,7 @@ export const BLOCKS = [
       ],
     },
   },
-  { slug: 'page-header', name: 'Page header', description: 'Page headings with action groups for dashboards, directories and reports.', imports: ['PageHeading', 'Button', 'Icon'] },
+  { slug: 'page-header', name: 'Page header', description: 'Page headings with action groups for dashboards, directories and reports.', imports: ['PageHeading', 'Button', 'Icon', 'Tabs'] },
   { slug: 'stats', name: 'Stats', description: 'KPI rows built from MetricGrid.', imports: ['MetricGrid', 'MetricCard'] },
   {
     slug: 'charts',
@@ -548,8 +579,8 @@ export const BLOCKS = [
       ActivityList: [['items', '{ icon, who, text, time }[]', '', 'Events, newest first.']],
     },
   },
-  { slug: 'forms', name: 'Forms & settings', description: 'Form layouts for creating records and managing preferences.', imports: ['Field', 'TextInput', 'SelectInput', 'TextArea', 'Switch', 'CheckRow'] },
-  { slug: 'dialogs', name: 'Dialogs', description: 'Common modal flows: share, confirm a destructive action, quick create.', imports: ['Dialog'] },
+  { slug: 'forms', name: 'Forms & settings', description: 'Form layouts for creating records and managing preferences, built from Form, Field, Select and Switch.', imports: ['Form', 'Field', 'Input', 'TextArea', 'Select', 'Checkbox', 'Fieldset', 'Switch'] },
+  { slug: 'dialogs', name: 'Dialogs', description: 'Common modal flows: confirm a destructive action, quick create with a form.', imports: ['AlertDialog', 'Dialog', 'Form'] },
   { slug: 'empty-states', name: 'Empty & loading states', description: 'What a panel shows before data arrives, or when there is none.', imports: ['EmptyState', 'Skeleton'] },
 ];
 

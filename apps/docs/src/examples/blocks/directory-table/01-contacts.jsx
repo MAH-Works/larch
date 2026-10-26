@@ -11,8 +11,8 @@ import {
   MoreButton,
   Pagination,
   Row,
+  Separator,
   TableFooter,
-  ToolbarDivider,
 } from '@mah-works/larch';
 
 export const title = 'Contacts directory';
@@ -41,7 +41,7 @@ export default function Contacts() {
             <Icon name="sort" size="sm" />
             Sort
           </Button>
-          <ToolbarDivider />
+          <Separator orientation="vertical" className="mx-[7px] h-[17px] self-center mobile:hidden" />
           <span className="text-[11px] text-[#969ba4]">142 contacts</span>
         </div>
         <Button variant="ghost" aria-label="Contact fields settings">
@@ -53,7 +53,15 @@ export default function Contacts() {
         {CONTACTS.map((c) => (
           <Row key={c.email}>
             <Cell>
-              <CellTitle leading={<Avatar size="md" initials={c.initials} tone={c.tone} />} title={c.name} caption={c.email} />
+              <CellTitle
+                leading={
+                  <Avatar.Root size="md" tone={c.tone}>
+                    <Avatar.Fallback>{c.initials}</Avatar.Fallback>
+                  </Avatar.Root>
+                }
+                title={c.name}
+                caption={c.email}
+              />
             </Cell>
             <Cell>{c.company}</Cell>
             <Cell>{c.role}</Cell>

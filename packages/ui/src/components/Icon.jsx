@@ -36,6 +36,7 @@ const GLYPHS = {
       <path d="m16 16 4 4" />
     </>
   ),
+  minus: <path d="M5 12h14" />,
   plus: <path d="M12 5v14M5 12h14" />,
   sun: (
     <>

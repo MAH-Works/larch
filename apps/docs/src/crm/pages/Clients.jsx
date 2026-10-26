@@ -1,18 +1,18 @@
 import { useMemo, useState } from 'react';
-import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@mah-works/larch';
+import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, Toast } from '@mah-works/larch';
 import { CLIENTS, CLIENT_TOTAL } from '../data/clients.js';
 
 export default function Clients() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [pageSize, setPageSize] = useState(20);
   const { selected, count, toggle, toggleAll } = useSelection(CLIENTS.filter((c) => c.selected).map((c) => c.id));
   const rows = useMemo(() => CLIENTS.slice(0, pageSize), [pageSize]);
 
   const runAction = (action) => {
     if (action === 'Delete') {
-      showToast(count ? `Delete queued for ${count} ${count === 1 ? 'client' : 'clients'}` : 'Select a client first');
+      toastManager.add({ title: count ? `Delete queued for ${count} ${count === 1 ? 'client' : 'clients'}` : 'Select a client first' });
     } else {
-      showToast(`${action}${count ? ` for ${count} selected` : ''}`);
+      toastManager.add({ title: `${action}${count ? ` for ${count} selected` : ''}` });
     }
   };
 
@@ -27,10 +27,10 @@ export default function Clients() {
           { label: 'Delete', icon: 'trash', danger: true, onClick: () => runAction('Delete') },
         ]}
         tools={[
-          { label: 'Filter', icon: 'filter', badge: 2, onClick: () => showToast('Filter menu opened') },
-          { label: 'Sort', icon: 'sort', onClick: () => showToast('Sorted by recent activity') },
-          { label: 'Table', icon: 'table', onClick: () => showToast('Table view active') },
-          { label: 'Table settings', icon: 'settings', iconOnly: true, onClick: () => showToast('View settings opened') },
+          { label: 'Filter', icon: 'filter', badge: 2, onClick: () => toastManager.add({ title: 'Filter menu opened' }) },
+          { label: 'Sort', icon: 'sort', onClick: () => toastManager.add({ title: 'Sorted by recent activity' }) },
+          { label: 'Table', icon: 'table', onClick: () => toastManager.add({ title: 'Table view active' }) },
+          { label: 'Table settings', icon: 'settings', iconOnly: true, onClick: () => toastManager.add({ title: 'View settings opened' }) },
         ]}
       />
 
@@ -39,8 +39,8 @@ export default function Clients() {
         selected={selected}
         onToggle={toggle}
         onToggleAll={toggleAll}
-        onSort={(key) => showToast(`Sorted by ${key}`)}
-        onRowAction={(row) => showToast(`Actions for ${row.name}`)}
+        onSort={(key) => toastManager.add({ title: `Sorted by ${key}` })}
+        onRowAction={(row) => toastManager.add({ title: `Actions for ${row.name}` })}
       />
 
       <footer className="flex h-[59px] flex-none items-center justify-between border-t border-line bg-surface px-[18px] text-[11px] font-medium text-[#8c919a] dark:text-[#858e9a] mobile:h-auto mobile:flex-wrap mobile:gap-[9px] mobile:px-[13px] mobile:py-[9px]">
@@ -48,7 +48,7 @@ export default function Clients() {
         <span className="text-[#7d828b] dark:text-[#858e9a] mobile:order-3 mobile:w-full">
           1 to {rows.length} of {CLIENT_TOTAL} results
         </span>
-        <Pagination onNext={() => showToast('Next page')} />
+        <Pagination onNext={() => toastManager.add({ title: 'Next page' })} />
       </footer>
     </section>
   );

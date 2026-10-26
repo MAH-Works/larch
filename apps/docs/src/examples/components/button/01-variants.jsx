@@ -1,7 +1,8 @@
-import { Button, Icon } from '@mah-works/larch';
+import { Button } from '@mah-works/larch/button';
+import { Icon } from '@mah-works/larch';
 
 export const title = 'Variants';
-export const description = 'Outline is the default. Use primary once per view, ghost inside toolbars, and danger for destructive confirmations.';
+export const description = 'Larch adds one visual prop to Base UI’s Button: `variant`. Outline is the default; use primary once per view, ghost inside toolbars and danger for destructive confirmations.';
 
 export default function Variants() {
   return (

@@ -1,7 +1,7 @@
 import Badge from '../components/Badge.jsx';
-import Button from '../components/Button.jsx';
+import { Button } from '../base-ui/button.js';
 import Icon from '../components/Icon.jsx';
-import { ToolbarDivider } from '../components/Typography.jsx';
+import { Separator } from '../base-ui/separator.js';
 
 /**
  * Bulk-action strip above a selectable table.
@@ -34,7 +34,7 @@ export function SelectionToolbar({ actions = [], tools = [], selectedCount = 0, 
         {actions.map(render)}
         {actions.length > 0 && (
           <>
-            <ToolbarDivider />
+            <Separator orientation="vertical" className="mx-[7px] h-[17px] self-center mobile:hidden" />
             <span className="text-[11px] text-[#a0a4ab]">{selectedCount ? `${selectedCount} selected` : emptyLabel}</span>
           </>
         )}

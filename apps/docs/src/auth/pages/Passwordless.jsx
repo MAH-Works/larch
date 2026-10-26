@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Button, Field, Icon, TextInput, useToast } from '@mah-works/larch';
-import { AuthTopbar, CodeInput, EMAIL_RE, LegalNote, SubmitButton, useFakeRequest } from '../shared.jsx';
+import { Alert, Button, Field, Form, Icon, Input, OTPField, Toast } from '@mah-works/larch';
+import { AuthTopbar, EMAIL_RE, LegalNote, SubmitButton, useFakeRequest } from '../shared.jsx';
+
+const CODE_LENGTH = 6;
 
 const RESEND_SECONDS = 30;
 
@@ -27,11 +29,10 @@ function Steps({ current }) {
 /** Variant 3 — passwordless: email → 6-digit code (paste, auto-advance, resend timer) → done. */
 export default function Passwordless() {
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [pending, request] = useFakeRequest(800);
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState(null);
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState(null);
   const [cooldown, setCooldown] = useState(0);
@@ -42,25 +43,21 @@ export default function Passwordless() {
     return () => clearTimeout(t);
   }, [cooldown]);
 
-  const sendCode = (e) => {
-    e?.preventDefault();
-    if (!EMAIL_RE.test(email)) {
-      setEmailError('Enter a valid email address.');
-      return;
-    }
-    setEmailError(null);
+  // Called by the email Form once its Field validates, and by "Resend code".
+  const sendCode = (to = email) => {
+    setEmail(to);
     request(() => {
       setStep('code');
       setCode('');
       setCodeError(null);
       setCooldown(RESEND_SECONDS);
-      showToast(`Code sent to ${email}`);
+      toastManager.add({ title: `Code sent to ${to}` });
     });
   };
 
   const verify = (value = code) => {
-    if (value.length < 6) {
-      setCodeError('Enter all 6 digits.');
+    if (value.length < CODE_LENGTH) {
+      setCodeError(`Enter all ${CODE_LENGTH} digits.`);
       return;
     }
     request(() => {
@@ -87,25 +84,18 @@ export default function Passwordless() {
               <p className="mb-6 mt-[6px] text-[13px] leading-relaxed text-muted">
                 No password needed. We’ll email you a 6-digit code that works for 10 minutes.
               </p>
-              <form noValidate onSubmit={sendCode} className="text-left">
-                <Field label="Email" id="pl-email" error={emailError}>
-                  <TextInput
-                    id="pl-email"
-                    type="email"
-                    autoComplete="email"
-                    autoFocus
-                    placeholder="you@company.com"
-                    value={email}
-                    invalid={!!emailError}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </Field>
+              <Form onFormSubmit={(values) => sendCode(values.email)} className="text-left">
+                <Field.Root name="email" validate={(v) => (EMAIL_RE.test(v) ? null : 'Enter a valid email address.')}>
+                  <Field.Label>Email</Field.Label>
+                  <Input inputMode="email" autoComplete="email" autoFocus placeholder="you@company.com" defaultValue={email} />
+                  <Field.Error />
+                </Field.Root>
                 <div className="mt-4">
                   <SubmitButton pending={pending} pendingLabel="Sending code…">
                     Send code
                   </SubmitButton>
                 </div>
-              </form>
+              </Form>
               <p className="mb-6 mt-5 text-xs text-muted">
                 Prefer a password?{' '}
                 <Link to="/examples/auth/sign-in" className="font-semibold text-blue no-underline hover:underline">
@@ -138,16 +128,29 @@ export default function Passwordless() {
                   verify();
                 }}
               >
-                <CodeInput
-                  value={code}
-                  invalid={!!codeError}
-                  disabled={pending}
-                  onChange={(v) => {
-                    setCode(v);
-                    setCodeError(null);
-                  }}
-                  onComplete={verify}
-                />
+                <Field.Root invalid={!!codeError}>
+                  <Field.Label className="sr-only">Verification code</Field.Label>
+                  {/* OTPField handles auto-advance, backspace, arrow keys and paste-to-fill. */}
+                  <OTPField.Root
+                    length={CODE_LENGTH}
+                    value={code}
+                    disabled={pending}
+                    onValueChange={(v) => {
+                      setCode(v);
+                      setCodeError(null);
+                    }}
+                    onValueComplete={verify}
+                    className="justify-center gap-2 mobile:gap-[6px]"
+                  >
+                    {Array.from({ length: CODE_LENGTH }, (_, i) => (
+                      <OTPField.Input
+                        key={i}
+                        aria-label={i === 0 ? undefined : `Digit ${i + 1} of ${CODE_LENGTH}`}
+                        className="h-12 w-11 font-mono text-lg font-normal mobile:h-11 mobile:w-10"
+                      />
+                    ))}
+                  </OTPField.Root>
+                </Field.Root>
                 <div className="mt-6">
                   <SubmitButton pending={pending} pendingLabel="Verifying…">
                     Verify and sign in
@@ -160,7 +163,7 @@ export default function Passwordless() {
                 {cooldown > 0 ? (
                   <span className="font-mono text-faint">Resend in 0:{String(cooldown).padStart(2, '0')}</span>
                 ) : (
-                  <button type="button" onClick={sendCode} className="font-semibold text-blue hover:underline">
+                  <button type="button" onClick={() => sendCode()} className="font-semibold text-blue hover:underline">
                     Resend code
                   </button>
                 )}

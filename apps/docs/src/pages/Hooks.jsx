@@ -18,8 +18,9 @@ export default function Hooks() {
       </Prose>
       <Code>{`const { selected, count, toggle, toggleAll, clear } = useSelection(['aperture']);
 
-<Checkbox checked={selected.has(row.id)} onChange={(e) => toggle(row.id, e.target.checked)} />
-<Checkbox onChange={(e) => toggleAll(rows.map((r) => r.id), e.target.checked)} />`}</Code>
+<Checkbox.Root checked={selected.has(row.id)} onCheckedChange={(checked) => toggle(row.id, checked)}>
+  <Checkbox.Indicator />
+</Checkbox.Root>`}</Code>
       <PropsTable
         name="useSelection(initial?)"
         props={[
@@ -43,7 +44,10 @@ useHotkey('k', () => searchRef.current?.focus());`}</Code>
 
       <Prose>
         <h2>useDismiss</h2>
-        <p>While active, calls a handler on Escape and on a mousedown outside the given ref. Used by Dropdown.</p>
+        <p>
+          While active, calls a handler on Escape and on a mousedown outside the given ref — for your own lightweight
+          surfaces. Base UI popups (Menu, Popover, Dialog…) already handle dismissal, focus and Escape; don’t add this to them.
+        </p>
       </Prose>
       <Code>{`const ref = useRef(null);
 const close = useCallback(() => setOpen(false), []);

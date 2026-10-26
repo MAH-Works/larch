@@ -1,18 +1,19 @@
-import { Button, useToast } from '@mah-works/larch';
+import { Button } from '@mah-works/larch/button';
+import { Toast } from '@mah-works/larch/toast';
 
-export const title = 'Show a toast';
-export const description = 'One toast at a time; a new message replaces the current one and resets the timer.';
+export const title = 'Add a toast';
+export const description =
+  'This site wraps the app in `<Toast.Provider>` with Larch’s `<Toaster />`. Anything inside can queue toasts through `Toast.useToastManager()`; they stack, expand on hover and swipe away.';
 
 export default function Basic() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <>
-      <Button variant="primary" onClick={() => showToast('View shared')}>
+      <Button variant="primary" onClick={() => toastManager.add({ title: 'View shared' })}>
         Share view
       </Button>
-      <Button onClick={() => showToast('Report export started')}>Export</Button>
-      <Button variant="ghostDanger" onClick={() => showToast('Delete queued for 3 clients')}>
-        Delete
+      <Button onClick={() => toastManager.add({ title: 'Report export started', description: 'We’ll email you when the CSV is ready.' })}>
+        Export
       </Button>
     </>
   );

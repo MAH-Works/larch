@@ -7,47 +7,56 @@ import { CRM_PAGES } from '../crm/routes.js';
 import { AUTH_PAGES } from '../auth/routes.js';
 
 const QUICK = `/* src/index.css → @import 'tailwindcss'; @import '@mah-works/larch/theme.css'; */
-import { ThemeProvider, ToastProvider, PageWrap, PageHeading, Button, Icon, MetricGrid } from '@mah-works/larch';
+import { Dialog } from '@mah-works/larch/dialog'; // same API as '@base-ui/react/dialog'
+import { MetricGrid, PageHeading, PageWrap, ThemeProvider } from '@mah-works/larch';
 import './index.css';
 
 export default function App() {
   return (
-    <ToastProvider>
-      <ThemeProvider>
-        <PageWrap>
-          <PageHeading eyebrow="Workspace" title="Overview" description="Here is what is happening.">
-            <Button variant="primary"><Icon name="download" size="sm" /> Export</Button>
-          </PageHeading>
-          <MetricGrid items={[{ label: 'Active clients', value: '24', meta: [{ text: '↗ 8.3%', trend: 'up' }] }]} />
-        </PageWrap>
-      </ThemeProvider>
-    </ToastProvider>
+    <ThemeProvider>
+      <PageWrap>
+        <PageHeading eyebrow="Workspace" title="Overview" description="Here is what is happening.">
+          <Dialog.Root>
+            <Dialog.Trigger variant="primary">Invite teammate</Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Backdrop />
+              <Dialog.Popup>
+                <Dialog.Title>Invite a teammate</Dialog.Title>
+                <Dialog.Description>They'll get access to every client.</Dialog.Description>
+                <Dialog.Close>Close</Dialog.Close>
+              </Dialog.Popup>
+            </Dialog.Portal>
+          </Dialog.Root>
+        </PageHeading>
+        <MetricGrid items={[{ label: 'Active clients', value: '24', meta: [{ text: '↗ 8.3%', trend: 'up' }] }]} />
+      </PageWrap>
+    </ThemeProvider>
   );
 }`;
 
 const PRINCIPLES = [
+  ['Base UI underneath', 'Every interactive component is Base UI — same names, parts and props. Copy an example from base-ui.com, change the import, and it renders in Larch’s style.'],
   ['Neutrals carry the interface', 'Color is reserved for meaning — status, selection and danger. Everything else is a quiet grey.'],
   ['Dense, not cramped', '12px body text, 54–60px table rows and hairline dividers fit more data on screen without noise.'],
   ['One switch for dark mode', 'Semantic tokens are CSS variables. Flip <html data-theme="dark"> and every component re-themes.'],
-  ['Copy-friendly blocks', 'Blocks are ordinary components built from the primitives — use them as-is or copy the example code.'],
 ];
 
 export default function Introduction() {
   return (
     <div className="mx-auto w-full max-w-[1100px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
       <DocHeader
-        eyebrow="Larch UI · v1.0"
+        eyebrow="Larch UI · v2.0"
         title="Quiet, dense interface primitives for client operations."
-        description="Larch UI is a React 18 + Tailwind CSS v4 component library extracted from the Compass CRM. It ships primitives, composed blocks, design tokens with built-in dark mode, and complete example pages."
+        description="Larch is a design system built on Base UI: Base UI’s components and APIs, styled with Larch’s tokens and Tailwind CSS v4. It also ships Larch-only components, composed blocks, built-in dark mode and complete example pages."
       >
         <div className="mt-5 flex flex-wrap gap-2">
-          <Button as={Link} to="/docs/installation" variant="primary">
+          <Button render={<Link to="/docs/installation" />} nativeButton={false} variant="primary">
             Get started <Icon name="arrowRight" size="sm" />
           </Button>
-          <Button as={Link} to="/components/button">
-            Browse components
+          <Button render={<Link to="/docs/base-ui" />} nativeButton={false}>
+            How Larch uses Base UI
           </Button>
-          <Button as={Link} to="/examples/crm/overview" variant="ghost">
+          <Button render={<Link to="/examples/crm/overview" />} nativeButton={false} variant="ghost">
             <Icon name="window" size="sm" /> Live CRM example
           </Button>
         </div>
@@ -55,10 +64,10 @@ export default function Introduction() {
 
       <MetricGrid
         items={[
-          { label: 'Components', value: String(COMPONENTS.length), meta: [{ text: `${COMPONENT_GROUPS.length} groups` }] },
+          { label: 'Base UI components', value: String(COMPONENTS.filter((c) => c.base).length), meta: [{ text: 'the full catalog' }] },
           { label: 'Blocks', value: String(BLOCKS.length), meta: [{ text: 'App shell, tables, charts…' }] },
           { label: 'Example pages', value: String(CRM_PAGES.length + AUTH_PAGES.length), meta: [{ text: 'A CRM + 3 auth flows' }] },
-          { label: 'Runtime deps', value: '0', meta: [{ text: 'React is a peer', trend: 'up' }] },
+          { label: 'Larch components', value: String(COMPONENTS.filter((c) => !c.base).length), meta: [{ text: 'cards, tables, badges…' }] },
         ]}
       />
 

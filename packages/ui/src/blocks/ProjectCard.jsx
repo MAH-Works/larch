@@ -1,8 +1,7 @@
 import { AvatarStack } from '../components/Avatar.jsx';
 import Badge from '../components/Badge.jsx';
 import { Card } from '../components/Card.jsx';
-
-const FILL = { blue: 'bg-blue', green: 'bg-[#39a978]', amber: 'bg-[#c99537]', violet: 'bg-[#8061c4]', red: 'bg-[#d45d6b]' };
+import { Progress } from '../base-ui/progress.js';
 
 /** Compact progress card for a project in motion. `status` is [label, badge variant]. */
 export function ProjectCard({ name, client, status, progress, tone = 'blue', due, people = [] }) {
@@ -13,13 +12,13 @@ export function ProjectCard({ name, client, status, progress, tone = 'blue', due
         {status && <Badge variant={status[1]}>{status[0]}</Badge>}
       </div>
       <p className="mb-[18px] mt-[6px] text-[11px] text-[#9298a1] dark:text-[#858e9a]">{client}</p>
-      <div className="flex justify-between gap-[10px] text-[10px] text-[#8d929b]">
-        <span>Progress</span>
-        <strong>{progress}%</strong>
-      </div>
-      <div className="mb-[13px] mt-[9px] h-[6px] overflow-hidden rounded-full bg-[#eef0f3] dark:bg-[#252b34]">
-        <span className={`block h-full rounded-[inherit] ${FILL[tone]}`} style={{ width: `${progress}%` }} />
-      </div>
+      <Progress.Root value={progress} className="mb-[13px] gap-y-[9px]">
+        <Progress.Label className="text-[10px] text-[#8d929b]">Progress</Progress.Label>
+        <Progress.Value className="text-[10px] font-bold text-[#8d929b] dark:text-[#8d929b]" />
+        <Progress.Track className="h-[6px]">
+          <Progress.Indicator tone={tone} />
+        </Progress.Track>
+      </Progress.Root>
       <div className="flex items-center justify-between gap-[10px] text-[10px] text-[#8d929b]">
         <AvatarStack avatars={people} />
         <span>{due}</span>

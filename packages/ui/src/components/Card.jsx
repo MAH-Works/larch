@@ -1,3 +1,5 @@
+import { Select } from '../base-ui/select.jsx';
+
 /** Base surface: hairline border, 10px radius, barely-there shadow. Polymorphic via `as`. */
 export function Card({ as: Tag = 'div', className = '', children, ...props }) {
   return (
@@ -38,17 +40,34 @@ export function PanelGrid({ columns = 'wide', children, className = '' }) {
   );
 }
 
-/** Compact native select for a panel header (period / horizon pickers). */
+/**
+ * Compact select for a panel header (period / horizon pickers), built on Base UI Select. Starts on the
+ * first option; other props (`value`, `defaultValue`, `onValueChange`…) go to Select.Root.
+ */
 export function PanelSelect({ label, options, className = '', ...props }) {
   return (
-    <select
-      aria-label={label}
-      className={`rounded-[5px] border border-line-strong bg-surface px-2 py-[5px] text-[11px] text-[#777d87] dark:text-soft ${className}`}
-      {...props}
-    >
-      {options.map((o) => (
-        <option key={o}>{o}</option>
-      ))}
-    </select>
+    <Select.Root defaultValue={options[0]} {...props}>
+      <Select.Trigger
+        aria-label={label}
+        className={`h-auto w-auto gap-[6px] rounded-[5px] py-[5px] pl-2 pr-[7px] text-[11px] text-[#777d87] dark:text-soft ${className}`}
+      >
+        <Select.Value />
+        <Select.Icon />
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Positioner>
+          <Select.Popup>
+            <Select.List>
+              {options.map((o) => (
+                <Select.Item key={o} value={o}>
+                  <Select.ItemText>{o}</Select.ItemText>
+                  <Select.ItemIndicator />
+                </Select.Item>
+              ))}
+            </Select.List>
+          </Select.Popup>
+        </Select.Positioner>
+      </Select.Portal>
+    </Select.Root>
   );
 }

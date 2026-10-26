@@ -7,7 +7,7 @@ import {
   PageHeading,
   PageWrap,
   SidebarStatus,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 
 export const title = 'Application frame';
@@ -52,7 +52,7 @@ const makeLink = (setActive) =>
   };
 
 export default function AppShellExample() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [active, setActive] = useState('#overview');
   const [Link] = useState(() => makeLink(setActive));
   const current = SECTIONS.flatMap((s) => s.items).find((i) => i.href === active);
@@ -70,10 +70,10 @@ export default function AppShellExample() {
         section: 'Workspace',
         title: current.label,
         searchPlaceholder: `Search ${current.label.toLowerCase()}`,
-        onSearch: (q) => showToast(q ? `Searching for “${q}”` : 'Type a search term'),
+        onSearch: (q) => toastManager.add({ title: q ? `Searching for “${q}”` : 'Type a search term' }),
         createLabel: 'New',
-        onCreate: () => showToast('Create menu'),
-        onNotifications: () => showToast('No new notifications'),
+        onCreate: () => toastManager.add({ title: 'Create menu' }),
+        onNotifications: () => toastManager.add({ title: 'No new notifications' }),
       }}
     >
       <PageWrap>

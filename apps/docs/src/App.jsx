@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import DocsLayout from './docs/DocsLayout.jsx';
 import Introduction from './pages/Introduction.jsx';
 import Installation from './pages/Installation.jsx';
+import BaseUi from './pages/BaseUi.jsx';
 import Theming from './pages/Theming.jsx';
 import Tokens from './pages/Tokens.jsx';
 import Hooks from './pages/Hooks.jsx';
@@ -24,6 +25,7 @@ export default function App() {
       <Route element={<DocsLayout />}>
         <Route index element={<Introduction />} />
         <Route path="/docs/installation" element={<Installation />} />
+        <Route path="/docs/base-ui" element={<BaseUi />} />
         <Route path="/docs/theming" element={<Theming />} />
         <Route path="/docs/tokens" element={<Tokens />} />
         <Route path="/docs/hooks" element={<Hooks />} />

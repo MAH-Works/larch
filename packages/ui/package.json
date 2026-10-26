@@ -1,7 +1,7 @@
 {
   "name": "@mah-works/larch",
-  "version": "1.0.0",
-  "description": "Larch \u2014 quiet, dense React + Tailwind components for client-operations dashboards.",
+  "version": "2.0.0",
+  "description": "Larch — Base UI components themed for quiet, dense client-operations dashboards (React + Tailwind CSS v4).",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -22,6 +22,158 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./accordion": {
+      "import": "./dist/base-ui/accordion.js",
+      "require": "./dist/base-ui/accordion.cjs"
+    },
+    "./alert-dialog": {
+      "import": "./dist/base-ui/alert-dialog.js",
+      "require": "./dist/base-ui/alert-dialog.cjs"
+    },
+    "./autocomplete": {
+      "import": "./dist/base-ui/autocomplete.js",
+      "require": "./dist/base-ui/autocomplete.cjs"
+    },
+    "./avatar": {
+      "import": "./dist/base-ui/avatar.js",
+      "require": "./dist/base-ui/avatar.cjs"
+    },
+    "./button": {
+      "import": "./dist/base-ui/button.js",
+      "require": "./dist/base-ui/button.cjs"
+    },
+    "./checkbox": {
+      "import": "./dist/base-ui/checkbox.js",
+      "require": "./dist/base-ui/checkbox.cjs"
+    },
+    "./checkbox-group": {
+      "import": "./dist/base-ui/checkbox-group.js",
+      "require": "./dist/base-ui/checkbox-group.cjs"
+    },
+    "./collapsible": {
+      "import": "./dist/base-ui/collapsible.js",
+      "require": "./dist/base-ui/collapsible.cjs"
+    },
+    "./combobox": {
+      "import": "./dist/base-ui/combobox.js",
+      "require": "./dist/base-ui/combobox.cjs"
+    },
+    "./context-menu": {
+      "import": "./dist/base-ui/context-menu.js",
+      "require": "./dist/base-ui/context-menu.cjs"
+    },
+    "./dialog": {
+      "import": "./dist/base-ui/dialog.js",
+      "require": "./dist/base-ui/dialog.cjs"
+    },
+    "./drawer": {
+      "import": "./dist/base-ui/drawer.js",
+      "require": "./dist/base-ui/drawer.cjs"
+    },
+    "./field": {
+      "import": "./dist/base-ui/field.js",
+      "require": "./dist/base-ui/field.cjs"
+    },
+    "./fieldset": {
+      "import": "./dist/base-ui/fieldset.js",
+      "require": "./dist/base-ui/fieldset.cjs"
+    },
+    "./form": {
+      "import": "./dist/base-ui/form.js",
+      "require": "./dist/base-ui/form.cjs"
+    },
+    "./input": {
+      "import": "./dist/base-ui/input.js",
+      "require": "./dist/base-ui/input.cjs"
+    },
+    "./menu": {
+      "import": "./dist/base-ui/menu.js",
+      "require": "./dist/base-ui/menu.cjs"
+    },
+    "./menubar": {
+      "import": "./dist/base-ui/menubar.js",
+      "require": "./dist/base-ui/menubar.cjs"
+    },
+    "./meter": {
+      "import": "./dist/base-ui/meter.js",
+      "require": "./dist/base-ui/meter.cjs"
+    },
+    "./navigation-menu": {
+      "import": "./dist/base-ui/navigation-menu.js",
+      "require": "./dist/base-ui/navigation-menu.cjs"
+    },
+    "./number-field": {
+      "import": "./dist/base-ui/number-field.js",
+      "require": "./dist/base-ui/number-field.cjs"
+    },
+    "./otp-field": {
+      "import": "./dist/base-ui/otp-field.js",
+      "require": "./dist/base-ui/otp-field.cjs"
+    },
+    "./popover": {
+      "import": "./dist/base-ui/popover.js",
+      "require": "./dist/base-ui/popover.cjs"
+    },
+    "./preview-card": {
+      "import": "./dist/base-ui/preview-card.js",
+      "require": "./dist/base-ui/preview-card.cjs"
+    },
+    "./progress": {
+      "import": "./dist/base-ui/progress.js",
+      "require": "./dist/base-ui/progress.cjs"
+    },
+    "./radio": {
+      "import": "./dist/base-ui/radio.js",
+      "require": "./dist/base-ui/radio.cjs"
+    },
+    "./radio-group": {
+      "import": "./dist/base-ui/radio-group.js",
+      "require": "./dist/base-ui/radio-group.cjs"
+    },
+    "./scroll-area": {
+      "import": "./dist/base-ui/scroll-area.js",
+      "require": "./dist/base-ui/scroll-area.cjs"
+    },
+    "./select": {
+      "import": "./dist/base-ui/select.js",
+      "require": "./dist/base-ui/select.cjs"
+    },
+    "./separator": {
+      "import": "./dist/base-ui/separator.js",
+      "require": "./dist/base-ui/separator.cjs"
+    },
+    "./slider": {
+      "import": "./dist/base-ui/slider.js",
+      "require": "./dist/base-ui/slider.cjs"
+    },
+    "./switch": {
+      "import": "./dist/base-ui/switch.js",
+      "require": "./dist/base-ui/switch.cjs"
+    },
+    "./tabs": {
+      "import": "./dist/base-ui/tabs.js",
+      "require": "./dist/base-ui/tabs.cjs"
+    },
+    "./toast": {
+      "import": "./dist/base-ui/toast.js",
+      "require": "./dist/base-ui/toast.cjs"
+    },
+    "./toggle": {
+      "import": "./dist/base-ui/toggle.js",
+      "require": "./dist/base-ui/toggle.cjs"
+    },
+    "./toggle-group": {
+      "import": "./dist/base-ui/toggle-group.js",
+      "require": "./dist/base-ui/toggle-group.cjs"
+    },
+    "./toolbar": {
+      "import": "./dist/base-ui/toolbar.js",
+      "require": "./dist/base-ui/toolbar.cjs"
+    },
+    "./tooltip": {
+      "import": "./dist/base-ui/tooltip.js",
+      "require": "./dist/base-ui/tooltip.cjs"
+    },
     "./theme.css": "./dist/theme.css",
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
@@ -34,12 +186,17 @@
     "build": "vite build && node scripts/copy-assets.js && tailwindcss -i src/styles.css -o dist/styles.css --minify",
     "dev": "vite build --watch"
   },
+  "dependencies": {
+    "tailwind-merge": "^3.7.0"
+  },
   "peerDependencies": {
+    "@base-ui/react": "^1.9.0",
     "react": ">=18",
     "react-dom": ">=18",
     "tailwindcss": ">=4"
   },
   "devDependencies": {
+    "@base-ui/react": "1.9.0",
     "@tailwindcss/cli": "4.3.3",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^18.3.1",

@@ -14,16 +14,16 @@ import {
   PageWrap,
   Row,
   ToolbarTitle,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 import { ACME_ACCOUNTS, ACME_METRICS } from '../data/workspace.js';
 
 export default function AcmeAccounts() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <PageWrap>
       <PageHeading eyebrow="Favorites / Saved view" title="Acme accounts" description="Your highest-priority client relationships in one focused view.">
-        <Button onClick={() => showToast('Favorite view settings')}>
+        <Button onClick={() => toastManager.add({ title: 'Favorite view settings' })}>
           <Icon name="settings" size="sm" />
           Customize
         </Button>
@@ -34,7 +34,7 @@ export default function AcmeAccounts() {
       <DirectoryCard>
         <DirectoryToolbar>
           <ToolbarTitle title="Saved accounts" subtitle="A curated view of the accounts your team checks most." />
-          <Button variant="ghost" aria-label="Account view settings" onClick={() => showToast('Account view settings')}>
+          <Button variant="ghost" aria-label="Account view settings" onClick={() => toastManager.add({ title: 'Account view settings' })}>
             <Icon name="settings" size="sm" />
           </Button>
         </DirectoryToolbar>

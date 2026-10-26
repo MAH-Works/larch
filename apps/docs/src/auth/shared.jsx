@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Brand, Button, Icon, TextInput, useTheme } from '@mah-works/larch';
+import { Brand, Button, Icon, Input, useTheme } from '@mah-works/larch';
 
 export const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -42,7 +42,7 @@ export function AuthTopbar({ brand = true }) {
         <span />
       )}
       <div className="flex items-center gap-2">
-        <Button as={Link} to="/examples" variant="ghost">
+        <Button render={<Link to="/examples" />} nativeButton={false} variant="ghost">
           <Icon name="arrowLeft" size="sm" />
           <span className="mobile:hidden">All examples</span>
         </Button>
@@ -54,12 +54,12 @@ export function AuthTopbar({ brand = true }) {
   );
 }
 
-/** Text input with a show/hide toggle. */
+/** Base UI Input with a show/hide toggle. Inside a Field.Root it is the field's control. */
 export const PasswordInput = forwardRef(function PasswordInput({ className = '', ...props }, ref) {
   const [visible, setVisible] = useState(false);
   return (
     <div className="relative">
-      <TextInput ref={ref} type={visible ? 'text' : 'password'} className={`pr-9 ${className}`} {...props} />
+      <Input ref={ref} type={visible ? 'text' : 'password'} className={`pr-9 ${className}`} {...props} />
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
@@ -129,81 +129,6 @@ export function SubmitButton({ pending, pendingLabel, children, ...props }) {
       {pending && <Spinner />}
       {pending ? pendingLabel : children}
     </Button>
-  );
-}
-
-const CELL = 'h-12 w-11 rounded-md border bg-surface text-center font-mono text-lg text-ink outline-hidden transition mobile:h-11 mobile:w-10';
-const CELL_VALID = 'border-line-strong focus:border-blue focus:shadow-[0_0_0_3px_var(--blue-soft)]';
-const CELL_INVALID = 'border-red focus:border-red focus:shadow-[0_0_0_3px_var(--red-soft)]';
-
-/**
- * One-time-code input: one box per digit, auto-advance, backspace to the previous box,
- * and pasting a full code fills every box. `onComplete(code)` fires when all digits are filled.
- */
-export function CodeInput({ length = 6, value, onChange, onComplete, invalid = false, disabled = false }) {
-  const refs = useRef([]);
-  const digits = Array.from({ length }, (_, i) => value[i] ?? '');
-
-  const commit = (next) => {
-    const code = next.join('').slice(0, length);
-    onChange(code);
-    if (code.length === length && !next.includes('')) onComplete?.(code);
-  };
-
-  const setAt = (i, char) => {
-    const next = [...digits];
-    next[i] = char;
-    commit(next);
-  };
-
-  const onInput = (i, e) => {
-    const char = e.target.value.replace(/\D/g, '').slice(-1);
-    if (!char) return;
-    setAt(i, char);
-    refs.current[i + 1]?.focus();
-  };
-
-  const onKeyDown = (i, e) => {
-    if (e.key === 'Backspace') {
-      e.preventDefault();
-      if (digits[i]) setAt(i, '');
-      else if (i > 0) {
-        setAt(i - 1, '');
-        refs.current[i - 1]?.focus();
-      }
-    } else if (e.key === 'ArrowLeft') refs.current[i - 1]?.focus();
-    else if (e.key === 'ArrowRight') refs.current[i + 1]?.focus();
-  };
-
-  const onPaste = (e) => {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, length);
-    if (!pasted) return;
-    e.preventDefault();
-    commit(Array.from({ length }, (_, i) => pasted[i] ?? ''));
-    refs.current[Math.min(pasted.length, length - 1)]?.focus();
-  };
-
-  return (
-    <div className="flex justify-center gap-2 mobile:gap-[6px]" onPaste={onPaste}>
-      {digits.map((d, i) => (
-        <input
-          key={i}
-          ref={(el) => {
-            refs.current[i] = el;
-          }}
-          value={d}
-          disabled={disabled}
-          inputMode="numeric"
-          autoComplete={i === 0 ? 'one-time-code' : 'off'}
-          aria-label={`Digit ${i + 1} of ${length}`}
-          aria-invalid={invalid || undefined}
-          onChange={(e) => onInput(i, e)}
-          onKeyDown={(e) => onKeyDown(i, e)}
-          onFocus={(e) => e.target.select()}
-          className={`${CELL} ${invalid ? CELL_INVALID : CELL_VALID}`}
-        />
-      ))}
-    </div>
   );
 }
 

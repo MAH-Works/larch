@@ -4,6 +4,11 @@
 
 /* Code viewer token colors — tuned for both themes. */
 @layer base {
+  /* Base UI: a stacking context for the app so portalled popups always sit above it. */
+  #root {
+    isolation: isolate;
+  }
+
   :root {
     --code-bg: #fbfbfc;
     --code-ink: #3a3f47;

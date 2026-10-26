@@ -4,16 +4,19 @@ import {
   AccountItem,
   Avatar,
   Card,
-  CheckRow,
+  Checkbox,
   Field,
+  Form,
+  Input,
+  Meter,
   MetricCard,
   Panel,
-  ProgressBar,
-  SelectInput,
-  TextInput,
-  useToast,
+  Select,
+  Toast,
 } from '@mah-works/larch';
 import { AuthTopbar, EMAIL_RE, OrDivider, PasswordInput, SocialButtons, SubmitButton, useFakeRequest } from '../shared.jsx';
+
+const TEAM_SIZES = ['Just me', '2–10', '11–50', '51+'];
 
 const STRENGTH = [
   { label: 'Too short', tone: 'red', percent: 8 },
@@ -40,7 +43,9 @@ function ProductPanel() {
           “We replaced three spreadsheets and a weekly status meeting. Renewals stopped sneaking up on us.”
         </p>
         <footer className="mt-4 flex items-center gap-3">
-          <Avatar size="lg" initials="MC" tone="coral" />
+          <Avatar.Root size="lg" tone="coral">
+            <Avatar.Fallback>MC</Avatar.Fallback>
+          </Avatar.Root>
           <span className="text-xs">
             <strong className="block font-semibold text-strong">Maria Costa</strong>
             <span className="text-muted">Founder, Parallax Studio</span>
@@ -66,38 +71,22 @@ function ProductPanel() {
 /** Variant 2 — split screen: sign-up form with strength meter beside a product / social-proof panel. */
 export default function SignUp() {
   const navigate = useNavigate();
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [pending, request] = useFakeRequest(1100);
-  const [form, setForm] = useState({ name: '', email: '', company: '', password: '', size: '2–10', terms: false });
-  const [submitted, setSubmitted] = useState(false);
-  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
+  // Only the password is controlled (for the live strength meter); Base UI's Form validates the rest.
+  const [password, setPassword] = useState('');
+  const score = scorePassword(password);
 
-  const score = scorePassword(form.password);
-  const errors = {
-    name: !form.name.trim() ? 'Tell us your name.' : null,
-    email: !EMAIL_RE.test(form.email) ? 'Enter a valid work email.' : null,
-    company: !form.company.trim() ? 'Name your workspace.' : null,
-    password: score < 2 ? 'Use 8+ characters with a mix of letters, numbers or symbols.' : null,
-    terms: !form.terms ? 'Please accept the terms to continue.' : null,
-  };
-  const show = (key) => (submitted ? errors[key] : null);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    if (Object.values(errors).some(Boolean)) return;
+  const onFormSubmit = ({ company }) =>
     request(() => {
-      showToast(`Workspace “${form.company}” created`);
+      toastManager.add({ title: `Workspace “${company}” created` });
       navigate('/examples/crm/overview');
     });
-  };
 
   const sso = (provider) => request(() => {
-    showToast(`Signed up with ${provider}`);
+    toastManager.add({ title: `Signed up with ${provider}` });
     navigate('/examples/crm/overview');
   });
-
-  const strength = STRENGTH[score];
 
   return (
     <div className="grid min-h-screen grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] bg-canvas text-ink narrow:grid-cols-1">
@@ -113,50 +102,80 @@ export default function SignUp() {
             <SocialButtons onSelect={sso} columns={2} />
             <OrDivider>or sign up with email</OrDivider>
 
-            <Card as="form" noValidate onSubmit={onSubmit} className="p-6 mobile:p-5">
+            <Card as={Form} onFormSubmit={onFormSubmit} className="p-6 mobile:p-5">
               <div className="grid grid-cols-2 gap-x-3 gap-y-3 mobile:grid-cols-1 *:mt-0!">
-                <Field label="Full name" id="su-name" error={show('name')}>
-                  <TextInput id="su-name" autoComplete="name" placeholder="Jamie Chen" value={form.name} invalid={!!show('name')} onChange={set('name')} />
-                </Field>
-                <Field label="Work email" id="su-email" error={show('email')}>
-                  <TextInput id="su-email" type="email" autoComplete="email" placeholder="you@company.com" value={form.email} invalid={!!show('email')} onChange={set('email')} />
-                </Field>
-                <Field label="Workspace name" id="su-company" error={show('company')}>
-                  <TextInput id="su-company" autoComplete="organization" placeholder="Acme Studio" value={form.company} invalid={!!show('company')} onChange={set('company')} />
-                </Field>
-                <Field label="Team size" id="su-size">
-                  <SelectInput id="su-size" value={form.size} onChange={set('size')}>
-                    <option>Just me</option>
-                    <option>2–10</option>
-                    <option>11–50</option>
-                    <option>51+</option>
-                  </SelectInput>
-                </Field>
-                <Field label="Password" id="su-password" error={show('password')} className="col-span-2 mobile:col-span-1">
+                <Field.Root name="name" validate={(v) => (v.trim() ? null : 'Tell us your name.')}>
+                  <Field.Label>Full name</Field.Label>
+                  <Input autoComplete="name" placeholder="Jamie Chen" />
+                  <Field.Error />
+                </Field.Root>
+                <Field.Root name="email" validate={(v) => (EMAIL_RE.test(v) ? null : 'Enter a valid work email.')}>
+                  <Field.Label>Work email</Field.Label>
+                  <Input inputMode="email" autoComplete="email" placeholder="you@company.com" />
+                  <Field.Error />
+                </Field.Root>
+                <Field.Root name="company" validate={(v) => (v.trim() ? null : 'Name your workspace.')}>
+                  <Field.Label>Workspace name</Field.Label>
+                  <Input autoComplete="organization" placeholder="Acme Studio" />
+                  <Field.Error />
+                </Field.Root>
+                <Field.Root name="size">
+                  <Select.Root defaultValue="2–10">
+                    <Select.Label>Team size</Select.Label>
+                    <Select.Trigger>
+                      <Select.Value />
+                      <Select.Icon />
+                    </Select.Trigger>
+                    <Select.Portal>
+                      <Select.Positioner>
+                        <Select.Popup>
+                          <Select.List>
+                            {TEAM_SIZES.map((size) => (
+                              <Select.Item key={size} value={size}>
+                                <Select.ItemText>{size}</Select.ItemText>
+                                <Select.ItemIndicator />
+                              </Select.Item>
+                            ))}
+                          </Select.List>
+                        </Select.Popup>
+                      </Select.Positioner>
+                    </Select.Portal>
+                  </Select.Root>
+                </Field.Root>
+                <Field.Root
+                  name="password"
+                  validate={(v) => (scorePassword(v) < 2 ? 'Use 8+ characters with a mix of letters, numbers or symbols.' : null)}
+                  className="col-span-2 mobile:col-span-1"
+                >
+                  <Field.Label>Password</Field.Label>
                   <PasswordInput
-                    id="su-password"
                     autoComplete="new-password"
                     placeholder="At least 8 characters"
-                    value={form.password}
-                    invalid={!!show('password')}
-                    onChange={set('password')}
-                    aria-describedby="su-strength"
+                    value={password}
+                    onValueChange={setPassword}
                   />
-                  {form.password && (
-                    <div id="su-strength" className="mt-1 flex items-center gap-3" aria-live="polite">
-                      <ProgressBar percent={strength.percent} tone={strength.tone} label="Password strength" className="flex-1" />
-                      <span className="w-[62px] text-right text-[11px] font-semibold text-muted">{strength.label}</span>
-                    </div>
+                  {password && (
+                    <Meter.Root value={STRENGTH[score].percent} getAriaValueText={() => STRENGTH[score].label} className="mt-1 grid-cols-[1fr_62px]">
+                      <Meter.Label className="sr-only">Password strength</Meter.Label>
+                      <Meter.Track className="col-span-1">
+                        <Meter.Indicator tone={STRENGTH[score].tone} />
+                      </Meter.Track>
+                      <Meter.Value className="text-muted">{() => STRENGTH[score].label}</Meter.Value>
+                    </Meter.Root>
                   )}
-                </Field>
+                  <Field.Error />
+                </Field.Root>
               </div>
 
-              <div className="mt-4">
-                <CheckRow checked={form.terms} onChange={set('terms')}>
+              <Field.Root name="terms" className="mt-4">
+                <Field.Label className="flex items-center gap-2 text-xs font-normal text-[#656b74] dark:text-muted">
+                  <Checkbox.Root required>
+                    <Checkbox.Indicator />
+                  </Checkbox.Root>
                   I agree to the Terms and Privacy Policy
-                </CheckRow>
-                {show('terms') && <span className="mt-1 block text-[10px] text-red">{show('terms')}</span>}
-              </div>
+                </Field.Label>
+                <Field.Error match="valueMissing">Please accept the terms to continue.</Field.Error>
+              </Field.Root>
 
               <div className="mt-5">
                 <SubmitButton pending={pending} pendingLabel="Creating workspace…">

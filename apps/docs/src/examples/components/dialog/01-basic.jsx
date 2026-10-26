@@ -1,50 +1,31 @@
-import { useState } from 'react';
-import { Button, CheckRow, Dialog, Field, Icon, SelectInput, useToast } from '@mah-works/larch';
+import { Dialog } from '@mah-works/larch/dialog';
+import { Icon } from '@mah-works/larch';
 
-export const title = 'Share dialog';
-export const description = 'Escape, the × button or a backdrop click all close it.';
+export const title = 'Basic';
+export const description =
+  'The anatomy from Base UI’s docs, unchanged. Trigger and Close take a Button `variant`; Escape and a backdrop click also close it.';
 
 export default function Basic() {
-  const [open, setOpen] = useState(false);
-  const { showToast } = useToast();
-
   return (
-    <>
-      <Button variant="primary" onClick={() => setOpen(true)}>
+    <Dialog.Root>
+      <Dialog.Trigger variant="primary">
         <Icon name="window" size="sm" />
         Open dialog
-      </Button>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        title="Share client view"
-        description="Choose who can access this saved view."
-        footer={
-          <>
-            <Button onClick={() => setOpen(false)}>Cancel</Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                setOpen(false);
-                showToast('View shared');
-              }}
-            >
-              Share view
-            </Button>
-          </>
-        }
-      >
-        <Field label="Permission" id="share-permission">
-          <SelectInput id="share-permission">
-            <option>Anyone on the workspace</option>
-            <option>Only invited people</option>
-            <option>Only me</option>
-          </SelectInput>
-        </Field>
-        <div className="mt-[14px]">
-          <CheckRow defaultChecked>Allow copying and exporting</CheckRow>
-        </div>
-      </Dialog>
-    </>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Backdrop />
+        <Dialog.Popup>
+          <Dialog.Title>Share client view</Dialog.Title>
+          <Dialog.Description>Anyone on the workspace with the link can open this saved view.</Dialog.Description>
+          <Dialog.Close variant="iconSm" aria-label="Close" className="absolute right-3 top-3">
+            <Icon name="close" size="sm" />
+          </Dialog.Close>
+          <div className="mt-5 flex justify-end gap-2">
+            <Dialog.Close>Cancel</Dialog.Close>
+            <Dialog.Close variant="primary">Share view</Dialog.Close>
+          </div>
+        </Dialog.Popup>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

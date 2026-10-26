@@ -1,12 +1,14 @@
-import { Badge, Button, Icon } from '@mah-works/larch';
+import { Button } from '@mah-works/larch/button';
+import { Badge, Icon } from '@mah-works/larch';
 
 export const title = 'States & composition';
-export const description = 'Disabled buttons fade and ignore pointer events. Buttons compose with icons, badges and chevrons.';
+export const description =
+  'Disabled buttons fade and ignore the pointer. `focusableWhenDisabled` keeps a loading button in the tab order. Buttons compose with icons and badges.';
 
 export default function States() {
   return (
     <>
-      <Button variant="primary" disabled>
+      <Button variant="primary" disabled focusableWhenDisabled>
         Saving…
       </Button>
       <Button disabled>Disabled</Button>
@@ -17,8 +19,8 @@ export default function States() {
           2
         </Badge>
       </Button>
-      <Button variant="ghost">
-        All statuses <Icon name="chevronDown" size="xs" />
+      <Button variant="ghost" className="px-4 text-ink">
+        className overrides win
       </Button>
     </>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider, ToastProvider } from '@mah-works/larch';
+import { ThemeProvider, Toast, Toaster } from '@mah-works/larch';
 import App from './App.jsx';
 import './index.css';
 
@@ -15,11 +15,12 @@ if (pathname.length > 1 && pathname.endsWith('/') && pathname !== import.meta.en
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/'}>
-      <ToastProvider>
+      <Toast.Provider>
         <ThemeProvider>
           <App />
+          <Toaster />
         </ThemeProvider>
-      </ToastProvider>
+      </Toast.Provider>
     </BrowserRouter>
   </React.StrictMode>,
 );

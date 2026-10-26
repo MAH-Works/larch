@@ -7,13 +7,17 @@ const Code = ({ children }) => <CodeBlock className="my-4" code={children} />;
 export default function Installation() {
   return (
     <div className="mx-auto w-full max-w-[900px] px-[33px] pb-16 pt-[29px] tablet:px-5 mobile:px-[13px]">
-      <DocHeader eyebrow="Getting started" title="Installation" description="Larch UI needs React 18+ and is built for Tailwind CSS v4. Apps without Tailwind can use the prebuilt stylesheet instead." />
+      <DocHeader eyebrow="Getting started" title="Installation" description="Larch needs React 18+ and Base UI, and is built for Tailwind CSS v4. Apps without Tailwind can use the prebuilt stylesheet instead." />
       <Prose>
         <h2>1. Install the package</h2>
-        <p>Inside this monorepo the docs app already depends on it via <C>workspace:*</C>. In another project:</p>
+        <p>
+          Base UI is a peer dependency, so your app and Larch share one copy — you can mix Larch’s styled parts with Base UI
+          utilities (<C>mergeProps</C>, <C>useRender</C>, <C>DirectionProvider</C>) and unstyled parts freely. Inside this
+          monorepo the docs app already depends on Larch via <C>workspace:*</C>. In another project:
+        </p>
       </Prose>
-      <Code>{`pnpm add @mah-works/larch
-# or: npm install @mah-works/larch`}</Code>
+      <Code>{`pnpm add @mah-works/larch @base-ui/react
+# or: npm install @mah-works/larch @base-ui/react`}</Code>
 
       <Prose>
         <h2>2a. With Tailwind CSS v4 (recommended)</h2>
@@ -61,26 +65,47 @@ export default defineConfig({
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />`}</Code>
 
       <Prose>
-        <h2>4. Providers</h2>
+        <h2>4. Providers and the app root</h2>
         <p>
-          Wrap your app in <C>ToastProvider</C> (for <C>useToast</C>) and <C>ThemeProvider</C> (for dark mode and the topbar
-          theme toggle). Both are optional — components that don't need them work without.
+          Wrap your app in Base UI’s <C>Toast.Provider</C> and render Larch’s <C>Toaster</C> once (for
+          <C>Toast.useToastManager()</C>), and in <C>ThemeProvider</C> (for dark mode and the topbar theme toggle). Both are
+          optional — components that don’t need them work without.
+        </p>
+        <p>
+          As Base UI’s quick start recommends, give the app root <C>isolation: isolate</C> so portalled popups always stack above
+          the page. (The <C>body {'{'} position: relative {'}'}</C> rule Base UI needs for iOS backdrops ships in Larch’s base layer.)
         </p>
       </Prose>
-      <Code>{`import { ThemeProvider, ToastProvider } from '@mah-works/larch';
+      <Code>{`import { ThemeProvider, Toast, Toaster } from '@mah-works/larch';
 
 createRoot(document.getElementById('root')).render(
-  <ToastProvider>
+  <Toast.Provider>
     <ThemeProvider>
       <App />
+      <Toaster />
     </ThemeProvider>
-  </ToastProvider>,
-);`}</Code>
+  </Toast.Provider>,
+);
+
+/* index.css */
+#root { isolation: isolate; }`}</Code>
 
       <Prose>
-        <h2>5. Routing</h2>
+        <h2>5. Use the components</h2>
         <p>
-          The library has no router dependency. Polymorphic components (<C>Button</C>, <C>Card</C>, <C>PanelLink</C>) take an
+          Every Base UI component keeps its name, parts and props. Import it from the matching Larch subpath — or from the
+          package root — and copy examples straight from the Base UI docs:
+        </p>
+      </Prose>
+      <Code>{`- import { Dialog } from '@base-ui/react/dialog';
++ import { Dialog } from '@mah-works/larch/dialog';
+// or: import { Dialog } from '@mah-works/larch';`}</Code>
+
+      <Prose>
+        <h2>6. Routing</h2>
+        <p>
+          The library has no router dependency. Base UI parts compose with your router through Base UI’s <C>render</C> prop
+          (add <C>nativeButton={'{false}'}</C> when a Button renders a link). Larch’s own <C>Card</C> and <C>PanelLink</C> take an
           <C>as</C> prop, and the <C>Sidebar</C> takes a <C>linkComponent</C> that receives <C>href</C>. With react-router:
         </p>
       </Prose>
@@ -99,7 +124,7 @@ function Layout({ children }) {
   );
 }
 
-<Button as={Link} to="/clients" variant="primary">Open clients</Button>`}</Code>
+<Button render={<Link to="/clients" />} nativeButton={false} variant="primary">Open clients</Button>`}</Code>
 
       <Alert tone="info" title="Building the package">
         Run <C>pnpm build:ui</C> at the repo root. Output lands in <C>packages/ui/dist</C>: ESM + CJS modules (one per component, so

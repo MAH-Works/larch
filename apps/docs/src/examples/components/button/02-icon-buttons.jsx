@@ -1,4 +1,5 @@
-import { Button, Icon } from '@mah-works/larch';
+import { Button } from '@mah-works/larch/button';
+import { Icon } from '@mah-works/larch';
 
 export const title = 'Icon buttons';
 export const description = 'The `icon` variant is a 36px square for topbars and toolbars. Icon-only buttons always need an aria-label.';

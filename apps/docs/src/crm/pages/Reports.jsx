@@ -12,20 +12,20 @@ import {
   PanelSelect,
   ProgressList,
   StatusList,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 import { REPORT_HEALTH, REPORT_METRICS, REVENUE_BARS, REVENUE_MIX, SAVED_REPORTS } from '../data/workspace.js';
 
 export default function Reports() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <PageWrap>
       <PageHeading eyebrow="Manage / Performance" title="Reports" description="A clear read on revenue, retention, and delivery velocity.">
-        <Button onClick={() => showToast('Date range menu')}>
+        <Button onClick={() => toastManager.add({ title: 'Date range menu' })}>
           <Icon name="calendar" size="sm" />
           Oct 2026
         </Button>
-        <Button variant="primary" onClick={() => showToast('Report export started')}>
+        <Button variant="primary" onClick={() => toastManager.add({ title: 'Report export started' })}>
           <Icon name="download" size="sm" />
           Export
         </Button>
@@ -59,7 +59,7 @@ export default function Reports() {
           title="Saved reports"
           subtitle="Shared with your workspace."
           action={
-            <Button variant="ghost" onClick={() => showToast('Report builder')}>
+            <Button variant="ghost" onClick={() => toastManager.add({ title: 'Report builder' })}>
               Create report <Icon name="plus" size="xs" />
             </Button>
           }

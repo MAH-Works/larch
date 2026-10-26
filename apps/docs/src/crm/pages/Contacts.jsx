@@ -13,22 +13,22 @@ import {
   PageWrap,
   Pagination,
   Row,
+  Separator,
   TableFooter,
-  ToolbarDivider,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 import { CONTACTS } from '../data/workspace.js';
 
 export default function Contacts() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <PageWrap>
       <PageHeading eyebrow="Workspace / People" title="Contacts" description="The people behind every client relationship.">
-        <Button onClick={() => showToast('Import contacts')}>
+        <Button onClick={() => toastManager.add({ title: 'Import contacts' })}>
           <Icon name="download" size="sm" />
           Import
         </Button>
-        <Button variant="primary" onClick={() => showToast('New contact form')}>
+        <Button variant="primary" onClick={() => toastManager.add({ title: 'New contact form' })}>
           <Icon name="plus" size="sm" />
           Add contact
         </Button>
@@ -37,21 +37,21 @@ export default function Contacts() {
       <DirectoryCard>
         <DirectoryToolbar>
           <div className="flex items-center gap-[3px]">
-            <Button variant="ghost" onClick={() => showToast('Contact filters')}>
+            <Button variant="ghost" onClick={() => toastManager.add({ title: 'Contact filters' })}>
               <Icon name="filter" size="sm" />
               Filter
               <Badge variant="blue" count>
                 3
               </Badge>
             </Button>
-            <Button variant="ghost" onClick={() => showToast('Sorted by last contact')}>
+            <Button variant="ghost" onClick={() => toastManager.add({ title: 'Sorted by last contact' })}>
               <Icon name="sort" size="sm" />
               Sort
             </Button>
-            <ToolbarDivider />
+            <Separator orientation="vertical" className="mx-[7px] h-[17px] self-center mobile:hidden" />
             <span className="text-[11px] text-[#969ba4]">142 contacts</span>
           </div>
-          <Button variant="ghost" aria-label="Contact fields settings" onClick={() => showToast('Contact fields settings')}>
+          <Button variant="ghost" aria-label="Contact fields settings" onClick={() => toastManager.add({ title: 'Contact fields settings' })}>
             <Icon name="settings" size="sm" />
           </Button>
         </DirectoryToolbar>
@@ -60,7 +60,15 @@ export default function Contacts() {
           {CONTACTS.map((c) => (
             <Row key={c.email}>
               <Cell>
-                <CellTitle leading={<Avatar size="md" initials={c.initials} tone={c.tone} />} title={c.name} caption={c.email} />
+                <CellTitle
+                  leading={
+                    <Avatar.Root size="md" tone={c.tone}>
+                      <Avatar.Fallback>{c.initials}</Avatar.Fallback>
+                    </Avatar.Root>
+                  }
+                  title={c.name}
+                  caption={c.email}
+                />
               </Cell>
               <Cell>{c.company}</Cell>
               <Cell>{c.role}</Cell>
@@ -76,7 +84,7 @@ export default function Contacts() {
           ))}
         </DirectoryTable>
 
-        <TableFooter pagination={<Pagination onNext={() => showToast('Next contacts page')} />}>
+        <TableFooter pagination={<Pagination onNext={() => toastManager.add({ title: 'Next contacts page' })} />}>
           <span>1 to {CONTACTS.length} of 142 contacts</span>
         </TableFooter>
       </DirectoryCard>

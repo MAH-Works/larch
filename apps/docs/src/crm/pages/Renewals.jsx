@@ -9,20 +9,20 @@ import {
   PanelGrid,
   PanelSelect,
   ProgressList,
-  useToast,
+  Toast,
 } from '@mah-works/larch';
 import { PLAYBOOK, RENEWAL_CALENDAR, RENEWAL_METRICS } from '../data/workspace.js';
 
 export default function Renewals() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   return (
     <PageWrap>
       <PageHeading eyebrow="Favorites / Customer success" title="Renewals" description="Stay ahead of every contract conversation and expansion opportunity.">
-        <Button onClick={() => showToast('Renewal filters')}>
+        <Button onClick={() => toastManager.add({ title: 'Renewal filters' })}>
           <Icon name="filter" size="sm" />
           Filter
         </Button>
-        <Button variant="primary" onClick={() => showToast('Renewal export started')}>
+        <Button variant="primary" onClick={() => toastManager.add({ title: 'Renewal export started' })}>
           <Icon name="download" size="sm" />
           Export
         </Button>

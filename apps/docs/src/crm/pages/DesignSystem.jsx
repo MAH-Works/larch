@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ActivityList,
@@ -10,18 +9,18 @@ import {
   Card,
   Cell,
   CellTitle,
-  CheckRow,
+  Checkbox,
   ClientsTable,
   Dialog,
   DirectoryTable,
-  Divider,
-  Dropdown,
   EmptyState,
   Eyebrow as Label,
   Field,
   HealthChart,
   Icon,
+  Input,
   Kbd,
+  Menu,
   MetricGrid,
   PageHeading,
   PageWrap,
@@ -32,16 +31,16 @@ import {
   ProjectCard,
   ProjectGrid,
   Row,
-  SelectInput,
+  Select,
   SelectionToolbar,
+  Separator,
   Skeleton,
   Switch,
   Tabs,
   TextArea,
-  TextInput,
+  Toast,
   Tooltip,
   useSelection,
-  useToast,
 } from '@mah-works/larch';
 import { CLIENTS } from '../data/clients.js';
 import { ACTIVITY, HEALTH, OVERVIEW_METRICS, PROJECT_CARDS, WORKLOAD } from '../data/workspace.js';
@@ -77,6 +76,48 @@ const SWATCHES = [
 const STATUS_BADGES = [['Active', 'active'], ['Trial', 'trial'], ['Onboarding', 'onboarding'], ['Inactive', 'inactive'], ['Archived', 'archived']];
 const TAG_BADGES = [['High Priority', 'priority'], ['Low Priority', 'low'], ['VIP', 'vip'], ['Long-term', 'longterm']];
 
+const PERMISSIONS = ['Anyone on the workspace', 'Only invited people', 'Only me'];
+
+/** Field + Select with plain string options. */
+function SelectField({ label, options }) {
+  return (
+    <Field.Root>
+      <Select.Root defaultValue={options[0]}>
+        <Select.Label>{label}</Select.Label>
+        <Select.Trigger>
+          <Select.Value />
+          <Select.Icon />
+        </Select.Trigger>
+        <Select.Portal>
+          <Select.Positioner>
+            <Select.Popup>
+              <Select.List>
+                {options.map((o) => (
+                  <Select.Item key={o} value={o}>
+                    <Select.ItemText>{o}</Select.ItemText>
+                    <Select.ItemIndicator />
+                  </Select.Item>
+                ))}
+              </Select.List>
+            </Select.Popup>
+          </Select.Positioner>
+        </Select.Portal>
+      </Select.Root>
+    </Field.Root>
+  );
+}
+
+function CheckboxRow({ children, defaultChecked }) {
+  return (
+    <label className="flex items-center gap-2 text-xs text-[#656b74] dark:text-muted [&+&]:mt-[10px]">
+      <Checkbox.Root defaultChecked={defaultChecked}>
+        <Checkbox.Indicator />
+      </Checkbox.Root>
+      {children}
+    </label>
+  );
+}
+
 const CUES = [
   ['Hover', 'Soft gray fill', 'border-line bg-[#fafbfc] text-[#545a63] dark:bg-[#1b2028] dark:text-[#c2c9d2]'],
   ['Selected', 'Blue accent', 'border-[#dce5ff] bg-[#f7f9ff] text-[#365dc1] dark:border-[#2c427b] dark:bg-[#172342] dark:text-[#8eafff]'],
@@ -84,18 +125,17 @@ const CUES = [
 ];
 
 export default function DesignSystem() {
-  const { showToast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const toastManager = Toast.useToastManager();
   const anatomy = useSelection([CLIENTS[0].id]);
 
   return (
     <PageWrap max="max-w-[1240px]">
       <PageHeading
-        eyebrow="Reference / v1.0"
+        eyebrow="Reference / v2.0"
         title="Larch design system"
         description="Quiet, dense interface primitives for client operations."
       >
-        <Button as={Link} to="/examples/crm/clients" variant="primary">
+        <Button render={<Link to="/examples/crm/clients" />} nativeButton={false} variant="primary">
           Open dashboard <Icon name="arrowRight" size="sm" />
         </Button>
       </PageHeading>
@@ -110,7 +150,7 @@ export default function DesignSystem() {
               </div>
             ))}
           </div>
-          <Divider />
+          <Separator className="my-[19px]" />
           <h2 className="m-0 text-sm font-[650] tracking-[-.02em]">Actions</h2>
           <p className="mb-[19px] mt-[5px] text-[11px] text-[#989ca4]">Ghost controls keep attention on the data.</p>
           <div className="flex flex-wrap items-center gap-2">
@@ -152,7 +192,7 @@ export default function DesignSystem() {
               <Badge key={l} variant={v}>{l}</Badge>
             ))}
           </div>
-          <Divider />
+          <Separator className="my-[19px]" />
           <div className="flex flex-wrap gap-2">
             {TAG_BADGES.map(([l, v]) => (
               <Badge key={l} variant={v}>{l}</Badge>
@@ -169,10 +209,11 @@ export default function DesignSystem() {
             ))}
           </div>
           <div className="mt-[17px] flex items-center gap-[14px]">
-            <Avatar size="lg" initials="JD" tone="blue" />
-            <Avatar size="lg" initials="MC" tone="coral" />
-            <Avatar size="lg" initials="AS" tone="green" />
-            <Avatar size="lg" initials="+4" tone="purple" />
+            {[['JD', 'blue'], ['MC', 'coral'], ['AS', 'green'], ['+4', 'purple']].map(([initials, tone]) => (
+              <Avatar.Root key={initials} size="lg" tone={tone}>
+                <Avatar.Fallback>{initials}</Avatar.Fallback>
+              </Avatar.Root>
+            ))}
             <span className="text-xs text-[#8c9199]">Contact stack</span>
           </div>
         </Spec>
@@ -220,7 +261,7 @@ export default function DesignSystem() {
 
         <Spec span={12} title="Metrics & panels" caption="Reusable information surfaces for overview and reporting pages.">
           <MetricGrid items={OVERVIEW_METRICS} />
-          <Divider />
+          <Separator className="my-[19px]" />
           <PanelGrid>
             <Panel title="Client health" subtitle="Portfolio sentiment across four weeks.">
               <HealthChart data={HEALTH} legend={false} />
@@ -258,7 +299,7 @@ export default function DesignSystem() {
             <DirectoryTable headers={['Contact', 'Company', 'Role', 'Status']}>
               <Row>
                 <Cell>
-                  <CellTitle leading={<Avatar size="md" initials="JD" tone="blue" />} title="Jamie Davis" caption="jamie@aperture.test" />
+                  <CellTitle leading={<Avatar.Root size="md" tone="blue"><Avatar.Fallback>JD</Avatar.Fallback></Avatar.Root>} title="Jamie Davis" caption="jamie@aperture.test" />
                 </Cell>
                 <Cell>Aperture Labs</Cell>
                 <Cell>Head of Product</Cell>
@@ -266,7 +307,7 @@ export default function DesignSystem() {
               </Row>
               <Row>
                 <Cell>
-                  <CellTitle leading={<Avatar size="md" initials="MC" tone="coral" />} title="Maria Costa" caption="maria@parallax.studio" />
+                  <CellTitle leading={<Avatar.Root size="md" tone="coral"><Avatar.Fallback>MC</Avatar.Fallback></Avatar.Root>} title="Maria Costa" caption="maria@parallax.studio" />
                 </Cell>
                 <Cell>Parallax Studio</Cell>
                 <Cell>Founder</Cell>
@@ -281,25 +322,41 @@ export default function DesignSystem() {
             <div className="col-span-4 min-w-0 tablet:col-span-12">
               <Label>Form fields</Label>
               <div className="mt-[10px]">
-                <Field label="Client name" id="demo-name"><TextInput id="demo-name" placeholder="Search or enter a name" /></Field>
-                <Field label="Status" id="demo-status">
-                  <SelectInput id="demo-status"><option>Active</option><option>Trial</option><option>Onboarding</option></SelectInput>
-                </Field>
-                <Field label="Note" id="demo-note"><TextArea id="demo-note" placeholder="Add a short note..." /></Field>
+                <Field.Root>
+                  <Field.Label>Client name</Field.Label>
+                  <Input placeholder="Search or enter a name" />
+                </Field.Root>
+                <SelectField label="Status" options={['Active', 'Trial', 'Onboarding']} />
+                <Field.Root>
+                  <Field.Label>Note</Field.Label>
+                  <TextArea placeholder="Add a short note..." />
+                </Field.Root>
               </div>
             </div>
 
             <div className="col-span-4 min-w-0 tablet:col-span-12">
-              <Label>Dropdown &amp; alerts</Label>
+              <Label>Menu &amp; alerts</Label>
               <div className="mb-[14px] mt-[10px]">
-                <Dropdown
-                  label="More actions"
-                  items={[
-                    { label: 'Export view', icon: 'download', onSelect: () => showToast('Export view') },
-                    { label: 'Duplicate view', icon: 'copy', onSelect: () => showToast('Duplicate view') },
-                    { label: 'Delete view', icon: 'trash', danger: true, onSelect: () => showToast('Delete view') },
-                  ]}
-                />
+                <Menu.Root>
+                  <Menu.Trigger>
+                    More actions <Icon name="chevronDown" size="xs" />
+                  </Menu.Trigger>
+                  <Menu.Portal>
+                    <Menu.Positioner sideOffset={6} align="start">
+                      <Menu.Popup>
+                        <Menu.Item onClick={() => toastManager.add({ title: 'Export view' })}>
+                          <Icon name="download" size="xs" className="text-[#9197a0]" /> Export view
+                        </Menu.Item>
+                        <Menu.Item onClick={() => toastManager.add({ title: 'Duplicate view' })}>
+                          <Icon name="copy" size="xs" className="text-[#9197a0]" /> Duplicate view
+                        </Menu.Item>
+                        <Menu.Item className="text-red data-highlighted:text-red" onClick={() => toastManager.add({ title: 'Delete view' })}>
+                          <Icon name="trash" size="xs" /> Delete view
+                        </Menu.Item>
+                      </Menu.Popup>
+                    </Menu.Positioner>
+                  </Menu.Portal>
+                </Menu.Root>
               </div>
               <Alert tone="info" title="Heads up">Two clients have not been contacted this week.</Alert>
               <Alert tone="success" title="Saved">Your view is ready to share.</Alert>
@@ -310,14 +367,33 @@ export default function DesignSystem() {
             <div className="col-span-4 min-w-0 tablet:col-span-12">
               <Label>Selection &amp; states</Label>
               <div className="mt-[10px]">
-                <Switch label="Email notifications" description="Get weekly workspace summaries." defaultChecked />
-                <Divider />
-                <CheckRow defaultChecked>Include archived clients</CheckRow>
-                <CheckRow>Only overdue tasks</CheckRow>
-                <Divider />
-                <Tooltip text="Use ⌘ K to focus search">
-                  <Button aria-label="Keyboard shortcut help"><Icon name="keyboard" size="sm" />Hover for help</Button>
-                </Tooltip>
+                <Field.Root className="min-h-9 flex-row items-center justify-between gap-[14px]">
+                  <div>
+                    <Field.Label className="text-xs text-ink">Email notifications</Field.Label>
+                    <Field.Description className="mt-[2px]">Get weekly workspace summaries.</Field.Description>
+                  </div>
+                  <Switch.Root defaultChecked>
+                    <Switch.Thumb />
+                  </Switch.Root>
+                </Field.Root>
+                <Separator className="my-[19px]" />
+                <CheckboxRow defaultChecked>Include archived clients</CheckboxRow>
+                <CheckboxRow>Only overdue tasks</CheckboxRow>
+                <Separator className="my-[19px]" />
+                <Tooltip.Root>
+                  <Tooltip.Trigger variant="outline">
+                    <Icon name="keyboard" size="sm" />
+                    Hover for help
+                  </Tooltip.Trigger>
+                  <Tooltip.Portal>
+                    <Tooltip.Positioner sideOffset={8}>
+                      <Tooltip.Popup>
+                        <Tooltip.Arrow />
+                        Use ⌘ K to focus search
+                      </Tooltip.Popup>
+                    </Tooltip.Positioner>
+                  </Tooltip.Portal>
+                </Tooltip.Root>
                 <div className="mt-4 flex flex-col gap-[10px]">
                   <Skeleton />
                   <Skeleton width="w-[74%]" />
@@ -329,59 +405,55 @@ export default function DesignSystem() {
             <div className="col-span-8 min-w-0 tablet:col-span-12">
               <Label>Tabs</Label>
               <div className="mt-[10px]">
-                <Tabs
-                  tabs={[
-                    { id: 'overview', label: 'Overview', content: 'A compact panel keeps the primary summary visible without competing with the data surface.' },
-                    { id: 'activity', label: 'Activity', content: 'Activity panels work well for chronological updates, comments, and audit history.' },
-                    { id: 'settings', label: 'Settings', content: 'Settings panels group secondary controls without taking over the main workflow.' },
-                  ]}
-                />
+                <Tabs.Root defaultValue="overview">
+                  <Tabs.List>
+                    <Tabs.Tab value="overview">Overview</Tabs.Tab>
+                    <Tabs.Tab value="activity">Activity</Tabs.Tab>
+                    <Tabs.Tab value="settings">Settings</Tabs.Tab>
+                    <Tabs.Indicator />
+                  </Tabs.List>
+                  <Tabs.Panel value="overview">A compact panel keeps the primary summary visible without competing with the data surface.</Tabs.Panel>
+                  <Tabs.Panel value="activity">Activity panels work well for chronological updates, comments, and audit history.</Tabs.Panel>
+                  <Tabs.Panel value="settings">Settings panels group secondary controls without taking over the main workflow.</Tabs.Panel>
+                </Tabs.Root>
               </div>
             </div>
 
             <div className="col-span-4 min-w-0 tablet:col-span-12">
               <Label>Dialog &amp; pagination</Label>
               <div className="mt-[10px]">
-                <Button variant="primary" onClick={() => setDialogOpen(true)}>
-                  <Icon name="window" size="sm" />Open dialog
-                </Button>
+                <Dialog.Root>
+                  <Dialog.Trigger variant="primary">
+                    <Icon name="window" size="sm" />
+                    Open dialog
+                  </Dialog.Trigger>
+                  <Dialog.Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Popup>
+                      <Dialog.Title>Share client view</Dialog.Title>
+                      <Dialog.Description>Choose who can access this saved view.</Dialog.Description>
+                      <div className="mt-4">
+                        <SelectField label="Permission" options={PERMISSIONS} />
+                        <div className="mt-[14px]">
+                          <CheckboxRow defaultChecked>Allow copying and exporting</CheckboxRow>
+                        </div>
+                      </div>
+                      <div className="mt-5 flex justify-end gap-2">
+                        <Dialog.Close>Cancel</Dialog.Close>
+                        <Dialog.Close variant="primary" onClick={() => toastManager.add({ title: 'View shared' })}>
+                          Share view
+                        </Dialog.Close>
+                      </div>
+                    </Dialog.Popup>
+                  </Dialog.Portal>
+                </Dialog.Root>
                 <div className="mt-[17px] flex items-center justify-between gap-[10px] pt-[3px]">
                   <span className="text-[11px] text-[#858b95]">1–20 of 37</span>
-                  <Pagination onNext={() => showToast('Next page')} />
+                  <Pagination onNext={() => toastManager.add({ title: 'Next page' })} />
                 </div>
               </div>
             </div>
           </div>
-
-          <Dialog
-            open={dialogOpen}
-            onClose={() => setDialogOpen(false)}
-            title="Share client view"
-            description="Choose who can access this saved view."
-            footer={
-              <>
-                <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    setDialogOpen(false);
-                    showToast('View shared');
-                  }}
-                >
-                  Share view
-                </Button>
-              </>
-            }
-          >
-            <Field label="Permission" id="dialog-permission">
-              <SelectInput id="dialog-permission">
-                <option>Anyone on the workspace</option>
-                <option>Only invited people</option>
-                <option>Only me</option>
-              </SelectInput>
-            </Field>
-            <div className="mt-[14px]"><CheckRow defaultChecked>Allow copying and exporting</CheckRow></div>
-          </Dialog>
         </Spec>
       </div>
     </PageWrap>

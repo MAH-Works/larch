@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, useToast } from '@mah-works/larch';
+import { ClientsTable, PageSizeSelect, Pagination, SelectionToolbar, useSelection, Toast } from '@mah-works/larch';
 
 export const title = 'Selectable client table';
 export const description =
@@ -18,11 +18,11 @@ const CLIENTS = [
 ];
 
 export default function ClientsTableBlock() {
-  const { showToast } = useToast();
+  const toastManager = Toast.useToastManager();
   const [pageSize, setPageSize] = useState(10);
   const { selected, count, toggle, toggleAll, clear } = useSelection(['parallax']);
   const rows = useMemo(() => CLIENTS.slice(0, pageSize), [pageSize]);
-  const bulk = (action) => () => showToast(count ? `${action} ${count} selected` : 'Select a client first');
+  const bulk = (action) => () => toastManager.add({ title: count ? `${action} ${count} selected` : 'Select a client first' });
 
   return (
     <div className="flex h-[520px] flex-col overflow-hidden rounded-[10px] border border-line bg-surface">
@@ -32,21 +32,21 @@ export default function ClientsTableBlock() {
           { label: 'Assign', icon: 'assign', onClick: bulk('Assign') },
           { label: 'Tag', icon: 'tag', onClick: bulk('Tag') },
           { label: 'Export', icon: 'download', onClick: bulk('Export') },
-          { label: 'Delete', icon: 'trash', danger: true, onClick: () => (count ? (clear(), showToast('Deleted')) : showToast('Select a client first')) },
+          { label: 'Delete', icon: 'trash', danger: true, onClick: () => (count ? (clear(), toastManager.add({ title: 'Deleted' })) : toastManager.add({ title: 'Select a client first' })) },
         ]}
         tools={[
-          { label: 'Filter', icon: 'filter', badge: 2, onClick: () => showToast('Filter menu') },
-          { label: 'Sort', icon: 'sort', onClick: () => showToast('Sort menu') },
-          { label: 'Table settings', icon: 'settings', iconOnly: true, onClick: () => showToast('View settings') },
+          { label: 'Filter', icon: 'filter', badge: 2, onClick: () => toastManager.add({ title: 'Filter menu' }) },
+          { label: 'Sort', icon: 'sort', onClick: () => toastManager.add({ title: 'Sort menu' }) },
+          { label: 'Table settings', icon: 'settings', iconOnly: true, onClick: () => toastManager.add({ title: 'View settings' }) },
         ]}
       />
-      <ClientsTable rows={rows} selected={selected} onToggle={toggle} onToggleAll={toggleAll} onRowAction={(r) => showToast(r.name)} />
+      <ClientsTable rows={rows} selected={selected} onToggle={toggle} onToggleAll={toggleAll} onRowAction={(r) => toastManager.add({ title: r.name })} />
       <footer className="flex h-[59px] flex-none items-center justify-between gap-3 border-t border-line px-[18px] text-[11px] font-medium text-[#8c919a]">
         <PageSizeSelect value={pageSize} onChange={setPageSize} options={[5, 10]} />
         <span>
           1 to {rows.length} of {CLIENTS.length} results
         </span>
-        <Pagination onNext={() => showToast('Next page')} disabledNext={rows.length >= CLIENTS.length} />
+        <Pagination onNext={() => toastManager.add({ title: 'Next page' })} disabledNext={rows.length >= CLIENTS.length} />
       </footer>
     </div>
   );

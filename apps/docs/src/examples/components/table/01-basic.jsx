@@ -17,7 +17,15 @@ export default function Basic() {
         {PEOPLE.map((p) => (
           <Row key={p.email}>
             <Cell>
-              <CellTitle leading={<Avatar size="md" initials={p.initials} tone={p.tone} />} title={p.name} caption={p.email} />
+              <CellTitle
+                leading={
+                  <Avatar.Root size="md" tone={p.tone}>
+                    <Avatar.Fallback>{p.initials}</Avatar.Fallback>
+                  </Avatar.Root>
+                }
+                title={p.name}
+                caption={p.email}
+              />
             </Cell>
             <Cell>{p.company}</Cell>
             <Cell>

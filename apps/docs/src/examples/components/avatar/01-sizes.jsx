@@ -1,14 +1,16 @@
-import { Avatar } from '@mah-works/larch';
+import { Avatar } from '@mah-works/larch/avatar';
 
 export const title = 'Sizes';
-export const description = 'sm (25px) for stacks, md (30px) for table rows, lg (35px) for profile headers.';
+export const description = 'Larch adds `size` and `tone` to Avatar.Root: sm (25px) for stacks, md (30px) for table rows, lg (35px) for headers.';
 
 export default function Sizes() {
   return (
     <>
-      <Avatar size="sm" initials="JD" />
-      <Avatar size="md" initials="JD" />
-      <Avatar size="lg" initials="JD" />
+      {['sm', 'md', 'lg'].map((size) => (
+        <Avatar.Root key={size} size={size}>
+          <Avatar.Fallback>JD</Avatar.Fallback>
+        </Avatar.Root>
+      ))}
     </>
   );
 }
